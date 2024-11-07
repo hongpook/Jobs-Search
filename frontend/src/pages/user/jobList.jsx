@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import product from "../../assets/images/product-1-720x480.jpg";
 
 const JobListPage = () => {
   const [jobs, setJobs] = useState([]);
@@ -169,7 +168,7 @@ const JobListPage = () => {
             <div className="col-lg-9 col-xs-12">
               <div className="row">
                 {jobs.map((job, index) => (
-                  <div key={index} className="col-lg-6 col-md-4 col-sm-6">
+                  <div key={index} className="col-lg-4 col-md-4 col-sm-6">
                     <div className="courses-thumb courses-thumb-secondary">
                       <div className="courses-top">
                         <div className="courses-image">
@@ -182,7 +181,7 @@ const JobListPage = () => {
                         </div>
                         <div className="courses-date">
                           <span title="Posted on">
-                            <i className="fa fa-calendar"></i> {job.createdAt}
+                            <i className="fa fa-calendar"></i> {new Date(job.createdAt).toLocaleDateString()}
                           </span>
                           <span title="Location">
                             <i className="fa fa-map-marker"></i> {job.location}
@@ -200,9 +199,9 @@ const JobListPage = () => {
                         <p className="lead">
                           <strong>{job.salaryRange}</strong>
                         </p>
-                        <p>
+                        {/* <p>
                           {job.category} for <strong>{job.company}</strong>
-                        </p>
+                        </p> */}
                       </div>
 
                       <div className="courses-info">

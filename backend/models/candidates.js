@@ -3,6 +3,7 @@ const {
   Model
 } = require('sequelize');
 const Roles = require('./roles');
+const Resumes = require('./resumes');
 module.exports = (sequelize, DataTypes) => {
   class Candidates extends Model {
     /**
@@ -13,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Candidates.hasMany(models.Applications, { foreignKey: 'candidateId', as: 'applications' });
+      Candidates.hasMany(models.Resumes, { foreignKey: 'candidateId', as: 'resumes' });
     
     }
   }

@@ -57,7 +57,19 @@ module.exports = {
         table: 'Jobs',
         field: 'id'
       }
+    }),
+
+    // Resumes -- Candidates
+    await queryInterface.addConstraint('Resumes', {
+      fields: ['candinateId'],
+      type: 'foreign key',
+      name: 'resume_candidate_id_fkey',
+      references: {
+        table: 'Candidates',
+        field: 'id'
+      }
     })
+
 
   },
 
@@ -66,6 +78,7 @@ module.exports = {
     await queryInterface.removeColumn('Candidates', 'candidate_role_id_fkey'),
     await queryInterface.removeColumn('Candidates', 'job_employee_id_fkey'),
     await queryInterface.removeColumn('Candidates', 'applycation_candidate_id_fkey'),
+    await queryInterface.removeColumn('Resumes', 'resume_candidate_id_fkey'),
     await queryInterface.removeColumn('Candidates', 'applycation_job_id_fkey')
   }
 };
