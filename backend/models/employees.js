@@ -6,6 +6,8 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // Thiết lập Employees thuộc về Roles
       Employees.belongsTo(models.Roles, { foreignKey: 'roleId', as: 'roles' });
+
+      Employees.hasMany(models.Jobs, { foreignKey: 'employerId', as: 'jobs' });
     }
   }
   Employees.init({

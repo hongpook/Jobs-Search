@@ -3,13 +3,26 @@ const applicationService = require('../services/applicationServices');
 
 const createApplication = async (req, res) => {
     try {
-        const { candidateId, jobId } = req.body;
-        const application = await applicationService.createApplication(candidateId, jobId);
+        // Lấy thông tin từ body của request
+        const { candidateId, jobId, candidateName, candidateEmail, candidatePhone, candidateNote } = req.body;
+
+        // Gọi service để tạo ứng viên mới
+        const application = await applicationService.createApplication(
+            candidateId, 
+            jobId, 
+            candidateName, 
+            candidateEmail, 
+            candidatePhone, 
+            candidateNote
+        );
+
+        // Trả về thông tin ứng viên đã tạo
         return res.status(201).json(application);
     } catch (error) {
         return res.status(500).json({ error: error.message });
     }
 };
+
 
 const getAllApplications = async (req, res) => {
     try {

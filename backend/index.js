@@ -13,8 +13,9 @@ const allroutes = require('./routes/allRoutes');
 app.use(cors());
 app.use(bodyParser.json());
 
-app.use('/auth/', authRoutes);
+app.use('/api/auth/', authRoutes);
 app.use('/api/v1/', allroutes);
+app.use("/api/v1/resume", allroutes);
 
 
 app.get("/", (req, res) => {

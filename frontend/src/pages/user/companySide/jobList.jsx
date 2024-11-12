@@ -1,27 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import PropTypes from 'prop-types';
-import { alpha } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
-import TableSortLabel from '@mui/material/TableSortLabel';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
-import Checkbox from '@mui/material/Checkbox';
-import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch';
-import DeleteIcon from '@mui/icons-material/Delete';
-import FilterListIcon from '@mui/icons-material/FilterList';
-import { visuallyHidden } from '@mui/utils';
+import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TableSortLabel, Toolbar, Typography, Paper, Checkbox } from '@mui/material';
+import jwtDecode from "jwt-decode";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -78,11 +59,6 @@ function EnhancedTableHead(props) {
               onClick={createSortHandler(headCell.id)}
             >
               {headCell.label}
-              {orderBy === headCell.id ? (
-                <Box component="span" sx={visuallyHidden}>
-                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                </Box>
-              ) : null}
             </TableSortLabel>
           </TableCell>
         ))}
@@ -106,18 +82,34 @@ function JobListSide() {
   const [orderBy, setOrderBy] = useState('title');
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(0);
-  const [dense, setDense] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [userId, setUserId] = useState(null);
 
   useEffect(() => {
-    axios.get("http://localhost:5000/api/v1/jobs")
-      .then(response => {
-        setJobs(response.data);
-      })
-      .catch(error => {
-        console.error("Error fetching jobs:", error);
-      });
+    const token = localStorage.getItem("accessToken");
+    if (token) {
+      try {
+        const decodedToken = jwtDecode(token);
+        setUserId(decodedToken.id);
+      } catch (error) {
+        console.error("Invalid token:", error);
+      }
+    } else {
+      console.error("No access token found");
+    }
   }, []);
+
+  useEffect(() => {
+    if (userId) {
+      axios.get(`http://localhost:5000/api/v1/employee/${userId}`)
+        .then(response => {
+          setJobs(response.data.jobs); // Assuming the API returns jobs under 'jobs'
+        })
+        .catch(error => {
+          console.error("Error fetching jobs data:", error);
+        });
+    }
+  }, [userId]);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -162,12 +154,6 @@ function JobListSide() {
     setPage(0);
   };
 
-  const handleChangeDense = (event) => {
-    setDense(event.target.checked);
-  };
-
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - jobs.length) : 0;
-
   const visibleRows = React.useMemo(
     () =>
       [...jobs]
@@ -185,7 +171,7 @@ function JobListSide() {
           </Typography>
         </Toolbar>
         <TableContainer>
-          <Table sx={{ minWidth: 1100 }} aria-labelledby="tableTitle" size={dense ? 'small' : 'medium'}>
+          <Table sx={{ minWidth: 1100 }} aria-labelledby="tableTitle">
             <EnhancedTableHead
               numSelected={selected.length}
               order={order}
@@ -208,7 +194,6 @@ function JobListSide() {
                     tabIndex={-1}
                     key={job.id}
                     selected={isItemSelected}
-                    sx={{ cursor: 'pointer'}}
                   >
                     <TableCell padding="checkbox">
                       <Checkbox
@@ -223,18 +208,13 @@ function JobListSide() {
                     <TableCell align="left">{job.jobType}</TableCell>
                     <TableCell align="left">{new Date(job.createdAt).toLocaleDateString()}</TableCell>
                     <TableCell align="left">{job.location}</TableCell>
-                    <TableCell align="left">
-                        <a href={`/createJob/${job.id}`} className="btn btn-primary me-1">Edit</a>
-                        <button className="btn btn-danger">Delete</button>
+                    <TableCell align="left" style={{display: 'flex'}}>
+                      <a href={`/createJob/${job.id}`} className="btn btn-primary me-1">Edit</a>
+                      <button className="btn btn-danger">Delete</button>
                     </TableCell>
                   </TableRow>
                 );
               })}
-              {emptyRows > 0 && (
-                <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
             </TableBody>
           </Table>
         </TableContainer>
@@ -248,10 +228,6 @@ function JobListSide() {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
-      {/* <FormControlLabel
-        control={<Switch checked={dense} onChange={handleChangeDense} />}
-        label="Dense padding"
-      /> */}
     </Box>
   );
 }

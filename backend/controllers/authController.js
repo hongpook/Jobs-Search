@@ -141,9 +141,47 @@ const signInEmployee = async (req, res) => {
     }
 }
 
+
+const getCandidateInfo = async (req, res) => {
+    try {
+        const userId = req.userId;
+        const user = await db.Candidates.findByPk(userId);
+        if (!user) return res.status(404).json('Candidate not found');
+        
+        res.json({
+            id: user.id,
+            fullName: user.fullName,
+            email: user.email,
+            role: user.roleId,
+        });
+    } catch (error) {
+        res.status(500).json('Error retrieving candidate info');
+    }
+};
+
+const getCompanyInfo = async (req, res) => {
+    try {
+        const userId = req.userId;
+        const user = await db.Candidates.findByPk(userId);
+        if (!user) return res.status(404).json('Candidate not found');
+        
+        res.json({
+            id: user.id,
+            fullName: user.fullName,
+            email: user.email,
+            role: user.roleId,
+        });
+    } catch (error) {
+        res.status(500).json('Error retrieving candidate info');
+    }
+};
+
+
 module.exports = {
     registerCandidate,
     signInCandidate,
     registerEmployee,
-    signInEmployee
+    signInEmployee,
+    getCandidateInfo,
+    getCompanyInfo
 };

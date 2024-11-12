@@ -71,11 +71,17 @@ https://templatemo.com/tm-516-known
     text-decoration: none !important;
   }
 
+  button{
+    background-color: #fff !important;
+    color: #29ca8e !important;
+  }
+
   a,
   input, button,
   .form-control {
     -webkit-transition: 0.5s;
     transition: 0.5s;
+    
   }
 
   a:hover, a:active, a:focus {
@@ -174,7 +180,7 @@ https://templatemo.com/tm-516-known
 
   section {
     position: relative;
-    padding: 100px 0;
+    padding: 50px 0;
   }
 
   #team, 
@@ -1338,11 +1344,12 @@ https://templatemo.com/tm-516-known
 
   .team-thumb-actions { padding: 10px; border-top: 1px solid rgba(0,0,0,.05); }
 
-  .section-btn.btn-primary { border-color: #29ca8e; color: #29ca8e; }
+  .section-btn.btn-primary { border-color: #29ca8e !important; color: #29ca8e !important; border: 1px solid #29ca8e !important; border-radius: 100px; background-color: #fff !important;
+    color: #29ca8e !important;}
   .section-btn.btn-primary:focus,
   .section-btn.btn-primary:active,
   .section-btn.btn-primary:focus:active,
-  .section-btn.btn-primary:hover {background: #29ca8e; color: #fff; border-color: #29ca8e; }
+  .section-btn.btn-primary:hover {background: #29ca8e !important; color: #fff !important; border-color: #29ca8e !important; }
 
   .courses-thumb .lead,
   .team-info .lead { margin-bottom: 10px; }
@@ -1374,3 +1381,39 @@ https://templatemo.com/tm-516-known
 
   .list { font-size: 16px; line-height: 1.6; }
   .list li { margin-bottom: 15px;  }
+
+
+
+
+
+
+/* Tùy chỉnh container của Toast */
+.Toastify__toast-container {
+  position: fixed !important; /* Đảm bảo vị trí luôn cố định */
+  top: 10px; /* Đặt vị trí ở trên cùng */
+  right: 10px; /* Đặt vị trí ở bên phải */
+  z-index: 9999; /* Đảm bảo nó luôn ở trên cùng */
+}
+
+/* Tùy chỉnh Toast */
+.Toastify__toast {
+  /* background-color: #333 !important; Màu nền cho toast */
+  color: #ccc !important; /* Màu chữ */
+  border-radius: 8px; /* Bo góc */
+  padding: 10px 20px; /* Padding bên trong */
+}
+
+/* Tùy chỉnh thanh tiến trình */
+.Toastify__progress-bar {
+  /* background: #f44336 !important; Màu thanh tiến trình */
+  height: 4px; /* Chiều cao của thanh tiến trình */
+  border-radius: 3px;
+}
+
+.Toastify__toast-body {
+  width: 90%;
+}
+
+button.Toastify__close-button.Toastify__close-button--light {
+  width: 10%;
+}

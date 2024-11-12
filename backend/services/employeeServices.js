@@ -1,4 +1,4 @@
-const { Employees } = require('../models/index'); 
+const { Employees, Jobs } = require('../models/index'); 
 const cloudinary = require('../config/cloudinary')
 
 class EmployeesService {
@@ -22,16 +22,20 @@ class EmployeesService {
 
     async getAllEmployees() {
         try {
-            const employees = await Employees.findAll();
+            const employees = await Employees.findAll({
+                include: [{ model: Jobs, as: 'jobs' }]  // Thêm include để lấy danh sách jobs của mỗi employee
+            });
             return employees;
         } catch (error) {
             throw new Error('Error fetching employees: ' + error.message);
         }
     }
-
+    
     async getEmployeeById(id) {
         try {
-            const employee = await Employees.findByPk(id);
+            const employee = await Employees.findByPk(id, {
+                include: [{ model: Jobs, as: 'jobs' }]  // Thêm include để lấy danh sách jobs của employee theo id
+            });
             if (!employee) {
                 throw new Error('Employee not found');
             }
@@ -40,7 +44,7 @@ class EmployeesService {
             throw new Error('Error fetching employee: ' + error.message);
         }
     }
-
+    
     async updateEmployee(id, data, files) {
         try {
             if (files && files.logo && files.logo[0]) {

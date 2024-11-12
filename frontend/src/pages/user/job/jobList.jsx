@@ -171,9 +171,9 @@ const JobListPage = () => {
                   <div key={index} className="col-lg-4 col-md-4 col-sm-6">
                     <div className="courses-thumb courses-thumb-secondary">
                       <div className="courses-top">
-                        <div className="courses-image">
+                        <div className="courses-image" style={{ height: "204px" }}>
                           <img
-                            style={{ width: "100%" }}
+                            style={{ width: "100%"}}
                             src={job.imageUrl} // Nếu job không có image, dùng ảnh mặc định
                             className="img-responsive"
                             alt={job.title}
@@ -207,7 +207,8 @@ const JobListPage = () => {
                       <div className="courses-info">
                         <a
                           href={`/job-details/${job.id}`}
-                          className="section-btn btn btn-primary btn-block"
+                          className="section-btn btn btn-primary btn-block p-2"
+                          style={{padding: 0}}
                         >
                           View Details
                         </a>

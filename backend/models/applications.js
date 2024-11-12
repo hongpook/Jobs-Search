@@ -49,6 +49,22 @@ module.exports = (sequelize, DataTypes) => {
         isIn: [['Pending', 'Interview', 'Hired', 'Rejected']]  
       }
     },
+    candidateName:{
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    candidateEmail:{
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    candidatePhone:{
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    candidateNote:{
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
     applicationDate: {
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,

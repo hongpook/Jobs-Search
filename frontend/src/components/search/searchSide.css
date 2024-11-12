@@ -1,0 +1,77 @@
+.search-side{
+    background-image: url('../../assets/images/slider-image-2-1920x700.jpg');
+    height: 500px;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-side-input{
+    background-color: #fff;
+    align-items: center;
+    border-radius: 100px;
+    /* justify-content: space-between; */
+
+}
+.search-side-wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.search-side-input input{
+    padding: 8px 20px;
+}
+
+.search-side-input select,
+.search-side-input input{
+    padding: 8px 20px;
+    outline: none;
+    border: 1px solid #29ca8e;
+    color: #29ca8e;
+}
+
+.search-side-input input,
+.search-side-input select,
+.search-side-input button{
+    border-radius: 100px;
+}
+
+.form-search{
+    display: flex;
+}
+
+.side-input-search {
+    display: flex;
+    align-items: center;
+    border: 1px solid #29ca8e; /* Viền bao quanh input */
+    border-radius: 100px;
+    padding: 4px;
+    overflow: hidden; /* Đảm bảo các thành phần nằm gọn trong khung */
+    width: 85%;
+    margin-right: 10px;
+}
+
+.side-input-search input {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 8px;
+    font-size: 16px;
+    width: 100%;
+    
+}
+
+.side-input-search select {
+    border: none;
+    outline: none;
+    padding: 8px;
+    background-color: #f1f1f1; /* Màu nền cho select */
+    font-size: 16px;
+    border-radius: 100px;
+    cursor: pointer;
+    width: 25%;
+}

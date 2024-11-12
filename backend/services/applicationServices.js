@@ -1,18 +1,24 @@
 const db = require('../models/index');
 
-const createApplication = async (candidateId, jobId) => {
+const createApplication = async (candidateId, jobId, candidateName, candidateEmail, candidatePhone, candidateNote) => {
     try {
+        // Tạo ứng viên mới với đầy đủ thông tin
         const application = await db.Applications.create({
             candidateId,
             jobId,
             status: 'Pending', 
-            applicationDate: new Date(), 
+            applicationDate: new Date(),
+            candidateName, 
+            candidateEmail, 
+            candidatePhone, 
+            candidateNote
         });
         return application;
     } catch (error) {
         throw new Error(`Error creating application: ${error.message}`);
     }
 };
+
 
 const getAllApplications = async () => {
     try {

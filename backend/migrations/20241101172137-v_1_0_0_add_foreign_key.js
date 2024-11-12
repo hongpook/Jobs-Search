@@ -5,39 +5,39 @@ module.exports = {
   async up (queryInterface, Sequelize) {
 
     // role -- emp
-    await queryInterface.addConstraint('Employees', {
-      fields: ['roleId'],
-      type: 'foreign key',
-      name: 'employee_role_id_fkey',
-      references: {
-        table: 'Roles',
-        field: 'id'
-      }
-    }),
+    // await queryInterface.addConstraint('Employees', {
+    //   fields: ['roleId'],
+    //   type: 'foreign key',
+    //   name: 'employee_role_id_fkey',
+    //   references: {
+    //     table: 'Roles',
+    //     field: 'id'
+    //   }
+    // }),
 
     // Candidates -- user
-    await queryInterface.addConstraint('Candidates', {
-      fields: ['roleId'],
-      type: 'foreign key',
-      name: 'candidate_role_id_fkey',
-      references: {
-        table: 'Roles',
-        field: 'id'
-      }
-    }),
+    // await queryInterface.addConstraint('Candidates', {
+    //   fields: ['roleId'],
+    //   type: 'foreign key',
+    //   name: 'candidate_role_id_fkey',
+    //   references: {
+    //     table: 'Roles',
+    //     field: 'id'
+    //   }
+    // }),
 
-    // Candidates -- job
-    await queryInterface.addConstraint('Jobs', {
-      fields: ['employerId'],
-      type: 'foreign key',
-      name: 'job_employee_id_fkey',
-      references: {
-        table: 'Employees',
-        field: 'id'
-      }
-    }),
+    // Jobs -- Employees
+    // await queryInterface.addConstraint('Jobs', {
+    //   fields: ['employerId'],
+    //   type: 'foreign key',
+    //   name: 'job_employee_id_fkey',
+    //   references: {
+    //     table: 'Employees',
+    //     field: 'id'
+    //   }
+    // }),
 
-    // Candidates -- job
+    // Applications -- Candidates
     await queryInterface.addConstraint('Applications', {
       fields: ['candidateId'],
       type: 'foreign key',
@@ -48,7 +48,7 @@ module.exports = {
       }
     }),
 
-    // Candidates -- job
+    // Applications -- job
     await queryInterface.addConstraint('Applications', {
       fields: ['jobId'],
       type: 'foreign key',
@@ -57,18 +57,19 @@ module.exports = {
         table: 'Jobs',
         field: 'id'
       }
-    }),
+    })
+    // ,
 
     // Resumes -- Candidates
-    await queryInterface.addConstraint('Resumes', {
-      fields: ['candinateId'],
-      type: 'foreign key',
-      name: 'resume_candidate_id_fkey',
-      references: {
-        table: 'Candidates',
-        field: 'id'
-      }
-    })
+    // await queryInterface.addConstraint('Resumes', {
+    //   fields: ['candinateId'],
+    //   type: 'foreign key',
+    //   name: 'resume_candidate_id_fkey',
+    //   references: {
+    //     table: 'Candidates',
+    //     field: 'id'
+    //   }
+    // })
 
 
   },

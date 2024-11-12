@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Jobs.hasMany(models.Applications, { foreignKey: 'jobId', as: 'applications' });
     
+      Jobs.belongsTo(models.Employees, { foreignKey: 'employerId', as: 'employees' });
     }
   }
   Jobs.init({

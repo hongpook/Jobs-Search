@@ -4,11 +4,11 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import CandidateProfile from './candidateProfile';
+import CandidateApplications from './appliedList';
 
-import AddNewJob from './addJob';
-import JobListSide from './jobList';
 
-function CompanySide(props) {  // Đổi tên từ CompanySide thành TabPanel
+function CandidateSide(props) {  // Đổi tên từ CompanySide thành TabPanel
   const { children, value, index, ...other } = props;
 
 
@@ -30,7 +30,7 @@ function CompanySide(props) {  // Đổi tên từ CompanySide thành TabPanel
   );
 }
 
-CompanySide.propTypes = {
+CandidateSide.propTypes = {
   children: PropTypes.node,
   index: PropTypes.number.isRequired,
   value: PropTypes.number.isRequired,
@@ -51,6 +51,9 @@ export default function VerticalTabs() {
   };
 
   return (
+    <section>
+
+    
     <div className='container'>
 
         <Box
@@ -65,24 +68,21 @@ export default function VerticalTabs() {
             sx={{ borderRight: 1, borderColor: 'divider' }}
         >
             <Tab label="Your profile" {...a11yProps(0)} />
-            <Tab label="Your job list" {...a11yProps(1)} />
-            <Tab label="Create job" {...a11yProps(2)} />
-            {/* <Tab label="Item Four" {...a11yProps(3)} />
-            <Tab label="Item Five" {...a11yProps(4)} />
-            <Tab label="Item Six" {...a11yProps(5)} />
-            <Tab label="Item Seven" {...a11yProps(6)} /> */}
+            <Tab label="Your application" {...a11yProps(1)} />
+            <Tab label="Your resume list" {...a11yProps(2)} />
         </Tabs>
-        <CompanySide value={value} index={0}>
-            Item One
-        </CompanySide>
-        <CompanySide value={value} index={1}>
-            <JobListSide/>
-        </CompanySide>
-        <CompanySide value={value} index={2}>
-            <AddNewJob/>
-        </CompanySide>
+        <CandidateSide style={{width: '1130px'}} value={value} index={0}>
+            <CandidateProfile/>
+        </CandidateSide>
+        <CandidateSide style={{width: '1130px'}} value={value} index={1}>
+            <CandidateApplications/>
+        </CandidateSide>
+        <CandidateSide style={{width: '1130px'}} value={value} index={2}>
+            
+        </CandidateSide>
         
         </Box>
     </div>
+    </section>
   );
 }

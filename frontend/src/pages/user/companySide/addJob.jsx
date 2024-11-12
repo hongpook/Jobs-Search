@@ -2,8 +2,13 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { notifySuccess, notifyError, notifyWarning } from '../../../utils/toastNotification/toastNotification';
 import { useNavigate } from 'react-router-dom';
+import jwtDecode from "jwt-decode";
 
 function AddNewJob() {
+
+  const token = localStorage.getItem("accessToken");
+    const decodedToken = jwtDecode(token);
+    const userId = decodedToken.id;
     const navigate = useNavigate();
   const [formData, setFormData] = useState({
     title: '',
@@ -12,7 +17,7 @@ function AddNewJob() {
     salaryRange: '',
     jobType: 'Full-time',
     location: '',
-    employerId: '', // Employer ID được điền sau
+    employerId: userId, // Employer ID được điền sau
   });
 
   const [file, setFile] = useState(null);  // Để lưu trữ file hình ảnh
@@ -73,8 +78,8 @@ function AddNewJob() {
   return (
     <div className="form-container">
       <h2>Create Job</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
+      <form onSubmit={handleSubmit} className='row'>
+        <div className="form-group col-6">
           <label>Title</label>
           <input
             type="text"
@@ -86,28 +91,8 @@ function AddNewJob() {
           />
         </div>
 
-        <div className="form-group">
-          <label>Description</label>
-          <textarea
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            placeholder="Enter job description"
-            required
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Requirements</label>
-          <textarea
-            name="requirements"
-            value={formData.requirements}
-            onChange={handleChange}
-            placeholder="Enter job requirements"
-          />
-        </div>
-
-        <div className="form-group">
+      
+        <div className="form-group col-6">
           <label>Salary Range</label>
           <input
             type="text"
@@ -118,21 +103,7 @@ function AddNewJob() {
           />
         </div>
 
-        <div className="form-group">
-          <label>Job Type</label>
-          <select
-            name="jobType"
-            value={formData.jobType}
-            onChange={handleChange}
-          >
-            <option value="Full-time">Full-time</option>
-            <option value="Part-time">Part-time</option>
-            <option value="Internship">Internship</option>
-            <option value="Freelance">Freelance</option>
-          </select>
-        </div>
-
-        <div className="form-group">
+        <div className="form-group col-12">
           <label>Location</label>
           <input
             type="text"
@@ -144,19 +115,48 @@ function AddNewJob() {
           />
         </div>
 
-        <div className="form-group">
-          <label>Employer ID</label>
-          <input
-            type="text"
-            name="employerId"
-            value={formData.employerId}
+        
+
+        <div className="form-group col-12">
+          <label>Description</label>
+          <textarea
+            name="description"
+            value={formData.description}
             onChange={handleChange}
-            placeholder="Enter employer ID"
+            placeholder="Enter job description"
+            style={{width: '100%'}}
             required
           />
         </div>
 
-        <div className="form-group">
+        <div className="form-group col-12">
+          <label>Requirements</label>
+          <textarea
+            name="requirements"
+            value={formData.requirements}
+            onChange={handleChange}
+            placeholder="Enter job requirements"
+            style={{width: '100%'}}
+          />
+        </div>
+
+
+        <div className="form-group col-6">
+          <label>Job Type</label>
+          <select
+            name="jobType"
+            value={formData.jobType}
+            onChange={handleChange}
+            style={{width: '100%', padding:'15px 0', 'margin-top': '5px'}}
+          >
+            <option value="Full-time">Full-time</option>
+            <option value="Part-time">Part-time</option>
+            <option value="Internship">Internship</option>
+            <option value="Freelance">Freelance</option>
+          </select>
+        </div>
+
+        <div className="form-group col-6">
           <label>Job Image</label>
           <input
             type="file"
@@ -166,8 +166,29 @@ function AddNewJob() {
           />
         </div>
 
-        <button onClick={notifySuccess} type="submit" className='btn btn-success'>Create Job</button>
-        <a className='btn btn-danger' onClick={cancel}>Cancel</a>
+        
+
+        <div className="form-group" style={{display: 'none'}}>
+          <label>Employer ID</label>
+          <input
+            type="text"
+            name="employerId"
+            value={formData.employerId}
+            onChange={handleChange}
+            required
+            
+          />
+        </div>
+
+        <div className="form-group col-6 ">
+          <div className='row p-3'>
+            <button onClick={notifySuccess} type="submit" className='btn btn-success col-3 me-2'>Create Job</button>
+            <a className='btn btn-danger col-3' onClick={cancel}>Cancel</a>
+
+          </div>
+          
+        </div>
+
       </form>
       
     </div>

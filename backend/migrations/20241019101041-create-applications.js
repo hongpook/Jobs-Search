@@ -18,6 +18,18 @@ module.exports = {
       status: {
         type: Sequelize.STRING
       },
+      candidateName:{
+        type: Sequelize.STRING
+      },
+      candidateEmail:{
+        type: Sequelize.STRING
+      },
+      candidatePhone:{
+        type: Sequelize.STRING
+      },
+      candidateNote:{
+        type: Sequelize.STRING
+      },
       applicationDate: {
         type: Sequelize.DATE
       },

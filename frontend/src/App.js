@@ -1,24 +1,40 @@
-import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+
+// css
+import "./assets/css/style.css";
+import "bootstrap/dist/css/bootstrap.css";
 import 'react-toastify/dist/ReactToastify.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+
+
 import { ToastContainer } from 'react-toastify';
 import HeaderSide from "./utils/layout/header"; 
-import HomePage from "./pages/user/home";
+import HomePage from "./pages/user/home/home";
 import FooterSide from "./utils/layout/footer";
-import JobListPage from "./pages/user/jobList";
+import JobListPage from "./pages/user/job/jobList";
 import CandidateForm from "./components/uploadCandidate";
-import "bootstrap/dist/css/bootstrap.css";
-import "./assets/css/style.css";
+
 import UpdateCandidate from "./components/delailCandidate";
 import CreateJob from "./components/createJob";
 import EditJob from "./components/jobDetail";
 import AddEmployeeForm from "./components/createCompany";
 import UpdateEmployeeForm from "./components/updateCompany";
-import JobDetail from "./pages/user/jobDetail";
-import AddNewJob from "./pages/user/company/addJob";
-import CompanySide from "./pages/user/company/companySide";
-import UpdateJob from "./pages/user/company/updateJob";
+import JobDetail from "./pages/user/job/jobDetail";
+import AddNewJob from "./pages/user/companySide/addJob";
+import CompanySide from "./pages/user/companySide/companySide";
+import CandidateSide from "./pages/user/candidateSide/candidateSide";
+import UpdateJob from "./pages/user/companySide/updateJob";
 import CvForm from "./pages/user/cv/resumeForm";
+import Login from "./pages/user/auth/login";
+import Register from "./pages/user/auth/register";
+import CompanyList from "./pages/user/company/CompanyList";
+import CandidateList from "./pages/user/candidate/candidateList";
+import CandidateDetail from "./pages/user/candidate/candidateDetail";
+import CompanyDetail from "./pages/user/company/companyDetail";
+import LoginCompany from "./pages/user/auth/companyauth/loginCompany";
+import RegisterCompany from "./pages/user/auth/companyauth/registerCompany";
+import CompanyJobs from "./pages/user/resume/resume";
 
 const App = () => {
   return (
@@ -28,6 +44,13 @@ const App = () => {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<HomePage />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/sign-up" element={<Register />} />
+
+            {/* <Route path="/login" element={<LoginCompany />} />
+            <Route path="/sign-up" element={<RegisterCompany />} /> */}
+
+
             <Route path="/jobList" element={<JobListPage />} />
             <Route path="/job-details/:id" element={<JobDetail />} />
             <Route path="/create" element={<CandidateForm />} />
@@ -37,11 +60,17 @@ const App = () => {
             <Route path="/createCompany" element={<AddEmployeeForm />} />
             <Route path="/createCompany/:id" element={<UpdateEmployeeForm />} />
             <Route path="/createResume" element={<CvForm />} />
+            <Route path="/company-list" element={<CompanyList />} />
+            <Route path="/company/:id" element={<CompanyDetail />} />
+            <Route path="/candidate-list" element={<CandidateList />} />
+            <Route path="/candidate/:id" element={<CandidateDetail />} />
+            <Route path="/companyJob" element={<CompanyJobs />} />
 
 
 
 
             <Route path="/companySide" element={<CompanySide />} />
+            <Route path="/candidateSide" element={<CandidateSide />} />
             {/* <Route path="*" element={<NoPage />} /> */}
           </Routes>
         </BrowserRouter>
