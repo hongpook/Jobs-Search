@@ -161,18 +161,18 @@ const getCandidateInfo = async (req, res) => {
 
 const getCompanyInfo = async (req, res) => {
     try {
-        const userId = req.userId;
-        const user = await db.Candidates.findByPk(userId);
-        if (!user) return res.status(404).json('Candidate not found');
+        const companyId = req.userId;
+        const company = await db.Candidates.findByPk(companyId);
+        if (!company) return res.status(404).json('Candidate not found');
         
         res.json({
-            id: user.id,
-            fullName: user.fullName,
-            email: user.email,
-            role: user.roleId,
+            id: company.id,
+            companyName: company.companyName,
+            email: company.email,
+            role: company.roleId,
         });
     } catch (error) {
-        res.status(500).json('Error retrieving candidate info');
+        res.status(500).json('Error retrieving company info');
     }
 };
 

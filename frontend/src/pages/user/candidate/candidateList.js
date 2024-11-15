@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Card, CardContent, Typography, Grid, Container, Box, Avatar, Rating, Pagination } from '@mui/material';
+import BreadCrumb from '../../../components/breadCrumb';
 
 const CandidateList = () => {
   const [candidates, setCandidates] = useState([]);
@@ -33,6 +34,7 @@ const CandidateList = () => {
 
   return (
     <section id="testimonial">
+      <BreadCrumb title={"Candidate list"}/>
       <Container sx={{ py: 5 }}>
         <Box textAlign="center" mb={4}>
           <Typography variant="h4" component="h2">

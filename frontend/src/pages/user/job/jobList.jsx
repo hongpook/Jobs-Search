@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import BreadCrumb from "../../../components/breadCrumb";
 
 const JobListPage = () => {
   const [jobs, setJobs] = useState([]);
@@ -17,6 +18,7 @@ const JobListPage = () => {
   return (
     <>
       <section>
+        <BreadCrumb title={"Job list"}/>
         <div className="container">
           <div className="text-center">
             <h1>Jobs Listing</h1>
@@ -173,7 +175,7 @@ const JobListPage = () => {
                       <div className="courses-top">
                         <div className="courses-image" style={{ height: "204px" }}>
                           <img
-                            style={{ width: "100%"}}
+                            style={{ width: "100%", height: "inherit"}}
                             src={job.imageUrl} // Nếu job không có image, dùng ảnh mặc định
                             className="img-responsive"
                             alt={job.title}
@@ -193,8 +195,8 @@ const JobListPage = () => {
                       </div>
 
                       <div className="courses-detail">
-                        <h3>
-                          <a href={`/job-details/${job.id}`}>{job.title}</a>
+                        <h3 className="text">
+                          <a href={`/job-details/${job.id}`} className=" text-threedot" style={{'font-size': '18px'}} title={job.title} >{job.title}</a>
                         </h3>
                         <p className="lead">
                           <strong>{job.salaryRange}</strong>

@@ -17,13 +17,10 @@ import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { useSpring, animated } from "@react-spring/web";
-import { useNavigate } from "react-router-dom";
+import BreadCrumbDetail from "../../../components/breadCrumbDetail";
 
-import {
-  notifySuccess,
-  notifyError,
-  notifyWarning,
-} from "../../../utils/toastNotification/toastNotification";
+
+
 
 const Fade = React.forwardRef(function Fade(props, ref) {
   const {
@@ -123,7 +120,6 @@ const styleJob = {
 };
 
 const JobDetail = () => {
-  const navigate = useNavigate();
   const { id } = useParams(); // Lấy job ID từ URL
   const [job, setJob] = useState(null);
   const [employer, setEmployer] = useState(null);
@@ -133,8 +129,10 @@ const JobDetail = () => {
   const handleClose = () => setOpen(false);
 
   const token = localStorage.getItem("accessToken");
-  const decodedToken = jwtDecode(token);
-  const userId = decodedToken.id;
+    const decodedToken = jwtDecode(token);
+    const userId = decodedToken.id;
+
+    
 
   const [formData, setFormData] = useState({
     candidateId: userId,
@@ -157,24 +155,16 @@ const JobDetail = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form data before submission:", formData); // Kiểm tra formData
-
     try {
       const response = await axios.post(
         "http://localhost:5000/api/v1/applications",
-        formData,
-        {
-          headers: {
-            "Content-Type": "application/json", // Đảm bảo gửi dữ liệu dưới dạng JSON
-          },
-        }
+        formData
       );
-      console.log("Response:", response.data); // Kiểm tra phản hồi từ server
-      notifySuccess("Application submitted successfully!");
-      navigate("/jobList");
+      console.log("Response:", response.data);
+      alert("Application submitted successfully!");
     } catch (error) {
       console.error("Error submitting application:", error);
-      notifyError("Error submitting application");
+      alert("Error submitting application");
     }
   };
 
@@ -195,10 +185,12 @@ const JobDetail = () => {
   }, [id]);
 
   if (!job || !employer) return <p>Loading...</p>;
+  console.log("usserid: ", userId)
 
   return (
     <>
       <section>
+        <BreadCrumbDetail title={"Job detail"} link={"jobList"} page={"Job list"}/>
         <div class="container">
           <div class="row">
             <div class="col-lg-3 col-md-3 col-xs-12">
@@ -418,53 +410,49 @@ const JobDetail = () => {
                     Please give us your information here!
                   </Typography>
                   <form onSubmit={handleSubmit}>
-                    <input
-                      type="number"
-                      name="candidateId"
-                      value={formData.candidateId}
-                      onChange={handleChange}
-                      required
-                      style={{display: 'none'}}
-                    />
+                      <input
+                        type="number"
+                        name="candidateId"
+                        value={userId
+                        }
+                        onChange={handleChange}
+                        required
+                      />
 
-                    <input
-                      type="number"
-                      name="jobId"
-                      value={formData.jobId}
-                      onChange={handleChange}
-                      required
-                      style={{display: 'none'}}
-                    />
-                    <input
-                      type="text"
-                      name="candidateName"
-                      value={formData.candidateName}
-                      onChange={handleChange}
-                      placeholder="Your full name"
-                      required
-                    />
-                    <input
-                      type="email"
-                      name="candidateEmail"
-                      value={formData.candidateEmail}
-                      onChange={handleChange}
-                      placeholder="Your email"
-                      required
-                    />
-                    <input
-                      type="text"
-                      name="candidatePhone"
-                      value={formData.candidatePhone}
-                      onChange={handleChange}
-                      placeholder="Your phone"
-                      required
-                    />
-                    <textarea
-                      name="candidateNote"
-                      value={formData.candidateNote}
-                      onChange={handleChange}
-                      placeholder="Your note"
-                    />
+                      <input
+                        type="number"
+                        name="jobId"
+                        value={formData.jobId}
+                        onChange={handleChange}
+                        required
+                      />
+                      <input
+                        type="text"
+                        name="candidateName"
+                        value={formData.candidateName}
+                        placeholder="Your full name"
+                        onChange={handleChange}
+                      />
+                      <input
+                        type="email"
+                        name="candidateEmail"
+                        value={formData.candidateEmail}
+                        placeholder="Your email"
+                        onChange={handleChange}
+                      />
+                      <input
+                        type="text"
+                        name="candidatePhone"
+                        value={formData.candidatePhone}
+                        placeholder="Your phone"
+                        onChange={handleChange}
+                      />
+                      <textarea
+                        name="candidateNote"
+                        value={formData.candidateNote}
+                        placeholder="Your note"
+                        onChange={handleChange}
+                      />
                     <button
                       type="submit"
                       class="section-btn btn btn-primary pull-left"

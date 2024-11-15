@@ -6,13 +6,14 @@ import { RiMenuSearchLine } from "react-icons/ri";
 import { PiBagSimple } from "react-icons/pi";
 import { FaUser } from "react-icons/fa";
 import { IoIosLogOut } from "react-icons/io";
-
+import logo from '../../assets/images/logoJob.png';
 
 
 const HeaderSide = () => {
 
   const handleSignOut = () => {
     window.localStorage.removeItem('accessToken');
+    window.location.href = '/login'; 
   }
   return (
     <>
@@ -21,7 +22,7 @@ const HeaderSide = () => {
         <div class="container p-3">
         <Navbar bg="light" expand="lg" fixed="top">
       <Container>
-        <Navbar.Brand href="/">Jobs Agency</Navbar.Brand>
+        <Navbar.Brand href="/"><img src={logo} style={{width: '40%'}}/></Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">

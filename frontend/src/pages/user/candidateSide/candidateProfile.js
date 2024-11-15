@@ -80,7 +80,7 @@ const styleJob = {
     width: "100%",
   },
   "& input": {
-    width: "49%",
+    width: "32%",
     padding: "8px",
     borderRadius: "5px",
     border: "1px solid #ccc",
@@ -134,6 +134,7 @@ const UserProfile = () => {
     experience: "",
     education: "",
     address: "",
+    birthDate:"",
     avt: null, // avatar file
     cvFile: null, // cv file
     roleId: "", // roleId mới
@@ -159,10 +160,12 @@ const UserProfile = () => {
             email: response.data.email,
             phone: response.data.phone,
             address: response.data.address,
+            birthDate:response.data.birthDate,
             positionDesired: response.data.positionDesired,
             salaryExpected: response.data.salaryExpected,
             skills: response.data.skills,
             experience: response.data.experience,
+            education: response.data.education,
             cvFile: response.data.cvFile,
             roleId: response.data.roleId,
           });
@@ -240,6 +243,9 @@ const UserProfile = () => {
               <div className="profile-details">
                 <h3>{userInfo.fullName}</h3>
                 <p>
+                  <strong>Birth Date:</strong>{new Date(userInfo.birthDate).toLocaleDateString()}
+                </p>
+                <p>
                   <strong>Email:</strong> {userInfo.email}
                 </p>
                 <p>
@@ -310,7 +316,6 @@ const UserProfile = () => {
                       value={formData.fullName}
                       onChange={handleChange}
                       placeholder="Full Name"
-                      className="col-6"
                     />
                     <input
                       type="email"
@@ -318,7 +323,14 @@ const UserProfile = () => {
                       value={formData.email}
                       onChange={handleChange}
                       placeholder="Email"
-                      className="col-6"
+                      disabled
+                    />
+                    <input
+                      type="date"
+                      name="birthDate"
+                      value={formData.birthDate}
+                      onChange={handleChange}
+                      placeholder="BirthDate"
                     />
                     <input
                       type="text"
@@ -347,6 +359,7 @@ const UserProfile = () => {
                       value={formData.address}
                       onChange={handleChange}
                       placeholder="Address"
+                      style={{width: '100%'}}
                     />
 
                     <textarea

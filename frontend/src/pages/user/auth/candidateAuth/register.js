@@ -1,6 +1,7 @@
 // frontend/src/components/RegisterForm.js
 import React, { useState } from 'react';
 import axios from 'axios';
+import { notifySuccess, notifyError, notifyWarning } from '../../../../utils/toastNotification/toastNotification';
 
 const RegisterForm = () => {
     const [formData, setFormData] = useState({
@@ -26,8 +27,10 @@ const RegisterForm = () => {
         try {
             const response = await axios.post('http://localhost:5000/api/auth/sign-up-candidate', formData);
             setMessage(response.data);  // Hiển thị thông báo đăng ký thành công
+            notifySuccess("Register account successfully!")
         } catch (error) {
-            setMessage(error.response?.data || 'Error occurred during registration');
+            // setMessage(error.response?.data || 'Error occurred during registration');
+            notifyError("Error occurred during registration")
         }
     };
 

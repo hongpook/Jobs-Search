@@ -1,8 +1,11 @@
+import logo from '../../assets/images/logoJob.png';
+
 const FooterSide = () => {
   return (
     <>
       <footer id="footer">
         <div class="container">
+          <img src={logo} style={{    width: '20%', 'margin-bottom': '20px'}}/>
           <div class="row">
             <div class="col-md-4 col-sm-6">
               <div class="footer-info">
@@ -88,6 +91,7 @@ const FooterSide = () => {
                         placeholder="Enter your email"
                         name="email"
                         id="email"
+                        style={{border: '1px solid #29ca8e', color: '#000', backgroundColor: '#fff'}}
                         required
                       />
                       <input
@@ -96,6 +100,7 @@ const FooterSide = () => {
                         name="submit"
                         id="form-submit"
                         value="Send me"
+                        style={{border: '1px solid #29ca8e'}}
                       />
                     </form>
                     <span>
