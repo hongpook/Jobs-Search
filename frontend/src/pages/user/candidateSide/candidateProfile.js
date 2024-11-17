@@ -145,6 +145,7 @@ const UserProfile = () => {
     if (token) {
       const decodedToken = jwtDecode(token);
       const userId = decodedToken.id;
+      console.log("email: ->>", decodedToken.email)
 
       // Gửi yêu cầu lấy thông tin người dùng từ backend
       axios

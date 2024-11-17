@@ -1,20 +1,23 @@
+import apiClient from './apiClient'; // Import apiClient đã cấu hình
 
-import axios from 'axios';
-
+// Lấy thông tin ứng viên
 export const getCandidateInfo = async () => {
-    const token = localStorage.getItem('token');
-    return axios.get('http://localhost:5000/api/auth/candidate-info', {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    });
+    try {
+        const response = await apiClient.get('/auth/candidate-info');
+        return response.data; // Trả về dữ liệu từ API
+    } catch (error) {
+        console.error('Error fetching candidate info:', error);
+        throw error;
+    }
 };
 
+// Lấy thông tin công ty
 export const getCompanyInfo = async () => {
-    const token = localStorage.getItem('token');
-    return axios.get('http://localhost:5000/api/auth/employee-info', {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    });
+    try {
+        const response = await apiClient.get('/auth/employee-info');
+        return response.data; // Trả về dữ liệu từ API
+    } catch (error) {
+        console.error('Error fetching company info:', error);
+        throw error;
+    }
 };

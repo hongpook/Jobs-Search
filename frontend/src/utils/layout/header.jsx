@@ -1,4 +1,4 @@
-import React from "react";
+
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Navbar, Nav, NavDropdown, Container } from "react-bootstrap";
 import { IoCreateOutline } from "react-icons/io5";
@@ -7,9 +7,31 @@ import { PiBagSimple } from "react-icons/pi";
 import { FaUser } from "react-icons/fa";
 import { IoIosLogOut } from "react-icons/io";
 import logo from '../../assets/images/logoJob.png';
+import React, { useEffect, useState } from "react";
+import {  FaRegBookmark } from "react-icons/fa";
+import jwtDecode from "jwt-decode"; // Giải mã token từ jwt-decode
 
 
 const HeaderSide = () => {
+  const [userInfo, setUserInfo] = useState(null); // State để lưu thông tin người dùng
+
+  // Hàm giải mã token và lấy thông tin
+  const getUserInfoFromToken = () => {
+    const token = window.localStorage.getItem('accessToken');
+    if (token) {
+      try {
+        const decodedToken = jwtDecode(token);
+        setUserInfo(decodedToken); // Lưu toàn bộ thông tin từ token vào state
+      } catch (error) {
+        console.error("Invalid token", error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    getUserInfoFromToken(); // Gọi hàm khi component được mount
+  }, []);
+
 
   const handleSignOut = () => {
     window.localStorage.removeItem('accessToken');
@@ -39,18 +61,34 @@ const HeaderSide = () => {
             {/* <Nav.Link href="contact.html">Contact Us</Nav.Link> */}
           </Nav>
 
-          {/* <Nav>
-            <Nav.Link className="section-btn btn btn-primary btn-block me-2 px-4 " style={{padding: 0}} href="/login">Login</Nav.Link>
-            <Nav.Link className="section-btn btn btn-primary btn-block px-4" style={{padding: 0}} href="/sign-up">Register</Nav.Link>
-          </Nav> */}
 
-          <Nav>
-          <Nav.Link className="section-btn btn btn-primary btn-block px-4" href="/sign-up">Mark list</Nav.Link>
-          <NavDropdown title="O" id="basic-nav-dropdown">
-              <NavDropdown.Item href="/candidateSide"><FaUser /> &nbsp;&nbsp; Your profile</NavDropdown.Item>
-              <NavDropdown.Item ><a onClick={handleSignOut}><IoIosLogOut /> &nbsp;&nbsp; Log out</a></NavDropdown.Item>
-            </NavDropdown>
-          </Nav>
+          {userInfo ? (
+  <>
+    
+    <NavDropdown title={userInfo.email} id="basic-nav-dropdown" className="mx-2">
+      {/* Kiểm tra roleId và hiển thị menu tương ứng */}
+      {userInfo.roleId === 2 ? (
+        <NavDropdown.Item href="/companySide"><FaUser /> &nbsp;&nbsp; Your profile</NavDropdown.Item>
+      ) : userInfo.roleId === 1 ? (
+        <NavDropdown.Item href="/adminSide"><FaUser /> &nbsp;&nbsp; Admin side</NavDropdown.Item>
+      ) : (
+        <NavDropdown.Item href="/candidateSide"><FaUser /> &nbsp;&nbsp; Your profile</NavDropdown.Item>
+      )}
+      <NavDropdown.Item><a onClick={handleSignOut}><IoIosLogOut /> &nbsp;&nbsp; Log out</a></NavDropdown.Item>
+    </NavDropdown>
+    <Nav.Link className="section-btn btn btn-primary btn-block px-2" href="/jobmark"><FaRegBookmark/></Nav.Link>
+  </>
+) : (
+  // Nếu không có userInfo, hiển thị login và register
+  <Nav>
+    <Nav.Link className="section-btn btn btn-primary btn-block me-2 px-4" style={{ padding: 0 }} href="/login">Login</Nav.Link>
+    <Nav.Link className="section-btn btn btn-primary btn-block px-4" style={{ padding: 0 }} href="/sign-up">Register</Nav.Link>
+  </Nav>
+)}
+
+          
+
+          
         </Navbar.Collapse>
       </Container>
     </Navbar>

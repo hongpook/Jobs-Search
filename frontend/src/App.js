@@ -38,8 +38,9 @@ import CompanyDetail from "./pages/user/company/companyDetail";
 import LoginCompany from "./pages/user/auth/companyauth/loginCompany";
 import RegisterCompany from "./pages/user/auth/companyauth/registerCompany";
 import CompanyJobs from "./pages/user/resume/resume";
-import DangNhap from "./pages/user/auth/loginForm";
 import LoginSide from "./pages/user/auth/loginSide";
+import CandidatePro from "./pages/user/auth/loginForm";
+import JobListMark from "./pages/user/job/jobMark";
 
 const App = () => {
   return (
@@ -52,8 +53,8 @@ const App = () => {
             {/* <Route path="/login" element={<Login />} />
             <Route path="/sign-up" element={<Register />} /> */}
 
-            <Route path="/login" element={<LoginCompany />} />
-            <Route path="/sign-up" element={<RegisterCompany />} />
+            {/* <Route path="/login" element={<LoginCompany />} />
+            <Route path="/sign-up" element={<RegisterCompany />} /> */}
 
 
             <Route path="/jobList" element={<JobListPage />} />
@@ -70,11 +71,12 @@ const App = () => {
             <Route path="/candidate-list" element={<CandidateList />} />
             <Route path="/candidate/:id" element={<CandidateDetail />} />
             <Route path="/companyJob" element={<CompanyJobs />} />
+            <Route path="/jobmark" element={<JobListMark />} />
 
 
 
-            <Route path="/dangnhap" element={<DangNhap />} />
-            <Route path="/loginSide" element={<LoginSide />} />
+            <Route path="/dangnhap" element={<CandidatePro />} />
+            <Route path="/login" element={<LoginSide />} />
 
 
 

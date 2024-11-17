@@ -53,8 +53,13 @@ const signInCandidate = async (req, res) => {
             return res.status(404).json('Incorrect email and password combination');
         }
 
-        // Xác thực người dùng bằng jwt
-        const token = jwt.sign({ id: candidate.id }, process.env.JWT_SECRET, {
+        // Tạo JWT Token với tất cả thông tin cần thiết
+        const token = jwt.sign({
+            id: candidate.id,
+            fullName: candidate.fullName,
+            email: candidate.email,
+            roleId: candidate.roleId,
+        }, process.env.JWT_SECRET, {
             expiresIn: process.env.JWT_REFRESH_EXPIRATION
         });
 
@@ -62,13 +67,15 @@ const signInCandidate = async (req, res) => {
             id: candidate.id,
             fullName: candidate.fullName,
             email: candidate.email,
+            roleId: candidate.roleId,
             accessToken: token,
         });
     } catch (err) {
         console.log(err)
         return res.status(500).send('Sign in error');
     }
-}
+};
+
 
 
 
@@ -110,7 +117,7 @@ const signInEmployee = async (req, res) => {
     try {
         const { email, password } = req.body;
 
-        // Tìm ứng viên bằng email
+        // Tìm nhân viên bằng email
         const employee = await db.Employees.findOne({
             where: { email }
         });
@@ -124,55 +131,55 @@ const signInEmployee = async (req, res) => {
             return res.status(404).json('Incorrect email and password combination');
         }
 
-        // Xác thực người dùng bằng jwt
-        const token = jwt.sign({ id: employee.id }, process.env.JWT_SECRET, {
+        // Tạo JWT Token với tất cả thông tin cần thiết
+        const token = jwt.sign({
+            id: employee.id,
+            companyName: employee.companyName,
+            email: employee.email,
+            contactPerson: employee.contactPerson,
+            roleId: employee.roleId,
+        }, process.env.JWT_SECRET, {
             expiresIn: process.env.JWT_REFRESH_EXPIRATION
         });
 
         res.status(200).send({
             id: employee.id,
-            fullName: employee.companyName,
+            companyName: employee.companyName,
             email: employee.email,
+            contactPerson: employee.contactPerson,
+            roleId: employee.roleId,
             accessToken: token,
         });
     } catch (err) {
         console.log(err)
         return res.status(500).send('Sign in error');
     }
-}
-
-
-const getCandidateInfo = async (req, res) => {
-    try {
-        const userId = req.userId;
-        const user = await db.Candidates.findByPk(userId);
-        if (!user) return res.status(404).json('Candidate not found');
-        
-        res.json({
-            id: user.id,
-            fullName: user.fullName,
-            email: user.email,
-            role: user.roleId,
-        });
-    } catch (error) {
-        res.status(500).json('Error retrieving candidate info');
-    }
 };
+
 
 const getCompanyInfo = async (req, res) => {
     try {
-        const companyId = req.userId;
-        const company = await db.Candidates.findByPk(companyId);
-        if (!company) return res.status(404).json('Candidate not found');
+        const companyId = req.userId; // Lấy userId từ token middleware
+        const company = await db.Companies.findByPk(companyId); // Tìm company theo ID
+        if (!company) return res.status(404).json({ message: 'Company not found' });
         
-        res.json({
-            id: company.id,
-            companyName: company.companyName,
-            email: company.email,
-            role: company.roleId,
-        });
+        // Trả về tất cả thông tin từ company
+        res.json(company);
     } catch (error) {
-        res.status(500).json('Error retrieving company info');
+        res.status(500).json({ message: 'Error retrieving company info', error });
+    }
+};
+
+const getCandidateInfo = async (req, res) => {
+    try {
+        const userId = req.userId; // Lấy userId từ token middleware
+        const user = await db.Candidates.findByPk(userId); // Tìm candidate theo ID
+        if (!user) return res.status(404).json({ message: 'Candidate not found' });
+        
+        // Trả về tất cả thông tin từ user
+        res.json(user);
+    } catch (error) {
+        res.status(500).json({ message: 'Error retrieving candidate info', error });
     }
 };
 

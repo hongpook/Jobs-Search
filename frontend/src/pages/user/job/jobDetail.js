@@ -19,6 +19,9 @@ import Typography from "@mui/material/Typography";
 import { useSpring, animated } from "@react-spring/web";
 import BreadCrumbDetail from "../../../components/breadCrumbDetail";
 
+import { useSelector, useDispatch } from 'react-redux';
+import { addToMarkList } from "../../../redux/slice/jobItem";
+
 
 
 
@@ -128,6 +131,14 @@ const JobDetail = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  const dispatch = useDispatch();
+  const markList = useSelector((state) => state.markList.MarkArr);
+
+  const handleAddToMark = (job) => {
+    dispatch(addToMarkList(job)); 
+    console.log("click")
+  };
+
   const token = localStorage.getItem("accessToken");
     const decodedToken = jwtDecode(token);
     const userId = decodedToken.id;
@@ -191,7 +202,7 @@ const JobDetail = () => {
     <>
       <section>
         <BreadCrumbDetail title={"Job detail"} link={"jobList"} page={"Job list"}/>
-        <div class="container">
+        <div class="container mt-4">
           <div class="row">
             <div class="col-lg-3 col-md-3 col-xs-12">
               <div style={{ display: "flex" }}>
@@ -362,7 +373,7 @@ const JobDetail = () => {
               >
                 Apply for this job
               </a>
-              <a class="section-btn btn btn-primary pull-left">
+              <a class="section-btn btn btn-primary pull-left" onClick={() => handleAddToMark(job)}>
                 <FaRegBookmark /> &nbsp; Mark job
               </a>
             </div>
@@ -416,6 +427,7 @@ const JobDetail = () => {
                         value={userId
                         }
                         onChange={handleChange}
+                        style={{display: 'none'}}
                         required
                       />
 
@@ -424,6 +436,7 @@ const JobDetail = () => {
                         name="jobId"
                         value={formData.jobId}
                         onChange={handleChange}
+                        style={{display: 'none'}}
                         required
                       />
                       <input
@@ -466,6 +479,8 @@ const JobDetail = () => {
           </div>
           {/* </div> */}
         </div>
+        
+        
       </section>
     </>
   );

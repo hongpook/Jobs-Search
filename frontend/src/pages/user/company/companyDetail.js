@@ -17,12 +17,31 @@ import "swiper/css/navigation";
 import "swiper/css/autoplay";
 import BreadCrumbDetail from "../../../components/breadCrumbDetail";
 
+import jwtDecode from "jwt-decode";
+
 const CompanyDetail = () => {
   const { id } = useParams(); // Lấy ID từ URL
   const [company, setCompany] = useState(null);
   const [loading, setLoading] = useState(true);
   const history = useNavigate();
+  const [userInfo, setUserInfo] = useState(null); // State để lưu thông tin người dùng
 
+  // Hàm giải mã token và lấy thông tin
+  const getUserInfoFromToken = () => {
+    const token = window.localStorage.getItem("accessToken");
+    if (token) {
+      try {
+        const decodedToken = jwtDecode(token);
+        setUserInfo(decodedToken); // Lưu toàn bộ thông tin từ token vào state
+      } catch (error) {
+        console.error("Invalid token", error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    getUserInfoFromToken(); // Gọi hàm khi component được mount
+  }, []);
   useEffect(() => {
     fetchCompanyDetail();
   }, [id]);
@@ -158,27 +177,55 @@ const CompanyDetail = () => {
                 company.jobs.map((job) => (
                   <SwiperSlide key={job.id}>
                     <Card sx={{ marginBottom: 2 }}>
-                      <CardContent>
-                        <Typography variant="h6"><a href={`/job-details/${job.id}`}>{job.title}</a></Typography>
-                        <img
-                          src={job.imageUrl}
-                          alt={job.title}
-                          style={{ width: "100%", height: "auto" }}
-                        />
-                        <Typography
-                          variant="body2"
-                          color="text.secondary"
-                          sx={{ marginTop: 1 }}
-                        >
-                          Salary: {job.salaryRange}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          Location: {job.location}
-                        </Typography>
-                        <Typography variant="body2" sx={{ marginTop: 2 }}>
-                          Type: {job.jobType}
-                        </Typography>
-                      </CardContent>
+                      {userInfo ? (
+                        <CardContent>
+                          <Typography variant="h6">
+                            <a href={`/job-details/${job.id}`}>{job.title}</a>
+                          </Typography>
+                          <img
+                            src={job.imageUrl}
+                            alt={job.title}
+                            style={{ width: "100%", height: "auto" }}
+                          />
+                          <Typography
+                            variant="body2"
+                            color="text.secondary"
+                            sx={{ marginTop: 1 }}
+                          >
+                            Salary: {job.salaryRange}
+                          </Typography>
+                          <Typography variant="body2" color="text.secondary">
+                            Location: {job.location}
+                          </Typography>
+                          <Typography variant="body2" sx={{ marginTop: 2 }}>
+                            Type: {job.jobType}
+                          </Typography>
+                        </CardContent>
+                      ) : (
+                        <CardContent>
+                          <Typography variant="h6">
+                            <a >{job.title}</a>
+                          </Typography>
+                          <img
+                            src={job.imageUrl}
+                            alt={job.title}
+                            style={{ width: "100%", height: "auto" }}
+                          />
+                          
+                          <Typography variant="body2" sx={{ marginTop: 2 }}>
+                            Type: {job.jobType}
+                          </Typography>
+                          <div className="courses-info">
+                            <a
+                              href={`/login`}
+                              className="section-btn btn btn-primary btn-block p-2"
+                              style={{padding: 0}}
+                            >
+                              Vui lòng đăng nhập để xem chi tiết
+                            </a>
+                          </div>
+                        </CardContent>
+                      )}
                     </Card>
                   </SwiperSlide>
                 ))
