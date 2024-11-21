@@ -4,7 +4,7 @@ import { notifySuccess, notifyError, notifyWarning} from '../../../utils/toastNo
 import { useParams, useNavigate } from 'react-router-dom';
 
 
-function UpdateJob() {
+function ChinhSua() {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -189,4 +189,4 @@ function UpdateJob() {
   );
 }
 
-export default UpdateJob;
+export default ChinhSua;

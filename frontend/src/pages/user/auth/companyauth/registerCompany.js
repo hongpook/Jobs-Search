@@ -1,7 +1,9 @@
 // frontend/src/components/RegisterForm.js
 import React, { useState } from 'react';
 import axios from 'axios';
-import { notifySuccess, notifyError, notifyWarning } from '../../../../utils/toastNotification/toastNotification';
+import { notifySuccess, notifyError } from '../../../../utils/toastNotification/toastNotification';
+import { FcGoogle } from 'react-icons/fc'; 
+import { FaFacebook } from 'react-icons/fa';
 
 const RegisterCompany = () => {
     const [formData, setFormData] = useState({
@@ -9,11 +11,10 @@ const RegisterCompany = () => {
         email: '',
         password: '',
         contactPerson: '',
-        roleId: '',  // Nếu vai trò có nhiều lựa chọn, có thể thêm dropdown hoặc radio cho field này
+        roleId: 2,
     });
-    const [message, setMessage] = useState('');
 
-    // Xử lý thay đổi trong các input field
+    // Handle input field changes
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({
@@ -22,74 +23,127 @@ const RegisterCompany = () => {
         });
     };
 
-    // Gửi request đăng ký
+    // Submit the registration form
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             const response = await axios.post('http://localhost:5000/api/auth/sign-up-employee', formData);
-            notifySuccess(response.data.message || 'Đăng ký thành công!');  // Hiển thị thông báo thành công
+            notifySuccess(response.data.message || 'Registration successful!');
         } catch (error) {
-            notifyError(error.response?.data.message || 'Có lỗi xảy ra trong quá trình đăng ký');
+            notifyError(error.response?.data.message || 'An error occurred during registration');
         }
     };
 
+    const handleGoogleLogin = () => {
+        notifySuccess("Google login not implemented yet!");
+    };
+
+    const handleFacebookLogin = () => {
+        notifySuccess("Facebook login not implemented yet!");
+    };
     return (
-        <div>
-            <h2>Đăng Ký Tài Khoản</h2>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Tên Công Ty</label>
-                    <input
-                        type="text"
-                        name="companyName"
-                        value={formData.companyName}
-                        onChange={handleChange}
-                        required
-                    />
+        <div className="container mt-5">
+            <div className="row justify-content-center">
+                <div className="col-md-6">
+                    <form onSubmit={handleSubmit} className="p-4 border rounded shadow-sm bg-white">
+                    <h2 className="text-center mb-4">Register Account</h2>
+                        <div className="mb-3">
+                            <label htmlFor="companyName" className="form-label">
+                                Company Name
+                            </label>
+                            <input
+                                type="text"
+                                id="companyName"
+                                name="companyName"
+                                className="form-control"
+                                value={formData.companyName}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="email" className="form-label">
+                                Email
+                            </label>
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                className="form-control"
+                                value={formData.email}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="password" className="form-label">
+                                Password
+                            </label>
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                className="form-control"
+                                value={formData.password}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="contactPerson" className="form-label">
+                                Contact Person
+                            </label>
+                            <input
+                                type="text"
+                                id="contactPerson"
+                                name="contactPerson"
+                                className="form-control"
+                                value={formData.contactPerson}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+                        <div className="mb-3" style={{display: 'none'}}>
+                            <label htmlFor="roleId" className="form-label">
+                                Role ID
+                            </label>
+                            <input
+                                type="text"
+                                id="roleId"
+                                name="roleId"
+                                className="form-control"
+                                value={formData.roleId}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+                        <button type="submit" className="btn btn-primary w-100">
+                            Register
+                        </button>
+
+                        {/* Divider */}
+                    <div className="text-center my-3">
+                        <span className="text-muted">or</span>
+                    </div>
+
+                    {/* Third-party buttons */}
+                    <div className='d-flex'>
+                        <a
+                            onClick={handleGoogleLogin}
+                            className=" btn-outline-danger d-flex align-items-center justify-content-center col-6"
+                        >
+                            <FcGoogle size={20} />&nbsp; Sign up with Google
+                        </a>
+                        <a
+                            onClick={handleFacebookLogin}
+                            className=" btn-outline-primary d-flex align-items-center justify-content-center col-6"
+                        >
+                            <FaFacebook size={20} />&nbsp; Sign up with Facebook
+                        </a>
+                    </div>
+                    </form>
                 </div>
-                <div>
-                    <label>Email</label>
-                    <input
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <div>
-                    <label>Mật Khẩu</label>
-                    <input
-                        type="password"
-                        name="password"
-                        value={formData.password}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <div>
-                    <label>Người Liên Hệ</label>
-                    <input
-                        type="text"
-                        name="contactPerson"
-                        value={formData.contactPerson}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <div>
-                    <label>Vai Trò (RoleId)</label>
-                    <input
-                        type="text"
-                        name="roleId"
-                        value={formData.roleId}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <button type="submit">Đăng Ký</button>
-            </form>
-            {message && <p>{message}</p>}
+            </div>
         </div>
     );
 };

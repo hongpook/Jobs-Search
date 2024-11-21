@@ -1464,3 +1464,11 @@ button.Toastify__close-button.Toastify__close-button--light {
   display: flex;
   justify-content: center;
 }
+
+
+.descriptionText {
+  white-space: nowrap;         /* Hiển thị trên một dòng duy nhất */
+  overflow: hidden;            /* Ẩn phần nội dung vượt quá */
+  text-overflow: ellipsis;     /* Thêm dấu ba chấm (...) */
+  max-width: 100%;             /* Đặt giới hạn chiều rộng */
+}

@@ -1,8 +1,27 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import PropTypes from 'prop-types';
-import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TableSortLabel, Toolbar, Typography, Paper, Checkbox } from '@mui/material';
+import PropTypes from "prop-types";
+import {
+  Box,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TablePagination,
+  TableRow,
+  TableSortLabel,
+  Toolbar,
+  Typography,
+  Paper,
+  Checkbox,
+} from "@mui/material";
 import jwtDecode from "jwt-decode";
+
+import Modal from "@mui/material/Modal";
+import Button from "@mui/material/Button";
+import { notifyError, notifySuccess } from "../../../utils/toastNotification/toastNotification";
+import { useNavigate } from "react-router-dom";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -15,21 +34,28 @@ function descendingComparator(a, b, orderBy) {
 }
 
 function getComparator(order, orderBy) {
-  return order === 'desc'
+  return order === "desc"
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
 const headCells = [
-  { id: 'title', numeric: false, disablePadding: true, label: 'Job Title' },
-  { id: 'Type job', numeric: false, disablePadding: true, label: 'Type job' },
-  { id: 'DateTime', numeric: false, disablePadding: false, label: 'DateTime' },
-  { id: 'location', numeric: false, disablePadding: false, label: 'Location' },
-  { id: 'action', numeric: false, disablePadding: false, label: 'Action' },
+  { id: "title", numeric: false, disablePadding: true, label: "Job Title" },
+  { id: "Type job", numeric: false, disablePadding: true, label: "Type job" },
+  { id: "DateTime", numeric: false, disablePadding: false, label: "DateTime" },
+  { id: "location", numeric: false, disablePadding: false, label: "Location" },
+  { id: "action", numeric: false, disablePadding: false, label: "Action" },
 ];
 
 function EnhancedTableHead(props) {
-  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
+  const {
+    onSelectAllClick,
+    order,
+    orderBy,
+    numSelected,
+    rowCount,
+    onRequestSort,
+  } = props;
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
@@ -43,19 +69,19 @@ function EnhancedTableHead(props) {
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
-            inputProps={{ 'aria-label': 'select all jobs' }}
+            inputProps={{ "aria-label": "select all jobs" }}
           />
         </TableCell>
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align={headCell.numeric ? 'right' : 'left'}
-            padding={headCell.disablePadding ? 'none' : 'normal'}
+            align={headCell.numeric ? "right" : "left"}
+            padding={headCell.disablePadding ? "none" : "normal"}
             sortDirection={orderBy === headCell.id ? order : false}
           >
             <TableSortLabel
               active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : 'asc'}
+              direction={orderBy === headCell.id ? order : "asc"}
               onClick={createSortHandler(headCell.id)}
             >
               {headCell.label}
@@ -71,20 +97,91 @@ EnhancedTableHead.propTypes = {
   numSelected: PropTypes.number.isRequired,
   onRequestSort: PropTypes.func.isRequired,
   onSelectAllClick: PropTypes.func.isRequired,
-  order: PropTypes.oneOf(['asc', 'desc']).isRequired,
+  order: PropTypes.oneOf(["asc", "desc"]).isRequired,
   orderBy: PropTypes.string.isRequired,
   rowCount: PropTypes.number.isRequired,
 };
 
+// --------------------------
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  pt: 2,
+  px: 4,
+  pb: 3,
+};
+
+function ChildModal() {
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  return (
+    <React.Fragment>
+      <Button onClick={handleOpen}>Open Child Modal</Button>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="child-modal-title"
+        aria-describedby="child-modal-description"
+      >
+        <Box sx={{ ...style, width: 200 }}>
+          <h2 id="child-modal-title">Text in a child modal</h2>
+          <p id="child-modal-description">
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+          </p>
+          <Button onClick={handleClose}>Close Child Modal</Button>
+        </Box>
+      </Modal>
+    </React.Fragment>
+  );
+}
+
+// ---------------------------
+
 function JobListSide() {
   const [jobs, setJobs] = useState([]);
-  const [order, setOrder] = useState('asc');
-  const [orderBy, setOrderBy] = useState('title');
+  const [order, setOrder] = useState("asc");
+  const [orderBy, setOrderBy] = useState("title");
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [userId, setUserId] = useState(null);
 
+  const navigate = useNavigate();
+
+  // Biến modal
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleDelete = async (jobId) => {
+    try {
+      const confirmDelete = window.confirm('Are you sure you want to delete this job?');
+      if (confirmDelete) {
+        await axios.delete(`http://localhost:5000/api/v1/job/${jobId}`);
+        notifySuccess('Job deleted successfully');
+        setJobs(jobs.filter(job => job.id !== jobId)); // Remove the deleted job from the UI
+      }
+    } catch (error) {
+      console.error('Error deleting job:', error);
+      notifyError('Error deleting job');
+    }
+  };
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
     if (token) {
@@ -101,19 +198,20 @@ function JobListSide() {
 
   useEffect(() => {
     if (userId) {
-      axios.get(`http://localhost:5000/api/v1/employee/${userId}`)
-        .then(response => {
+      axios
+        .get(`http://localhost:5000/api/v1/employee/${userId}`)
+        .then((response) => {
           setJobs(response.data.jobs); // Assuming the API returns jobs under 'jobs'
         })
-        .catch(error => {
+        .catch((error) => {
           console.error("Error fetching jobs data:", error);
         });
     }
   }, [userId]);
 
   const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
+    const isAsc = orderBy === property && order === "asc";
+    setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
 
@@ -139,7 +237,7 @@ function JobListSide() {
     } else if (selectedIndex > 0) {
       newSelected = newSelected.concat(
         selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1),
+        selected.slice(selectedIndex + 1)
       );
     }
     setSelected(newSelected);
@@ -159,12 +257,12 @@ function JobListSide() {
       [...jobs]
         .sort(getComparator(order, orderBy))
         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
-    [order, orderBy, page, rowsPerPage, jobs],
+    [order, orderBy, page, rowsPerPage, jobs]
   );
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <Paper sx={{ width: '100%', mb: 2 }}>
+    <Box sx={{ width: "100%" }}>
+      <Paper sx={{ width: "100%", mb: 2 }}>
         <Toolbar>
           <Typography variant="h6" id="tableTitle" component="div">
             Job List
@@ -199,18 +297,36 @@ function JobListSide() {
                       <Checkbox
                         color="primary"
                         checked={isItemSelected}
-                        inputProps={{ 'aria-labelledby': labelId }}
+                        inputProps={{ "aria-labelledby": labelId }}
                       />
                     </TableCell>
-                    <TableCell component="th" id={labelId} scope="row" padding="none">
+                    <TableCell
+                      component="th"
+                      id={labelId}
+                      scope="row"
+                      padding="none"
+                    >
                       {job.title}
                     </TableCell>
                     <TableCell align="left">{job.jobType}</TableCell>
-                    <TableCell align="left">{new Date(job.createdAt).toLocaleDateString()}</TableCell>
+                    <TableCell align="left">
+                      {new Date(job.createdAt).toLocaleDateString()}
+                    </TableCell>
                     <TableCell align="left">{job.location}</TableCell>
-                    <TableCell align="left" style={{display: 'flex'}}>
-                      <a href={`/createJob/${job.id}`} className="btn btn-primary me-1">Edit</a>
-                      <button className="btn btn-danger">Delete</button>
+                    <TableCell align="left" style={{ display: "flex" }}>
+                      <a
+                        href={`/createJob/${job.id}`}
+                        className="btn btn-primary me-1"
+                      >
+                        Edit
+                      </a>
+                      <button className="btn btn-danger me-1"  onClick={() => handleDelete(job.id)}>Delete</button>
+                      <button
+                        className="btn btn-info me-3"
+                        onClick={handleOpen}
+                      >
+                        Applications
+                      </button>
                     </TableCell>
                   </TableRow>
                 );
@@ -228,6 +344,37 @@ function JobListSide() {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
+
+      {/* Modal  */}
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="parent-modal-title"
+        aria-describedby="parent-modal-description"
+      >
+        <Box sx={{ ...style, width: 400 }}>
+          <h2 id="parent-modal-title">Text in a modal</h2>
+          <ul>
+            {jobs && jobs.length > 0 ? (
+              jobs.map((job) =>
+                job.applications && job.applications.length > 0 ? (
+                  job.applications.map((application) => (
+                    <li key={application.id}>{application.candidateName}</li>
+                  ))
+                ) : (
+                  <li key={`no-app-${job.id}`}>
+                    No applications for {job.title}
+                  </li>
+                )
+              )
+            ) : (
+              <li>No jobs found</li>
+            )}
+          </ul>
+
+          <ChildModal />
+        </Box>
+      </Modal>
     </Box>
   );
 }

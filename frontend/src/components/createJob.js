@@ -1,18 +1,20 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState } from "react";
+import axios from "axios";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
 function CreateJob() {
   const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    requirements: '',
-    salaryRange: '',
-    jobType: 'Full-time',
-    location: '',
-    employerId: '', // Employer ID được điền sau
+    title: "",
+    description: "",
+    requirements: "", // ReactQuill sẽ cập nhật giá trị này
+    salaryRange: "",
+    jobType: "Full-time",
+    location: "",
+    employerId: "", // Employer ID được điền sau
   });
 
-  const [file, setFile] = useState(null);  // Để lưu trữ file hình ảnh
+  const [file, setFile] = useState(null); // Để lưu trữ file hình ảnh
 
   // Hàm thay đổi giá trị input
   const handleChange = (e) => {
@@ -23,43 +25,49 @@ function CreateJob() {
     });
   };
 
+  // Hàm thay đổi giá trị từ ReactQuill
+  const handleRequirementsChange = (value) => {
+    setFormData({
+      ...formData,
+      requirements: value,
+    });
+  };
+
   // Hàm thay đổi file
   const handleFileChange = (e) => {
     const { files } = e.target;
-    setFile(files[0]);  // Chỉ lấy file đầu tiên
+    setFile(files[0]); // Chỉ lấy file đầu tiên
   };
 
   // Hàm xử lý submit form
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     const data = new FormData();
-  
+
     // Thêm các trường form vào FormData
     for (const key in formData) {
       data.append(key, formData[key]);
     }
-  
+
     // Thêm file vào FormData nếu có
     if (file) {
-      data.append('imageUrl', file);
-      console.log('FormData with image:', data);  // In ra để kiểm tra
+      data.append("imageUrl", file);
     }
-  
+
     try {
-      const response = await axios.post('http://localhost:5000/api/v1/jobs', data, {
+      const response = await axios.post("http://localhost:5000/api/v1/jobs", data, {
         headers: {
-          'Content-Type': 'multipart/form-data',  // Cấu hình gửi file
+          "Content-Type": "multipart/form-data", // Cấu hình gửi file
         },
       });
-      console.log('Job created successfully:', response.data);
-      alert('Job created successfully');
+      console.log("Job created successfully:", response.data);
+      alert("Job created successfully");
     } catch (error) {
-      console.error('Error creating job:', error);
-      alert('Error creating job');
+      console.error("Error creating job:", error);
+      alert("Error creating job");
     }
   };
-  
 
   return (
     <div className="form-container">
@@ -90,11 +98,22 @@ function CreateJob() {
 
         <div className="form-group">
           <label>Requirements</label>
-          <textarea
-            name="requirements"
+          <ReactQuill
             value={formData.requirements}
-            onChange={handleChange}
+            onChange={handleRequirementsChange} // Sử dụng hàm xử lý riêng cho ReactQuill
             placeholder="Enter job requirements"
+            theme="snow"
+            modules={{
+              toolbar: [
+                [{ font: [] }], // Thay đổi phông chữ
+                [{ header: [1, 2, 3, false] }], // Tiêu đề
+                ["bold", "italic", "underline", "strike"], // Định dạng văn bản
+                [{ color: [] }, { background: [] }], // Màu chữ, màu nền
+                [{ align: [] }], // Căn lề
+                ["link", "image"], // Chèn liên kết và hình ảnh
+                ["clean"], // Xóa định dạng
+              ],
+            }}
           />
         </div>
 
@@ -111,11 +130,7 @@ function CreateJob() {
 
         <div className="form-group">
           <label>Job Type</label>
-          <select
-            name="jobType"
-            value={formData.jobType}
-            onChange={handleChange}
-          >
+          <select name="jobType" value={formData.jobType} onChange={handleChange}>
             <option value="Full-time">Full-time</option>
             <option value="Part-time">Part-time</option>
             <option value="Internship">Internship</option>

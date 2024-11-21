@@ -74,6 +74,26 @@ const deleteJobController = async (req, res) => {
 };
 
 
+const getFilterJobsController = async (req, res) => {
+    try {
+        const { search, salaryRange, jobType, location, active } = req.query;
+
+        const jobs = await jobService.getFilteredJobs({ search, salaryRange, jobType, location, active });
+
+        res.status(200).json({
+            success: true,
+            data: jobs,
+        });
+    } catch (error) {
+        console.error("Error in getJobs:", error);
+        res.status(500).json({
+            success: false,
+            message: "Internal server error",
+        });
+    }
+};
+
+
 
 module.exports = {
     createJobController,
@@ -81,4 +101,5 @@ module.exports = {
     getJobByIdController,
     updateJobController,
     deleteJobController,
+    getFilterJobsController
 };

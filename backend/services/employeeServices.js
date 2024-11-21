@@ -23,7 +23,7 @@ class EmployeesService {
     async getAllEmployees() {
         try {
             const employees = await Employees.findAll({
-                include: [{ model: Jobs, as: 'jobs' }]  // Thêm include để lấy danh sách jobs của mỗi employee
+                include: [{ model: Jobs, as: 'jobs' }]
             });
             return employees;
         } catch (error) {
@@ -34,7 +34,7 @@ class EmployeesService {
     async getEmployeeById(id) {
         try {
             const employee = await Employees.findByPk(id, {
-                include: [{ model: Jobs, as: 'jobs' }]  // Thêm include để lấy danh sách jobs của employee theo id
+                include: [{ model: Jobs, as: 'jobs' }]  
             });
             if (!employee) {
                 throw new Error('Employee not found');

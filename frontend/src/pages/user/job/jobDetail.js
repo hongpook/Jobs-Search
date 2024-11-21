@@ -19,11 +19,9 @@ import Typography from "@mui/material/Typography";
 import { useSpring, animated } from "@react-spring/web";
 import BreadCrumbDetail from "../../../components/breadCrumbDetail";
 
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from "react-redux";
 import { addToMarkList } from "../../../redux/slice/jobItem";
-
-
-
+import { notifyError, notifySuccess } from "../../../utils/toastNotification/toastNotification";
 
 const Fade = React.forwardRef(function Fade(props, ref) {
   const {
@@ -135,15 +133,13 @@ const JobDetail = () => {
   const markList = useSelector((state) => state.markList.MarkArr);
 
   const handleAddToMark = (job) => {
-    dispatch(addToMarkList(job)); 
-    console.log("click")
+    dispatch(addToMarkList(job));
+    console.log("click");
   };
 
   const token = localStorage.getItem("accessToken");
-    const decodedToken = jwtDecode(token);
-    const userId = decodedToken.id;
-
-    
+  const decodedToken = jwtDecode(token);
+  const userId = decodedToken.id;
 
   const [formData, setFormData] = useState({
     candidateId: userId,
@@ -172,10 +168,10 @@ const JobDetail = () => {
         formData
       );
       console.log("Response:", response.data);
-      alert("Application submitted successfully!");
+      notifySuccess("Application submitted successfully!");
     } catch (error) {
-      console.error("Error submitting application:", error);
-      alert("Error submitting application");
+      // console.error("Error submitting application:", error);
+      notifyError("Error submitting application");
     }
   };
 
@@ -196,12 +192,16 @@ const JobDetail = () => {
   }, [id]);
 
   if (!job || !employer) return <p>Loading...</p>;
-  console.log("usserid: ", userId)
+  // console.log("usserid: ", userId);
 
   return (
     <>
       <section>
-        <BreadCrumbDetail title={"Job detail"} link={"jobList"} page={"Job list"}/>
+        <BreadCrumbDetail
+          title={"Job detail"}
+          link={"jobList"}
+          page={"Job list"}
+        />
         <div class="container mt-4">
           <div class="row">
             <div class="col-lg-3 col-md-3 col-xs-12">
@@ -246,10 +246,15 @@ const JobDetail = () => {
             </div>
             <div class="panel-body">
               <h4>Responsibillitites:</h4>
-
-              <p>{job.description}</p>
+              <div
+                dangerouslySetInnerHTML={{ __html: job.description }}
+                style={{ whiteSpace: "pre-wrap" }}
+              ></div>
               <h4>Requirements:</h4>
-              <p>{job.requirements}</p>
+              <div
+                dangerouslySetInnerHTML={{ __html: job.requirements }}
+                style={{ whiteSpace: "pre-wrap" }}
+              ></div>
             </div>
           </div>
           <div class="panel panel-default">
@@ -373,7 +378,10 @@ const JobDetail = () => {
               >
                 Apply for this job
               </a>
-              <a class="section-btn btn btn-primary pull-left" onClick={() => handleAddToMark(job)}>
+              <a
+                class="section-btn btn btn-primary pull-left"
+                onClick={() => handleAddToMark(job)}
+              >
                 <FaRegBookmark /> &nbsp; Mark job
               </a>
             </div>
@@ -421,51 +429,50 @@ const JobDetail = () => {
                     Please give us your information here!
                   </Typography>
                   <form onSubmit={handleSubmit}>
-                      <input
-                        type="number"
-                        name="candidateId"
-                        value={userId
-                        }
-                        onChange={handleChange}
-                        style={{display: 'none'}}
-                        required
-                      />
+                    <input
+                      type="number"
+                      name="candidateId"
+                      value={userId}
+                      onChange={handleChange}
+                      style={{ display: "none" }}
+                      required
+                    />
 
-                      <input
-                        type="number"
-                        name="jobId"
-                        value={formData.jobId}
-                        onChange={handleChange}
-                        style={{display: 'none'}}
-                        required
-                      />
-                      <input
-                        type="text"
-                        name="candidateName"
-                        value={formData.candidateName}
-                        placeholder="Your full name"
-                        onChange={handleChange}
-                      />
-                      <input
-                        type="email"
-                        name="candidateEmail"
-                        value={formData.candidateEmail}
-                        placeholder="Your email"
-                        onChange={handleChange}
-                      />
-                      <input
-                        type="text"
-                        name="candidatePhone"
-                        value={formData.candidatePhone}
-                        placeholder="Your phone"
-                        onChange={handleChange}
-                      />
-                      <textarea
-                        name="candidateNote"
-                        value={formData.candidateNote}
-                        placeholder="Your note"
-                        onChange={handleChange}
-                      />
+                    <input
+                      type="number"
+                      name="jobId"
+                      value={formData.jobId}
+                      onChange={handleChange}
+                      style={{ display: "none" }}
+                      required
+                    />
+                    <input
+                      type="text"
+                      name="candidateName"
+                      value={formData.candidateName}
+                      placeholder="Your full name"
+                      onChange={handleChange}
+                    />
+                    <input
+                      type="email"
+                      name="candidateEmail"
+                      value={formData.candidateEmail}
+                      placeholder="Your email"
+                      onChange={handleChange}
+                    />
+                    <input
+                      type="text"
+                      name="candidatePhone"
+                      value={formData.candidatePhone}
+                      placeholder="Your phone"
+                      onChange={handleChange}
+                    />
+                    <textarea
+                      name="candidateNote"
+                      value={formData.candidateNote}
+                      placeholder="Your note"
+                      onChange={handleChange}
+                    />
                     <button
                       type="submit"
                       class="section-btn btn btn-primary pull-left"
@@ -479,8 +486,6 @@ const JobDetail = () => {
           </div>
           {/* </div> */}
         </div>
-        
-        
       </section>
     </>
   );

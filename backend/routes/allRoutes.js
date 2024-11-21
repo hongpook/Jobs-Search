@@ -32,6 +32,7 @@ router.delete('/application/:id', applicationController.deleteApplication);
 router.post('/jobs', upload, jobsController.createJobController);
 router.get('/jobs', jobsController.getAllJobsController);
 router.get('/job/:id', jobsController.getJobByIdController);
+router.get('/filter-job', jobsController.getFilterJobsController);
 router.put('/job/:id', upload, jobsController.updateJobController);
 router.delete('/job/:id', jobsController.deleteJobController);
 
