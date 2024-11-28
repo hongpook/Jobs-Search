@@ -37,6 +37,14 @@ import JobListMark from "./pages/user/job/jobMark";
 import ChinhSua from "./pages/user/companySide/updateJob";
 import RegisterSide from "./pages/user/auth/registerSide";
 import Resume from "./pages/user/resume/resume";
+import CreateResume from "./pages/user/resume/createResume";
+import CreateBlog from "./pages/user/blog/createBlog";
+import UpdateBlog from "./pages/user/blog/updateBlog";
+import BlogDetails from "./pages/user/blog/blogDetail";
+import SolutionBlog from "./pages/user/blog/solutionBlog";
+import JobTipBlog from "./pages/user/blog/jobTipBlog";
+import BlogByCategory from "./pages/user/blog/blogList";
+import AllBlogs from "./pages/user/blog/allBlog";
 
 const App = () => {
   return (
@@ -72,9 +80,21 @@ const App = () => {
             <Route path="/sign-up" element={<RegisterSide />} />
 
 
+            <Route path="/recruitment-solutions" element={<SolutionBlog />} />
+            <Route path="/job-tips" element={<JobTipBlog />} />
+
+
+            <Route path="/create-blog" element={<CreateBlog />} />
+            <Route path="/all-blogs" element={<AllBlogs />} />
+            <Route path="/edit-blog/:id" element={<UpdateBlog />} />
+            <Route path="/blog-detail/:id" element={<BlogDetails />} />
+
+
+
 
 
             <Route path="/resume" element={<Resume />} />
+            <Route path="/create-resume" element={<CreateResume />} />
 
 
             <Route path="/companySide" element={<CompanySide />} />

@@ -54,7 +54,9 @@ https://templatemo.com/tm-516-known
     line-height: 24px;
   }
 
-
+ul li{
+  list-style: none !important;
+}
 
   /*---------------------------------------
      GENERAL               
@@ -1472,3 +1474,19 @@ button.Toastify__close-button.Toastify__close-button--light {
   text-overflow: ellipsis;     /* Thêm dấu ba chấm (...) */
   max-width: 100%;             /* Đặt giới hạn chiều rộng */
 }
+
+.truncated-text {
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* Số dòng hiển thị trước khi cắt */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* Style ảnh trong Quill Editor */
+.ql-editor img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 10px 0;
+}
+

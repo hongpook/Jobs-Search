@@ -1,0 +1,187 @@
+/* General Styling for CV */
+#cv {
+    font-family: 'Arial', sans-serif;
+    width: 800px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Header Section */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+  }
+  
+  .header img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .header-info {
+    max-width: 65%;
+  }
+  
+  .header-info h1 {
+    font-size: 36px;
+    color: #e67e22;
+    margin-bottom: 5px;
+  }
+  
+  .header-info h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 15px;
+  }
+  
+  .header-info p {
+    font-size: 14px;
+    color: #777;
+  }
+  
+  /* Section Titles */
+  .section-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #e67e22;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 2px solid #e67e22;
+  }
+  
+  /* Content for each section */
+  .content {
+    margin-bottom: 25px;
+  }
+  
+  .content p {
+    font-size: 16px;
+    line-height: 1.5;
+    color: #555;
+  }
+  
+  .content ul {
+    margin-left: 20px;
+    font-size: 16px;
+    color: #555;
+    line-height: 1.5;
+  }
+  
+  .content ul li {
+    list-style-type: square;
+  }
+  
+  /* Work Experience */
+  .experience div {
+    margin-bottom: 20px;
+  }
+  
+  .experience h3 {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .details {
+    font-size: 14px;
+    color: #777;
+    margin-bottom: 10px;
+  }
+  
+  /* Education Section */
+  .education p {
+    font-size: 16px;
+    color: #555;
+  }
+  
+  /* Skills Section */
+  .skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+  
+  .skills div {
+    background-color: #f7f7f7;
+    padding: 8px 15px;
+    border-radius: 30px;
+    font-size: 14px;
+    color: #333;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  .skills div:hover {
+    background-color: #e67e22;
+    color: #fff;
+  }
+  
+  /* Certificates */
+  .certificates p {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 10px;
+  }
+  
+  /* Projects Section */
+  .projects p {
+    font-size: 16px;
+    color: #555;
+  }
+  
+  .projects strong {
+    font-weight: bold;
+    color: #e67e22;
+  }
+  
+  /* Interests Section */
+  .interests p {
+    font-size: 16px;
+    color: #555;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 900px) {
+    #cv {
+      padding: 20px;
+      width: 100%;
+    }
+  
+    .header {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+  
+    .header img {
+      margin-bottom: 20px;
+    }
+  
+    .header-info h1 {
+      font-size: 30px;
+    }
+  
+    .header-info h2 {
+      font-size: 22px;
+    }
+  
+    .section-title {
+      font-size: 18px;
+    }
+  
+    .content p,
+    .content ul {
+      font-size: 14px;
+    }
+  
+    .skills div {
+      font-size: 12px;
+    }
+  }
+  

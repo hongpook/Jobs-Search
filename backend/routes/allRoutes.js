@@ -2,14 +2,25 @@
 const express = require('express');
 const router = express.Router();
 const upload = require('../middlewares/multer');
-const uploadResume = require('../middlewares/upload')
 const jobsController = require('../controllers/jobControler');
 const applicationController = require('../controllers/applicationController');
 const employeesController = require('../controllers/employeeController');
 const candidatesController = require('../controllers/candidateController');
-const { createResume } = require("../controllers/resumeController");
+const ResumeController = require("../controllers/resumeController");
+const blogController = require('../controllers/blogController');
 
-router.post("/create", uploadResume, createResume); 
+router.post('/blogs', upload, blogController.createBlog);
+router.get('/blogs', blogController.getAllBlogs);
+router.get('/blog/:id', blogController.getBlogById);
+router.put('/blog/:id', upload, blogController.updateBlog);
+router.delete('/blog/:id', blogController.deleteBlog);
+
+router.get("/resumes", ResumeController.getAllResumes);
+router.get("/resume/:id", ResumeController.getResumeById);
+router.post("/resumes", ResumeController.createResume);
+router.put("/resume/:id", ResumeController.updateResume);
+router.delete("/resume/:id", ResumeController.deleteResume);
+
 
 router.post('/candidates', upload, candidatesController.create);
 router.get('/candidates', candidatesController.getAll);

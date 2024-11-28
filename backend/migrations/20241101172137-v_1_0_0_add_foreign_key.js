@@ -38,29 +38,29 @@ module.exports = {
     // }),
 
     // Applications -- Candidates
-    await queryInterface.addConstraint('Applications', {
-      fields: ['candidateId'],
-      type: 'foreign key',
-      name: 'applycation_candidate_id_fkey',
-      references: {
-        table: 'Candidates',
-        field: 'id'
-      }
-    }),
+    // await queryInterface.addConstraint('Applications', {
+    //   fields: ['candidateId'],
+    //   type: 'foreign key',
+    //   name: 'applycation_candidate_id_fkey',
+    //   references: {
+    //     table: 'Candidates',
+    //     field: 'id'
+    //   }
+    // }),
 
-    // Applications -- job
-    await queryInterface.addConstraint('Applications', {
-      fields: ['jobId'],
-      type: 'foreign key',
-      name: 'applycation_job_id_fkey',
-      references: {
-        table: 'Jobs',
-        field: 'id'
-      }
-    })
+    // // Applications -- job
+    // await queryInterface.addConstraint('Applications', {
+    //   fields: ['jobId'],
+    //   type: 'foreign key',
+    //   name: 'applycation_job_id_fkey',
+    //   references: {
+    //     table: 'Jobs',
+    //     field: 'id'
+    //   }
+    // })
     // ,
 
-    // Resumes -- Candidates
+    // // Resumes -- Candidates
     // await queryInterface.addConstraint('Resumes', {
     //   fields: ['candinateId'],
     //   type: 'foreign key',
@@ -71,6 +71,16 @@ module.exports = {
     //   }
     // })
 
+    // Resumes -- Employees
+    await queryInterface.addConstraint('Blogs', {
+      fields: ['authorId'],
+      type: 'foreign key',
+      name: 'blog_employee_id_fkey',
+      references: {
+        table: 'Employees',
+        field: 'id'
+      }
+    })
 
   },
 
@@ -81,5 +91,6 @@ module.exports = {
     await queryInterface.removeColumn('Candidates', 'applycation_candidate_id_fkey'),
     await queryInterface.removeColumn('Resumes', 'resume_candidate_id_fkey'),
     await queryInterface.removeColumn('Candidates', 'applycation_job_id_fkey')
+    await queryInterface.removeColumn('Employees', 'blog_employee_id_fkey')
   }
 };

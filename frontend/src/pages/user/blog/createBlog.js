@@ -1,11 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css'; // Import CSS cho ReactQuill
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import jwtDecode from "jwt-decode"; 
-import { useNavigate } from 'react-router-dom';
-import { notifyError, notifySuccess, notifyWarning } from '../../../utils/toastNotification/toastNotification';
 
 const CreateBlog = () => {
   const [title, setTitle] = useState('');
@@ -15,17 +12,6 @@ const CreateBlog = () => {
   const [authorId, setAuthorId] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-
-
-  const token = localStorage.getItem('accessToken');
-  const decodedToken = jwtDecode(token);
-  const userId = decodedToken.id;
-  const navigate = useNavigate();
-
-  const handleCancel = () => {
-    notifyWarning('No thing!!!');
-    navigate('/');
-  };
 
   const handleImageChange = (e) => {
     setBlogImg(e.target.files[0]);
@@ -40,14 +26,14 @@ const CreateBlog = () => {
     formData.append('title', title);
     formData.append('category', category);
     formData.append('content', content);
-    formData.append('authorId', userId);
+    formData.append('authorId', authorId);
     if (blogImg) {
       formData.append('blogImg', blogImg);
     }
 
     try {
       const response = await axios.post('http://localhost:5000/api/v1/blogs', formData);
-      notifySuccess('Blog created successfully');
+      alert('Blog created successfully');
       console.log(response.data);
       // Reset form after successful submission
       setTitle('');
@@ -56,7 +42,7 @@ const CreateBlog = () => {
       setAuthorId('');
       setBlogImg(null);
     } catch (error) {
-      notifyError('Failed to create blog. Please try again.');
+      setError('Failed to create blog. Please try again.');
       console.error('Error creating blog:', error);
     } finally {
       setLoading(false);
@@ -64,7 +50,7 @@ const CreateBlog = () => {
   };
 
   return (
-    <div className="container">
+    <div className="container mt-5">
       <h2 className="text-center mb-4">Create Blog</h2>
       <form onSubmit={handleSubmit}>
         {error && <div className="alert alert-danger">{error}</div>}
@@ -77,7 +63,6 @@ const CreateBlog = () => {
             className="form-control"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            placeholder='Enter title...'
             required
           />
         </div>
@@ -97,19 +82,16 @@ const CreateBlog = () => {
           </select>
         </div>
 
-        <div className="mb-3" style={{display: 'none'}}>
+        <div className="mb-3">
           <label htmlFor="authorId" className="form-label">Author ID</label>
-          
-              <input
-                type="number"
-                id="authorId"
-                className="form-control"
-                value={userId}
-                onChange={(e) => setAuthorId(e.target.value)}
-                required
-              />
-
-          
+          <input
+            type="number"
+            id="authorId"
+            className="form-control"
+            value={authorId}
+            onChange={(e) => setAuthorId(e.target.value)}
+            required
+          />
         </div>
 
         <div className="mb-3">
@@ -123,7 +105,7 @@ const CreateBlog = () => {
         </div>
 
         <div className="mb-3">
-          <label htmlFor="content" className="form-label">Content</label>Z
+          <label htmlFor="content" className="form-label">Content</label>
           <ReactQuill
             value={content}
             onChange={setContent}
@@ -142,18 +124,10 @@ const CreateBlog = () => {
             }}
           />
         </div>
-        <div className='col-6 p-3'>
 
-          <div className='row'>
-
-            <button type="submit" className="btn btn-primary col-3 me-3" disabled={loading}>
-              {loading ? 'Creating...' : 'Create Blog'}
-            </button>
-            <button onClick={handleCancel} className="btn btn-danger col-3">
-                Cancel
-            </button>
-          </div>
-        </div>
+        <button type="submit" className="btn btn-primary" disabled={loading}>
+          {loading ? 'Creating...' : 'Create Blog'}
+        </button>
       </form>
     </div>
   );

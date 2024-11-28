@@ -16,6 +16,55 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Resumes.init({
+
+    name: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    phone: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    linkedin: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    position: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    careerObjective: {
+      type: DataTypes.TEXT,
+      allowNull: true
+    },
+    workExperience: {
+      type: DataTypes.TEXT,
+      allowNull: true
+    },
+    education: {
+      type: DataTypes.TEXT,
+      allowNull: true
+    },
+    skills: {
+      type: DataTypes.TEXT,
+      allowNull: true
+    },
+    certificates: {
+      type: DataTypes.TEXT,
+      allowNull: true
+    },
+    projects: {
+      type: DataTypes.TEXT,
+      allowNull: true
+    },
+    interests: {
+      type: DataTypes.TEXT,
+      allowNull: true
+    },
     candinateId: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -23,8 +72,7 @@ module.exports = (sequelize, DataTypes) => {
         model: Candidates,
         key: 'id',
       },
-    },
-    resume: DataTypes.STRING
+    }
   }, {
     sequelize,
     modelName: 'Resumes',

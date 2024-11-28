@@ -1,4 +1,4 @@
-const { Employees, Jobs } = require('../models/index'); 
+const { Employees, Jobs, Blogs } = require('../models/index'); 
 const cloudinary = require('../config/cloudinary')
 
 class EmployeesService {
@@ -19,11 +19,13 @@ class EmployeesService {
             throw new Error('Error creating company: ' + error.message);  
         }
     }
-
     async getAllEmployees() {
         try {
             const employees = await Employees.findAll({
-                include: [{ model: Jobs, as: 'jobs' }]
+                include: [
+                    { model: Jobs, as: 'jobs' },
+                    { model: Blogs, as: 'blogs' }
+                ],
             });
             return employees;
         } catch (error) {
@@ -34,7 +36,10 @@ class EmployeesService {
     async getEmployeeById(id) {
         try {
             const employee = await Employees.findByPk(id, {
-                include: [{ model: Jobs, as: 'jobs' }]  
+                include: [
+                    { model: Jobs, as: 'jobs' },
+                    { model: Blogs, as: 'blogs' }
+                ],
             });
             if (!employee) {
                 throw new Error('Employee not found');

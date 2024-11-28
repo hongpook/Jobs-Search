@@ -9,7 +9,7 @@ import { IoIosLogOut } from "react-icons/io";
 import logo from '../../assets/images/logoJob.png';
 import React, { useEffect, useState } from "react";
 import {  FaRegBookmark } from "react-icons/fa";
-import jwtDecode from "jwt-decode"; // Giải mã token từ jwt-decode
+import jwtDecode from "jwt-decode"; 
 
 
 const HeaderSide = () => {
@@ -52,11 +52,12 @@ const HeaderSide = () => {
             <Nav.Link href="/jobList">Jobs</Nav.Link>
             <Nav.Link href="/company-list">Companies</Nav.Link>
             <Nav.Link href="/candidate-list">Candidates</Nav.Link>
+            <Nav.Link href="/all-blogs">Blogs</Nav.Link>
 
             <NavDropdown title="Tools" id="basic-nav-dropdown">
-              <NavDropdown.Item href="team.html"><IoCreateOutline />&nbsp;&nbsp; Create Resume</NavDropdown.Item>
-              <NavDropdown.Item href="testimonials.html"><RiMenuSearchLine />&nbsp;&nbsp; Job search tips</NavDropdown.Item>
-              <NavDropdown.Item href="terms.html"><PiBagSimple />&nbsp;&nbsp; Recruitment solutions</NavDropdown.Item>
+              <NavDropdown.Item href="/create-resume"><IoCreateOutline />&nbsp;&nbsp; Create Resume</NavDropdown.Item>
+              <NavDropdown.Item href="/job-tips"><RiMenuSearchLine />&nbsp;&nbsp; Job search tips</NavDropdown.Item>
+              <NavDropdown.Item href="/recruitment-solutions"><PiBagSimple />&nbsp;&nbsp; Recruitment solutions</NavDropdown.Item>
             </NavDropdown>
             {/* <Nav.Link href="contact.html">Contact Us</Nav.Link> */}
           </Nav>

@@ -12,6 +12,7 @@ import BlogList from './addBlog';
 import AppliedList from './applied';
 
 import jwtDecode from "jwt-decode";
+import BlogListSide from './blogList';
 
 function CompanySide(props) {
   const { children, value, index, ...other } = props;
@@ -88,8 +89,9 @@ export default function VerticalTabs() {
             <Tab label="Your profile" {...a11yProps(0)} />
             <Tab label="Your job list" {...a11yProps(1)} />
             <Tab label="Create job" {...a11yProps(2)} />
-            <Tab label="Blog list" {...a11yProps(3)} />
+            <Tab label="Create blog" {...a11yProps(3)} />
             <Tab label="Applications" {...a11yProps(4)} />
+            <Tab label="Your blog list" {...a11yProps(5)} />
           </Tabs>
 
           <CompanySide style={{ width: '1130px' }} value={value} index={0}>
@@ -116,6 +118,10 @@ export default function VerticalTabs() {
             ) : (
               <h1>Không tìm thấy thông tin người dùng</h1>
             )}
+          </CompanySide>
+
+          <CompanySide style={{ width: '1130px' }} value={value} index={5}>
+            <BlogListSide/>
           </CompanySide>
         </Box>
       </div>

@@ -15,7 +15,6 @@ app.use(bodyParser.json());
 
 app.use('/api/auth/', authRoutes);
 app.use('/api/v1/', allroutes);
-app.use("/api/v1/resume", allroutes);
 
 
 app.get("/", (req, res) => {

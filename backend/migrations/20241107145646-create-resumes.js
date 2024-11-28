@@ -9,11 +9,44 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      name: {
+        type: Sequelize.STRING,
+      },
+      email: {
+        type: Sequelize.STRING,
+      },
+      phone: {
+        type: Sequelize.STRING,
+      },
+      linkedin: {
+        type: Sequelize.STRING,
+      },
+      position: {
+        type: Sequelize.STRING,
+      },
+      careerObjective: {
+        type: Sequelize.TEXT,
+      },
+      workExperience: {
+        type: Sequelize.TEXT,
+      },
+      education: {
+        type: Sequelize.TEXT,
+      },
+      skills: {
+        type: Sequelize.TEXT,
+      },
+      certificates: {
+        type: Sequelize.TEXT,
+      },
+      projects: {
+        type: Sequelize.TEXT,
+      },
+      interests: {
+        type: Sequelize.TEXT,
+      },
       candinateId: {
         type: Sequelize.INTEGER
-      },
-      resume: {
-        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,

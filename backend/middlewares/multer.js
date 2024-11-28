@@ -14,7 +14,8 @@ const upload = multer({ storage: storage }).fields([
     { name: 'avt', maxCount: 1 }, 
     { name: 'cvFile', maxCount: 1 }, 
     { name: 'imageUrl', maxCount: 1 },
-    { name: 'logo', maxCount: 1 }
+    { name: 'logo', maxCount: 1 },
+    { name: 'blogImg', maxCount: 1 }
 ]);
 
 
