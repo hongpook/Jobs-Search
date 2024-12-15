@@ -66,7 +66,7 @@ const AllBlogs = () => {
                 {filteredBlogs.map((blog) => (
                   <Link to={`/blog-detail/${blog.id}`}>
                     <div
-                      className="row mb-2"
+                      className="row mb-4"
                       key={blog.id}
                       style={{
                         "box-shadow": "0 2px 6px rgba(26, 31, 28, .08)",

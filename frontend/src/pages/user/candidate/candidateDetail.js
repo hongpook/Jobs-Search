@@ -103,8 +103,8 @@ const CandidateDetail = () => {
                               </Typography>
                           
 
-                          {/* <img className='p-2' src={candidate.cvFile}/> */}
-                          <PdfViewer pdfUrl={candidate.cvFile}/>
+                          <img className='p-2' style={{width:'100%'}} src={candidate.cvFile}/>
+                          {/* <PdfViewer pdfUrl={candidate.cvFile}/> */}
                           </CardContent>
 
                           

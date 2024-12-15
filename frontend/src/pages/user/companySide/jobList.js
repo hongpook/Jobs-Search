@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Swal from "sweetalert2";
 import PropTypes from "prop-types";
 import {
   Box,
@@ -102,50 +103,6 @@ EnhancedTableHead.propTypes = {
   rowCount: PropTypes.number.isRequired,
 };
 
-// --------------------------
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  pt: 2,
-  px: 4,
-  pb: 3,
-};
-
-function ChildModal() {
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  return (
-    <React.Fragment>
-      <Button onClick={handleOpen}>Open Child Modal</Button>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="child-modal-title"
-        aria-describedby="child-modal-description"
-      >
-        <Box sx={{ ...style, width: 200 }}>
-          <h2 id="child-modal-title">Text in a child modal</h2>
-          <p id="child-modal-description">
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-          </p>
-          <Button onClick={handleClose}>Close Child Modal</Button>
-        </Box>
-      </Modal>
-    </React.Fragment>
-  );
-}
 
 // ---------------------------
 
@@ -160,26 +117,30 @@ function JobListSide() {
 
   const navigate = useNavigate();
 
-  // Biến modal
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
-
   const handleDelete = async (jobId) => {
     try {
-      const confirmDelete = window.confirm('Are you sure you want to delete this job?');
-      if (confirmDelete) {
-        await axios.delete(`http://localhost:5000/api/v1/job/${jobId}`);
-        notifySuccess('Job deleted successfully');
-        setJobs(jobs.filter(job => job.id !== jobId)); // Remove the deleted job from the UI
-      }
+      const result = await Swal.fire({
+        title: "Are you sure?",
+        text: "Do you really want to delete this job? This action cannot be undone.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#3085d6",
+        confirmButtonText: "Yes, delete it!",
+        cancelButtonText: "Cancel",
+      });
+  
+      if (!result.isConfirmed) return;
+  
+      await axios.delete(`http://localhost:5000/api/v1/job/${jobId}`);
+      notifySuccess("Job deleted successfully");
+  
+      setJobs((prevJobs) => prevJobs.filter((job) => job.id !== jobId));
     } catch (error) {
-      console.error('Error deleting job:', error);
-      notifyError('Error deleting job');
+      console.error("Error deleting job:", error.response?.data || error.message);
+      notifyError(
+        error.response?.data?.message || "Failed to delete job. Please try again later."
+      );
     }
   };
   useEffect(() => {
@@ -321,12 +282,7 @@ function JobListSide() {
                         Edit
                       </a>
                       <button className="btn btn-danger me-1"  onClick={() => handleDelete(job.id)}>Delete</button>
-                      <button
-                        className="btn btn-info me-3"
-                        onClick={handleOpen}
-                      >
-                        Applications
-                      </button>
+                      
                     </TableCell>
                   </TableRow>
                 );
@@ -345,36 +301,6 @@ function JobListSide() {
         />
       </Paper>
 
-      {/* Modal  */}
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="parent-modal-title"
-        aria-describedby="parent-modal-description"
-      >
-        <Box sx={{ ...style, width: 400 }}>
-          <h2 id="parent-modal-title">Text in a modal</h2>
-          <ul>
-            {jobs && jobs.length > 0 ? (
-              jobs.map((job) =>
-                job.applications && job.applications.length > 0 ? (
-                  job.applications.map((application) => (
-                    <li key={application.id}>{application.candidateName}</li>
-                  ))
-                ) : (
-                  <li key={`no-app-${job.id}`}>
-                    No applications for {job.title}
-                  </li>
-                )
-              )
-            ) : (
-              <li>No jobs found</li>
-            )}
-          </ul>
-
-          <ChildModal />
-        </Box>
-      </Modal>
     </Box>
   );
 }

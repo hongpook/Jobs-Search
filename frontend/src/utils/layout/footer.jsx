@@ -14,8 +14,8 @@ const FooterSide = () => {
                 </div>
                 <address>
                   <p>
-                    212 Barrington Court <br />
-                    New York, ABC 10001
+                    566/137/60A Ward 5 <br />
+                    Nguyen Thai Son St, Go Vap Dist, HCMC
                   </p>
                 </address>
 
@@ -36,11 +36,8 @@ const FooterSide = () => {
                 </ul>
 
                 <div class="copyright-text">
-                  <p>Copyright &copy; 2020 Company Name</p>
-                  <p>
-                    Template by:{" "}
-                    <a href="https://www.phpjabbers.com/">PHPJabbers.com</a>
-                  </p>
+                  <p>Copyright &copy; 2024 @hongpook12</p>
+                  
                 </div>
               </div>
             </div>
@@ -51,9 +48,9 @@ const FooterSide = () => {
                   <h2>Contact Info</h2>
                 </div>
                 <address>
-                  <p>+1 333 4040 5566</p>
+                  <p>+84 394 421 371</p>
                   <p>
-                    <a href="mailto:contact@company.com">contact@company.com</a>
+                    <a href="mailto:dauhongphuc.011203@gmail.com">dauhongphuc.011203@gmail.com</a>
                   </p>
                 </address>
 
@@ -61,16 +58,19 @@ const FooterSide = () => {
                   <h2>Quick Links</h2>
                   <ul>
                     <li>
-                      <a href="index.html">Home</a>
+                      <a href="/">Home</a>
                     </li>
                     <li>
-                      <a href="about-us.html">About Us</a>
+                      <a href="about-us.html">Jobs</a>
                     </li>
                     <li>
-                      <a href="terms.html">Terms & Conditions</a>
+                      <a href="terms.html">Companies</a>
                     </li>
                     <li>
-                      <a href="contact.html">Contact Us</a>
+                      <a href="contact.html">Candidates</a>
+                    </li>
+                    <li>
+                      <a href="contact.html">Blogs</a>
                     </li>
                   </ul>
                 </div>

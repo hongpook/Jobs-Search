@@ -281,6 +281,7 @@ const CompanyProfile = () => {
                       value={formData.email}
                       onChange={handleChange}
                       placeholder="Email"
+                      disabled
                     />
                     <input
                       type="text"

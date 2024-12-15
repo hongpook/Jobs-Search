@@ -229,7 +229,7 @@ const JobDetail = () => {
 
                 <p class="lead">
                   <TfiBag /> {job.title} &nbsp;&nbsp;
-                  <CiLocationOn /> London &nbsp;&nbsp;
+                  <CiLocationOn /> {job.location} &nbsp;&nbsp;
                   <SlCalender /> {new Date(
                     job.createdAt
                   ).toLocaleDateString()}{" "}
@@ -452,6 +452,7 @@ const JobDetail = () => {
                       value={formData.candidateName}
                       placeholder="Your full name"
                       onChange={handleChange}
+                      required
                     />
                     <input
                       type="email"
@@ -459,6 +460,7 @@ const JobDetail = () => {
                       value={formData.candidateEmail}
                       placeholder="Your email"
                       onChange={handleChange}
+                      required
                     />
                     <input
                       type="text"
@@ -466,6 +468,8 @@ const JobDetail = () => {
                       value={formData.candidatePhone}
                       placeholder="Your phone"
                       onChange={handleChange}
+                      required
+
                     />
                     <textarea
                       name="candidateNote"

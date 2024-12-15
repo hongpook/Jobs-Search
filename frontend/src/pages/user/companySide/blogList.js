@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Swal from "sweetalert2";
+import { MdOutlineRemoveRedEye, MdOutlineEdit } from "react-icons/md";
+import { RiDeleteBinLine } from "react-icons/ri";
 import {
   Box,
   Table,
@@ -85,17 +88,36 @@ function BlogListSide() {
 
   const handleDelete = async (blogId) => {
     try {
-      const confirmDelete = window.confirm("Are you sure you want to delete this blog?");
-      if (confirmDelete) {
-        await axios.delete(`http://localhost:5000/api/v1/blog/${blogId}`);
-        notifySuccess("Blog deleted successfully");
-        setBlogs(blogs.filter((blog) => blog.id !== blogId));
-      }
+      // Display confirmation dialog
+      const result = await Swal.fire({
+        title: "Are you sure?",
+        text: "Do you want to delete this blog? This action cannot be undone.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#3085d6",
+        confirmButtonText: "Delete",
+        cancelButtonText: "Cancel",
+      });
+  
+      // Exit if user cancels
+      if (!result.isConfirmed) return;
+  
+      // Send DELETE request
+      await axios.delete(`http://localhost:5000/api/v1/blog/${blogId}`);
+      notifySuccess("Blog deleted successfully");
+  
+      // Update blogs state
+      setBlogs((prevBlogs) => prevBlogs.filter((blog) => blog.id !== blogId));
     } catch (error) {
-      console.error("Error deleting blog:", error);
-      notifyError("Error deleting blog");
+      // Log and notify error
+      console.error("Error deleting blog:", error.response?.data || error.message);
+      notifyError(
+        error.response?.data?.message || "Failed to delete blog. Please try again."
+      );
     }
   };
+  
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -120,23 +142,15 @@ function BlogListSide() {
           <Table sx={{ minWidth: 1100 }}>
             <TableHead>
               <TableRow>
-                <TableCell padding="checkbox">#</TableCell>
+                <TableCell>Image</TableCell>
                 <TableCell>Title</TableCell>
                 <TableCell>Category</TableCell>
-                <TableCell>Author</TableCell>
-                <TableCell>Image</TableCell>
                 <TableCell>Action</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {blogRow.map((blog, index) => (
                 <TableRow key={blog.id}>
-                  <TableCell padding="checkbox">{index + 1}</TableCell>
-                  <TableCell>{blog.title}</TableCell>
-                  <TableCell>{blog.category}</TableCell>
-                  <TableCell>
-                    {blog.author?.companyName} - {blog.author?.contactPerson}
-                  </TableCell>
                   <TableCell>
                     <img
                       src={blog.blogImg}
@@ -144,16 +158,22 @@ function BlogListSide() {
                       style={{ width: "100px", borderRadius: "8px" }}
                     />
                   </TableCell>
+                  <TableCell>{blog.title}</TableCell>
+                  <TableCell>{blog.category}</TableCell>
+                  
                   <TableCell>
-                    <Button variant="contained" color="primary" onClick={() => navigate(`/edit-blog/${blog.id}`)}>
-                      Edit
-                    </Button>
-                    <Button variant="contained" color="error" onClick={() => handleDelete(blog.id)}>
-                      Delete
-                    </Button>
-                    <Button variant="contained" color="info" onClick={() => handleOpen(blog.id)}>
-                      View
-                    </Button>
+                    <div className="row">
+
+                      <button className="col-3" variant="contained" color="primary" onClick={() => navigate(`/edit-blog/${blog.id}`)}>
+                      <MdOutlineEdit />
+                      </button>
+                      <button className="col-3"  variant="contained" color="error" onClick={() => handleDelete(blog.id)}>
+                      <RiDeleteBinLine />
+                      </button>
+                      <button className="col-3"  variant="contained" color="info" onClick={() => handleOpen(blog.id)}>
+                        <MdOutlineRemoveRedEye />
+                      </button>
+                    </div>
                   </TableCell>
                 </TableRow>
               ))}

@@ -1490,3 +1490,6 @@ button.Toastify__close-button.Toastify__close-button--light {
   margin: 10px 0;
 }
 
+.swal2-container {
+  z-index: 2000 !important; /* Increase z-index value */
+}

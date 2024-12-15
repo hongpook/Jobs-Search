@@ -41,7 +41,7 @@ const BlogByCategory = ({ category }) => {
         <p>No blogs found for the selected category</p>
       ) : (
         <div className="container">
-          <div className="row">
+          <div className="row mb-3">
             <div className="col-8">
               {blogs.map((blog) => (
                 <Link to={`/blog-detail/${blog.id}`}>

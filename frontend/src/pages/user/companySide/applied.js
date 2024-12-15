@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-
+import Swal from "sweetalert2";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
@@ -156,18 +156,25 @@ const EmployeeDetail = ({ id }) => {
   }, []);
 
   const handleDelete = async (applicationId) => {
-    const confirmed = window.confirm(
-      "Are you sure you want to delete this application?"
-    );
-    if (!confirmed) return;
-
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to delete this application?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    });
+  
+    if (!result.isConfirmed) return;
+  
     try {
       const response = await axios.delete(
         `http://localhost:5000/api/v1/application/${applicationId}`
       );
       notifySuccess("Deleted successfully!");
       console.log("Response:", response.data);
-
+  
       // Remove the application from the current list
       setJobs((prevJobs) =>
         prevJobs.map((job) => ({
