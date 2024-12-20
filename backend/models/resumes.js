@@ -65,7 +65,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TEXT,
       allowNull: true
     },
-    candinateId: {
+    candidateId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {

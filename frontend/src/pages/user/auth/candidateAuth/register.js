@@ -4,8 +4,11 @@ import axios from 'axios';
 import { notifySuccess, notifyError } from '../../../../utils/toastNotification/toastNotification';
 import { FcGoogle } from 'react-icons/fc'; 
 import { FaFacebook } from 'react-icons/fa';
+import {useNavigate } from "react-router-dom";
+
 
 const RegisterForm = () => {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         fullName: '',
         email: '',
@@ -28,6 +31,7 @@ const RegisterForm = () => {
         try {
             const response = await axios.post('http://localhost:5000/api/auth/sign-up-candidate', formData);
             notifySuccess(response.data.message || "Register account successfully!");
+            navigate('/login')
         } catch (error) {
             notifyError(error.response?.data.message || "Error occurred during registration");
         }

@@ -5,12 +5,12 @@ Known Template
 https://templatemo.com/tm-516-known
 
 */
-
-  @import url('https://fonts.googleapis.com/css?family=Muli:300,700|Nunito');
+  @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+  /* @import url('https://fonts.googleapis.com/css?family=Muli:300,700|Nunito'); */
 
   body {
     background: #ffffff;
-    font-family: 'Nunito', sans-serif;
+    font-family: 'Roboto', sans-serif;
     overflow-x: hidden;
     /* padding-top: 70px; */
   }
@@ -21,7 +21,7 @@ https://templatemo.com/tm-516-known
   -----------------------------------------*/
 
   h1,h2,h3,h4,h5,h6 {
-    font-family: 'Muli', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-weight: bold;
     line-height: inherit;
   }
@@ -1089,7 +1089,7 @@ ul li{
 
   footer {
     background: #252020;
-    padding: 120px 0;
+    padding: 40px 0;
   }
 
   footer .section-title {
@@ -1343,7 +1343,7 @@ ul li{
     }
   }
   
-  .lead { font-family: "Muli"; font-weight: 300; line-height: 1.8; }
+  .lead { font-family: "Roboto"; font-weight: 300; line-height: 1.8; }
 
   .team-thumb-actions { padding: 10px; border-top: 1px solid rgba(0,0,0,.05); }
 
@@ -1492,4 +1492,8 @@ button.Toastify__close-button.Toastify__close-button--light {
 
 .swal2-container {
   z-index: 2000 !important; /* Increase z-index value */
+}
+
+.cv-title{
+  color: #00BFFF;
 }

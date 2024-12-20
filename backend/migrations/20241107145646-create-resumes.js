@@ -45,7 +45,7 @@ module.exports = {
       interests: {
         type: Sequelize.TEXT,
       },
-      candinateId: {
+      candidateId: {
         type: Sequelize.INTEGER
       },
       createdAt: {

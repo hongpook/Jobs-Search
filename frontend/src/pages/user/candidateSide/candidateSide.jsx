@@ -6,6 +6,8 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import CandidateProfile from './candidateProfile';
 import CandidateApplications from './appliedList';
+import ResumePages from '../resume/resumePages';
+import CandidateResumes from '../resume/test';
 
 
 function CandidateSide(props) {  // Đổi tên từ CompanySide thành TabPanel
@@ -78,7 +80,8 @@ export default function VerticalTabs() {
             <CandidateApplications/>
         </CandidateSide>
         <CandidateSide style={{width: '1130px'}} value={value} index={2}>
-            
+            {/* <ResumePages/> */}
+            <CandidateResumes/>
         </CandidateSide>
         
         </Box>

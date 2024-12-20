@@ -23,28 +23,25 @@ import UpdateEmployeeForm from "./components/updateCompany";
 import JobDetail from "./pages/user/job/jobDetail";
 import CompanySide from "./pages/user/companySide/companySide";
 import CandidateSide from "./pages/user/candidateSide/candidateSide";
-import CvForm from "./pages/user/cv/resumeForm";
 
 import CompanyList from "./pages/user/company/CompanyList";
 import CandidateList from "./pages/user/candidate/candidateList";
 import CandidateDetail from "./pages/user/candidate/candidateDetail";
 import CompanyDetail from "./pages/user/company/companyDetail";
 
-import CompanyJobs from "./pages/user/resume/resume";
 import LoginSide from "./pages/user/auth/loginSide";
-import CandidatePro from "./pages/user/auth/loginForm";
 import JobListMark from "./pages/user/job/jobMark";
-import ChinhSua from "./pages/user/companySide/updateJob";
 import RegisterSide from "./pages/user/auth/registerSide";
-import Resume from "./pages/user/resume/resume";
-import CreateResume from "./pages/user/resume/createResume";
 import CreateBlog from "./pages/user/blog/createBlog";
 import UpdateBlog from "./pages/user/blog/updateBlog";
 import BlogDetails from "./pages/user/blog/blogDetail";
 import SolutionBlog from "./pages/user/blog/solutionBlog";
 import JobTipBlog from "./pages/user/blog/jobTipBlog";
-import BlogByCategory from "./pages/user/blog/blogList";
 import AllBlogs from "./pages/user/blog/allBlog";
+import ResumeCreationForm from "./pages/user/resume/ResumeForm";
+import ResumeList from "./pages/user/resume/resumeList";
+import ResumeDetail from "./pages/user/resume/ResumePreview";
+import ResumeCV from "./pages/user/resume/resumePrieview";
 
 const App = () => {
   return (
@@ -55,50 +52,59 @@ const App = () => {
           <Routes>
             <Route path="/" element={<HomePage />} />
 
+        {/* blog */}
+            <Route path="/all-blogs" element={<AllBlogs />} />
+            <Route path="/blog-detail/:id" element={<BlogDetails />} />
+        {/* candidateList    */}
+            <Route path="/candidate-list" element={<CandidateList />} />
+            <Route path="/candidate/:id" element={<CandidateDetail />} />
 
+        {/* auth */}
+            <Route path="/login" element={<LoginSide />} />
+            <Route path="/sign-up" element={<RegisterSide />} />
+            
+        {/* category blog */}
+            <Route path="/recruitment-solutions" element={<SolutionBlog />} />
+            <Route path="/job-tips" element={<JobTipBlog />} />
+
+
+  {/* candidate */}
+            {/* job */}
             <Route path="/jobList" element={<JobListPage />} />
             <Route path="/job-details/:id" element={<JobDetail />} />
+        {/* company */}
+            <Route path="/company-list" element={<CompanyList />} />
+            <Route path="/company/:id" element={<CompanyDetail />} />
+            
+        {/* resume */}
+            <Route path="/create-resume" element={<ResumeCreationForm />} />
+            <Route path="/resume-list" element={<ResumeList />} />
+            <Route path="/resume-list/:id" element={<ResumeDetail />} />
+            <Route path="/cv" element={<ResumeCV />} />
+        {/* candidateSide */}
+            <Route path="/candidateSide" element={<CandidateSide />} />
+            <Route path="/jobmark" element={<JobListMark />} />
+
+
+      {/* employeeSide */}
+            <Route path="/companySide" element={<CompanySide />} />
+            <Route path="/edit-blog/:id" element={<UpdateBlog />} />
+
+
+
+
             <Route path="/create" element={<CandidateForm />} />
             <Route path="/create/:id" element={<UpdateCandidate />} />
             <Route path="/createJob" element={<CreateJob />} />
             <Route path="/createJob/:id" element={<EditJob />} />
             <Route path="/createCompany" element={<AddEmployeeForm />} />
             <Route path="/createCompany/:id" element={<UpdateEmployeeForm />} />
-            <Route path="/createResume" element={<CvForm />} />
-            <Route path="/company-list" element={<CompanyList />} />
-            <Route path="/company/:id" element={<CompanyDetail />} />
-            <Route path="/candidate-list" element={<CandidateList />} />
-            <Route path="/candidate/:id" element={<CandidateDetail />} />
-            <Route path="/companyJob" element={<CompanyJobs />} />
-            <Route path="/jobmark" element={<JobListMark />} />
-            <Route path="/update/:id" element={<ChinhSua />} />
-
-
-
-            <Route path="/dangnhap" element={<CandidatePro />} />
-            <Route path="/login" element={<LoginSide />} />
-            <Route path="/sign-up" element={<RegisterSide />} />
-
-
-            <Route path="/recruitment-solutions" element={<SolutionBlog />} />
-            <Route path="/job-tips" element={<JobTipBlog />} />
-
-
             <Route path="/create-blog" element={<CreateBlog />} />
-            <Route path="/all-blogs" element={<AllBlogs />} />
-            <Route path="/edit-blog/:id" element={<UpdateBlog />} />
-            <Route path="/blog-detail/:id" element={<BlogDetails />} />
+            
 
 
-
-
-
-            <Route path="/resume" element={<Resume />} />
-            <Route path="/create-resume" element={<CreateResume />} />
-
-
-            <Route path="/companySide" element={<CompanySide />} />
-            <Route path="/candidateSide" element={<CandidateSide />} />
+            
+            
             {/* <Route path="*" element={<NoPage />} /> */}
           </Routes>
         </BrowserRouter>

@@ -6,7 +6,7 @@ const jobsController = require('../controllers/jobControler');
 const applicationController = require('../controllers/applicationController');
 const employeesController = require('../controllers/employeeController');
 const candidatesController = require('../controllers/candidateController');
-const ResumeController = require("../controllers/resumeController");
+const resumeController = require("../controllers/resumeController");
 const blogController = require('../controllers/blogController');
 
 router.post('/blogs', upload, blogController.createBlog);
@@ -15,11 +15,11 @@ router.get('/blog/:id', blogController.getBlogById);
 router.put('/blog/:id', upload, blogController.updateBlog);
 router.delete('/blog/:id', blogController.deleteBlog);
 
-router.get("/resumes", ResumeController.getAllResumes);
-router.get("/resume/:id", ResumeController.getResumeById);
-router.post("/resumes", ResumeController.createResume);
-router.put("/resume/:id", ResumeController.updateResume);
-router.delete("/resume/:id", ResumeController.deleteResume);
+router.get("/resume", resumeController.getAllResumes);
+router.get("/resume/:id", resumeController.getResumeById);
+router.post("/resume", resumeController.createResume);
+router.put("/resume/:id", resumeController.updateResume);
+router.delete("/resume/:id", resumeController.deleteResume);
 
 
 router.post('/candidates', upload, candidatesController.create);

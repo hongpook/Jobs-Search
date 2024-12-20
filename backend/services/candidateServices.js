@@ -1,4 +1,4 @@
-const { Candidates, Applications } = require('../models/index'); 
+const { Candidates, Applications, Resumes } = require('../models/index'); 
 const cloudinary = require('../config/cloudinary');
 
 
@@ -32,7 +32,9 @@ class CandidatesService {
     async getAllCandidates() {
         try {
             const candidates = await Candidates.findAll({
-                include: [{ model: Applications, as: 'applications' }] 
+                include: [{ model: Applications, as: 'applications'},
+                    {model: Resumes, as: 'resumes'}
+                ] 
             });
             return candidates;
         } catch (error) {
@@ -43,7 +45,9 @@ class CandidatesService {
     async getCandidateById(id) {
         try {
             const candidate = await Candidates.findByPk(id, {
-                include: [{ model: Applications, as: 'applications' }] 
+                include: [{ model: Applications, as: 'applications' },
+                    {model: Resumes, as: 'resumes'}
+                ] 
             });
             if (!candidate) {
                 throw new Error('Candidate not found');

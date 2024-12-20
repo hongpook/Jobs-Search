@@ -4,8 +4,11 @@ import axios from 'axios';
 import { notifySuccess, notifyError } from '../../../../utils/toastNotification/toastNotification';
 import { FcGoogle } from 'react-icons/fc'; 
 import { FaFacebook } from 'react-icons/fa';
+import {useNavigate } from "react-router-dom";
+
 
 const RegisterCompany = () => {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         companyName: '',
         email: '',
@@ -29,6 +32,7 @@ const RegisterCompany = () => {
         try {
             const response = await axios.post('http://localhost:5000/api/auth/sign-up-employee', formData);
             notifySuccess(response.data.message || 'Registration successful!');
+            navigate('/login')
         } catch (error) {
             notifyError(error.response?.data.message || 'An error occurred during registration');
         }

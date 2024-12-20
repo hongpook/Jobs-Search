@@ -6,7 +6,6 @@ const Resume = () => {
     <div id="cv">
       {/* Header Section */}
       <div className="header">
-        <img src="https://via.placeholder.com/120" alt="Profile" />
         <h1>John Doe</h1>
         <h2>Full Stack Developer</h2>
         <p>
@@ -104,6 +103,7 @@ const Resume = () => {
 
       {/* Interests */}
       <div className="section">
+        
         <div className="section-title">Interests</div>
         <div className="content">
           <p>Reading, Open-source contributions, Traveling, Photography</p>
