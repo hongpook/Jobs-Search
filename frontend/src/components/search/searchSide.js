@@ -1,9 +1,11 @@
-import "./searchSide.css";
 import React, { useState } from "react";
 import { Menu, MenuItem, Button, Typography, Divider } from "@mui/material";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { useTranslation } from "react-i18next";  // Import useTranslation
+import './searchSide.css';
 
 const SearchSide = ({ onSearch }) => {
+  const { t } = useTranslation();  // Khởi tạo hook để lấy bản dịch
   const [anchorEl, setAnchorEl] = useState(null);
   const [keyword, setKeyword] = useState("");
   const [location, setLocation] = useState("");
@@ -18,9 +20,9 @@ const SearchSide = ({ onSearch }) => {
   };
 
   const handleSearch = async (e) => {
-    e.preventDefault(); // Ngăn form reload
-    console.log("Form submitted"); // Debug
-    console.log("Keyword:", keyword, "Location:", location, "Job Type:", jobType);
+    e.preventDefault(); 
+    // console.log("Form submitted");
+    // console.log("Keyword:", keyword, "Location:", location, "Job Type:", jobType);
 
     // Cấu hình query params
     const searchParams = new URLSearchParams();
@@ -33,12 +35,12 @@ const SearchSide = ({ onSearch }) => {
       const response = await fetch(`http://localhost:5000/api/v1/filter-job?${searchParams.toString()}`, {
         method: 'GET',
       });
-      
+
       // Xử lý kết quả
       if (response.ok) {
         const data = await response.json();
         console.log("Search Results:", data);
-        
+
         // Truyền kết quả tìm kiếm lên cha (onSearch)
         if (onSearch) {
           onSearch(data);  // Truyền kết quả tìm kiếm cho component cha
@@ -62,7 +64,7 @@ const SearchSide = ({ onSearch }) => {
                 onClick={handleClick}
                 className="section-btn btn btn-primary btn-block"
               >
-                <GiHamburgerMenu /> &nbsp; Job categories
+                <GiHamburgerMenu /> &nbsp; {t('search.jobCategories')}  {/* Sử dụng bản dịch */}
               </Button>
               <Menu
                 anchorEl={anchorEl}
@@ -71,33 +73,29 @@ const SearchSide = ({ onSearch }) => {
               >
                 <MenuItem>
                   <div style={{ padding: "10px", width: "fit-content" }}>
-                    <Typography variant="h6">Thông tin chi tiết</Typography>
+                    <Typography variant="h6">{t('search.jobCategories')}</Typography>
                     <Typography variant="body1">
-                      Đây là nội dung chính của dropdown. Bạn có thể thêm nhiều
-                      thông tin ở đây, như là các mô tả, thông tin hướng dẫn,
-                      hoặc bất cứ nội dung nào cần thiết.
+                      {t('search.keywordPlaceholder')}
                     </Typography>
                     <Divider style={{ margin: "10px 0" }} />
 
                     <Typography variant="subtitle1">
-                      Thông tin bổ sung
+                      {t('search.jobTypeSelect')}
                     </Typography>
                     <Typography variant="body2">
-                      Thêm một vài đoạn văn bản nhỏ hơn để miêu tả chi tiết hoặc
-                      thông tin liên quan khác.
+                      {t('search.fullTime')}, {t('search.partTime')}, {t('search.internship')}, {t('search.freelancer')}
                     </Typography>
 
                     <ul>
-                      <li>Mục 1: Nội dung chi tiết</li>
-                      <li>Mục 2: Một vài thông tin khác</li>
-                      <li>Mục 3: Thông tin bổ sung</li>
+                      <li>{t('search.locationHCM')}</li>
+                      <li>{t('search.locationHN')}</li>
+                      <li>{t('search.locationDN')}</li>
                     </ul>
 
                     <Divider style={{ margin: "10px 0" }} />
 
                     <Typography variant="body2" color="textSecondary">
-                      Chú thích: Bạn có thể tùy chỉnh nội dung này để phù hợp
-                      với yêu cầu của ứng dụng.
+                      {t('search.searchButton')}
                     </Typography>
                   </div>
                 </MenuItem>
@@ -111,7 +109,7 @@ const SearchSide = ({ onSearch }) => {
                 <input
                   type="search"
                   className="col-9 me-2"
-                  placeholder="Recruitment position, company name..."
+                  placeholder={t('search.keywordPlaceholder')}
                   value={keyword}
                   onChange={(e) => setKeyword(e.target.value)}
                 />
@@ -122,10 +120,10 @@ const SearchSide = ({ onSearch }) => {
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
                 >
-                  <option value="">Select location</option>
-                  <option value="Hồ Chí Minh">Hồ Chí Minh</option>
-                  <option value="Hà Nội">Hà Nội</option>
-                  <option value="Đà Nẵng">Đà Nẵng</option>
+                  <option value="">{t('search.selectLocation')}</option>
+                  <option value="Hồ Chí Minh">{t('search.locationHCM')}</option>
+                  <option value="Hà Nội">{t('search.locationHN')}</option>
+                  <option value="Đà Nẵng">{t('search.locationDN')}</option>
                 </select>
 
                 {/* Job Type Select */}
@@ -134,11 +132,11 @@ const SearchSide = ({ onSearch }) => {
                   value={jobType}
                   onChange={(e) => setJobType(e.target.value)}
                 >
-                  <option value="">Select job type</option>
-                  <option value="Full-time">Full time</option>
-                  <option value="Part-time">Part time</option>
-                  <option value="Internship">Internship</option>
-                  <option value="Freelancer">Freelancer</option>
+                  <option value="">{t('search.selectJobType')}</option>
+                  <option value="Full-time">{t('search.fullTime')}</option>
+                  <option value="Part-time">{t('search.partTime')}</option>
+                  <option value="Internship">{t('search.internship')}</option>
+                  <option value="Freelancer">{t('search.freelancer')}</option>
                 </select>
               </div>
 
@@ -147,7 +145,7 @@ const SearchSide = ({ onSearch }) => {
                 type="submit"
                 className="col-2 section-btn btn btn-primary btn-block me-2 p-2"
               >
-                Search
+                {t('search.search')}
               </button>
             </form>
           </div>

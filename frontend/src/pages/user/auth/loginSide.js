@@ -5,6 +5,7 @@ import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import LoginCompany from './companyauth/loginCompany';
 import LoginForm from './candidateAuth/login';
+import { useTranslation } from "react-i18next"; 
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -38,6 +39,7 @@ function a11yProps(index) {
 
 export default function LoginSide() {
   const [value, setValue] = React.useState(0);
+  const { t } = useTranslation(); 
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -49,8 +51,8 @@ export default function LoginSide() {
       <Box sx={{ width: '100%'}}>
         <Box >
           <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-            <Tab label="Login for recruiter" {...a11yProps(0)} />
-            <Tab label="Login for candidate" {...a11yProps(1)} />
+            <Tab label={t('loginCompany.login_title')} {...a11yProps(0)} />
+            <Tab label={t('loginCandidate.title')} {...a11yProps(1)} />
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>

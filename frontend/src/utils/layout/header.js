@@ -9,10 +9,12 @@ import logo from "../../assets/images/logoJob.png";
 import React, { useEffect, useState } from "react";
 import { FaRegBookmark } from "react-icons/fa";
 import jwtDecode from "jwt-decode";
+import LanguageSwitcher from "../../components/LanguageSwitcher";
+import { useTranslation } from "react-i18next"; 
 
 const HeaderSide = () => {
   const [userInfo, setUserInfo] = useState(null); 
-
+const { t } = useTranslation(); 
   const getUserInfoFromToken = () => {
     const token = window.localStorage.getItem("accessToken");
     if (token) {
@@ -36,9 +38,10 @@ const HeaderSide = () => {
   return (
     <>
       {/* <!-- MENU --> */}
-      <section class="navbar custom-navbar navbar-fixed-top" role="navigation">
-        <div class="container p-3">
-          <Navbar bg="light" expand="lg" fixed="top">
+      <section class="navbar custom-navbar"  role="navigation" >
+        <LanguageSwitcher/>
+        <div class="container">
+          <Navbar bg="light" expand="lg">
             <Container>
               <Navbar.Brand href="/">
                 <img src={logo} style={{ width: "40%" }} />
@@ -46,17 +49,17 @@ const HeaderSide = () => {
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="me-auto">
-                  <Nav.Link href="/">Home</Nav.Link>
-                  <Nav.Link href="/jobList">Jobs</Nav.Link>
-                  <Nav.Link href="/company-list">Companies</Nav.Link>
-                  <Nav.Link href="/candidate-list">Candidates</Nav.Link>
-                  <Nav.Link href="/all-blogs">Blogs</Nav.Link>
+                  <Nav.Link href="/">{t('header.home')}</Nav.Link>
+                  <Nav.Link href="/jobList">{t('header.job')}</Nav.Link>
+                  <Nav.Link href="/company-list">{t('header.company')}</Nav.Link>
+                  <Nav.Link href="/candidate-list">{t('header.candidate')}</Nav.Link>
+                  <Nav.Link href="/all-blogs">{t('header.blog')}</Nav.Link>
 
-                  <NavDropdown title="Tools" id="basic-nav-dropdown">
+                  <NavDropdown title={t('header.tool')} id="basic-nav-dropdown">
                     {userInfo?.roleId === 3 ? (
                       <NavDropdown.Item href="/create-resume">
                         <IoCreateOutline />
-                        &nbsp;&nbsp; Create Resume
+                        &nbsp;&nbsp; {t('createResume')}
                       </NavDropdown.Item>
                     ) : (
                       <></>
@@ -64,11 +67,11 @@ const HeaderSide = () => {
                     {/* <NavDropdown.Item href="/create-resume"><IoCreateOutline />&nbsp;&nbsp; Create Resume</NavDropdown.Item> */}
                     <NavDropdown.Item href="/job-tips">
                       <RiMenuSearchLine />
-                      &nbsp;&nbsp; Job search tips
+                      &nbsp;&nbsp; {t('header.jobSearchTip')}
                     </NavDropdown.Item>
                     <NavDropdown.Item href="/recruitment-solutions">
                       <PiBagSimple />
-                      &nbsp;&nbsp; Recruitment solutions
+                      &nbsp;&nbsp; {t('header.solution')}
                     </NavDropdown.Item>
                   </NavDropdown>
                   {/* <Nav.Link href="contact.html">Contact Us</Nav.Link> */}
@@ -83,20 +86,20 @@ const HeaderSide = () => {
                     >
                       {userInfo.roleId === 2 ? (
                         <NavDropdown.Item href="/companySide">
-                          <FaUser /> &nbsp;&nbsp; Your profile
+                          <FaUser /> &nbsp;&nbsp; {t('profile')}
                         </NavDropdown.Item>
                       ) : userInfo.roleId === 1 ? (
                         <NavDropdown.Item href="/adminSide">
-                          <FaUser /> &nbsp;&nbsp; Admin side
+                          <FaUser /> &nbsp;&nbsp; {t('adminSide')}
                         </NavDropdown.Item>
                       ) : (
                         <NavDropdown.Item href="/candidateSide">
-                          <FaUser /> &nbsp;&nbsp; Your profile
+                          <FaUser /> &nbsp;&nbsp; {t('profile')}
                         </NavDropdown.Item>
                       )}
                       <NavDropdown.Item>
                         <a onClick={handleSignOut}>
-                          <IoIosLogOut /> &nbsp;&nbsp; Log out
+                          <IoIosLogOut /> &nbsp;&nbsp; {t('logOut')}
                         </a>
                       </NavDropdown.Item>
                     </NavDropdown>
@@ -115,14 +118,14 @@ const HeaderSide = () => {
                       style={{ padding: 0 }}
                       href="/login"
                     >
-                      Login
+                      {t('header.login')}
                     </Nav.Link>
                     <Nav.Link
                       className="section-btn btn btn-primary btn-block px-4"
                       style={{ padding: 0 }}
                       href="/sign-up"
                     >
-                      Register
+                      {t('header.register')}
                     </Nav.Link>
                   </Nav>
                 )}

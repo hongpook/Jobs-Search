@@ -1,13 +1,13 @@
-// frontend/src/components/RegisterForm.js
 import React, { useState } from 'react';
 import axios from 'axios';
 import { notifySuccess, notifyError } from '../../../../utils/toastNotification/toastNotification';
-import { FcGoogle } from 'react-icons/fc'; 
+import { FcGoogle } from 'react-icons/fc';
 import { FaFacebook } from 'react-icons/fa';
-import {useNavigate } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 
 const RegisterForm = () => {
+    const { t } = useTranslation(); // Sử dụng hook dịch
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         fullName: '',
@@ -30,18 +30,19 @@ const RegisterForm = () => {
         e.preventDefault();
         try {
             const response = await axios.post('http://localhost:5000/api/auth/sign-up-candidate', formData);
-            notifySuccess(response.data.message || "Register account successfully!");
-            navigate('/login')
+            notifySuccess(response.data.message || t("registerCandidate.registering"));
+            navigate('/login');
         } catch (error) {
-            notifyError(error.response?.data.message || "Error occurred during registration");
+            notifyError(error.response?.data.message || t("Error occurred during registration"));
         }
     };
+
     const handleGoogleLogin = () => {
-        notifySuccess("Google login not implemented yet!");
+        notifySuccess(t("registerCandidate.googleButton") + " " + t("not implemented yet!"));
     };
 
     const handleFacebookLogin = () => {
-        notifySuccess("Facebook login not implemented yet!");
+        notifySuccess(t("registerCandidate.facebookButton") + " " + t("not implemented yet!"));
     };
 
     return (
@@ -49,10 +50,10 @@ const RegisterForm = () => {
             <div className="row justify-content-center">
                 <div className="col-md-6">
                     <form onSubmit={handleSubmit} className="p-4 border rounded shadow-sm bg-white">
-                    <h2 className="text-center mb-4">Register Account</h2>
+                        <h2 className="text-center mb-4">{t("registerCandidate.title")}</h2>
                         <div className="mb-3">
                             <label htmlFor="fullName" className="form-label">
-                                Full Name
+                                {t("registerCandidate.fullName")}
                             </label>
                             <input
                                 type="text"
@@ -61,12 +62,13 @@ const RegisterForm = () => {
                                 className="form-control"
                                 value={formData.fullName}
                                 onChange={handleChange}
+                                placeholder={t("registerCandidate.fullNamePlaceholder")}
                                 required
                             />
                         </div>
                         <div className="mb-3">
                             <label htmlFor="email" className="form-label">
-                                Email
+                                {t("registerCandidate.email")}
                             </label>
                             <input
                                 type="email"
@@ -75,12 +77,13 @@ const RegisterForm = () => {
                                 className="form-control"
                                 value={formData.email}
                                 onChange={handleChange}
+                                placeholder={t("registerCandidate.emailPlaceholder")}
                                 required
                             />
                         </div>
                         <div className="mb-3">
                             <label htmlFor="password" className="form-label">
-                                Password
+                                {t("registerCandidate.password")}
                             </label>
                             <input
                                 type="password"
@@ -89,10 +92,11 @@ const RegisterForm = () => {
                                 className="form-control"
                                 value={formData.password}
                                 onChange={handleChange}
+                                placeholder={t("registerCandidate.passwordPlaceholder")}
                                 required
                             />
                         </div>
-                        <div className="mb-3" style={{display: 'none'}}>
+                        <div className="mb-3" style={{ display: 'none' }}>
                             <label htmlFor="roleId" className="form-label">
                                 Role ID
                             </label>
@@ -107,30 +111,31 @@ const RegisterForm = () => {
                             />
                         </div>
                         <button type="submit" className="btn btn-primary w-100">
-                            Register
+                            {t("registerCandidate.registerButton")}
                         </button>
-                   
 
-                    {/* Divider */}
-                    <div className="text-center my-3">
-                        <span className="text-muted">or</span>
-                    </div>
+                        {/* Divider */}
+                        <div className="text-center my-3">
+                            <span className="text-muted">{t("registerCandidate.or")}</span>
+                        </div>
 
-                    {/* Third-party buttons */}
-                    <div className='d-flex'>
-                        <a
-                            onClick={handleGoogleLogin}
-                            className=" btn-outline-danger d-flex align-items-center justify-content-center col-6"
-                        >
-                            <FcGoogle size={20} />&nbsp; Sign up with Google
-                        </a>
-                        <a
-                            onClick={handleFacebookLogin}
-                            className=" btn-outline-primary d-flex align-items-center justify-content-center col-6"
-                        >
-                            <FaFacebook size={20} />&nbsp; Sign up with Facebook
-                        </a>
-                    </div>
+                        {/* Third-party buttons */}
+                        <div className='d-flex'>
+                            <button
+                                type="button"
+                                onClick={handleGoogleLogin}
+                                className="btn btn-outline-danger d-flex align-items-center justify-content-center col-6"
+                            >
+                                <FcGoogle size={20} /> &nbsp; {t("registerCandidate.googleButton")}
+                            </button>
+                            <button
+                                type="button"
+                                onClick={handleFacebookLogin}
+                                className="btn btn-outline-primary d-flex align-items-center justify-content-center col-6"
+                            >
+                                <FaFacebook size={20} /> &nbsp; {t("registerCandidate.facebookButton")}
+                            </button>
+                        </div>
                     </form>
                 </div>
             </div>

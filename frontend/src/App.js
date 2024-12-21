@@ -42,11 +42,17 @@ import ResumeCreationForm from "./pages/user/resume/ResumeForm";
 import ResumeList from "./pages/user/resume/resumeList";
 import ResumeDetail from "./pages/user/resume/ResumePreview";
 import ResumeCV from "./pages/user/resume/resumePrieview";
+import AA from "./components/aa";
+import { useTranslation } from 'react-i18next';
+import LanguageSwitcher from "./components/LanguageSwitcher";
 
 const App = () => {
+
+  const { t } = useTranslation();
   return (
     <div className="App">
-      <HeaderSide />
+      {/* <LanguageSwitcher /> */}
+      <HeaderSide style={{position: 'fixed', 'z-index': 100, right: 0, left: 0}} />
       <div className="">
         <BrowserRouter>
           <Routes>
@@ -100,7 +106,9 @@ const App = () => {
             <Route path="/createCompany" element={<AddEmployeeForm />} />
             <Route path="/createCompany/:id" element={<UpdateEmployeeForm />} />
             <Route path="/create-blog" element={<CreateBlog />} />
+
             
+
 
 
             

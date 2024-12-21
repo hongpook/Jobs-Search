@@ -1,251 +1,106 @@
+import React from "react";
+import { useTranslation } from 'react-i18next';
 import product from "../../../assets/images/product-2-720x480.jpg";
 import contact from "../../../assets/images/contact-1-600x400.jpg";
 import SearchSide from "../../../components/search/searchSide";
 import SwiperJob from "../../../components/swiper";
 import EmployeeList from "../../../components/companyInstro";
 
-
 const HomePage = () => {
+  const { t } = useTranslation(); // Hàm dịch t() được cung cấp từ i18next
+
   return (
     <>
-      
       <SearchSide />
       <main>
-
         <section>
-          <div class="container">
-            <div class="row">
-              <div class="col-md-12 col-sm-12">
-                <div class="section-title text-center">
+          <div className="container">
+            <div className="row">
+              <div className="col-md-12 col-sm-12">
+                <div className="section-title text-center">
                   <h2>
-                    Featured Jobs <small>Lorem ipsum dolor sit amet.</small>
+                    {t('home.featuredJobs')} <small>{t('home.testimonial')}</small>
                   </h2>
                 </div>
               </div>
 
-              <SwiperJob/>
-
+              <SwiperJob />
             </div>
           </div>
         </section>
 
-        {/* <section>
-          <div class="container">
-            <div class="row">
-              <div class="col-md-12 col-sm-12">
-                <div class="section-title text-center">
-                  <h2>
-                    Latest Blog posts <small>Lorem ipsum dolor sit amet.</small>
-                  </h2>
-                </div>
-              </div>
-
-              <div class="col-md-4 col-sm-4">
-                <div class="courses-thumb courses-thumb-secondary">
-                  <div class="courses-top">
-                    <div class="courses-image">
-                      <img
-                        src={product}
-                        class="img-responsive"
-                        alt=""
-                        style={{ width: "100%" }}
-                      />
-                    </div>
-                    <div class="courses-date">
-                      <span title="Author">
-                        <i class="fa fa-user"></i> John Doe
-                      </span>
-                      <span title="Date">
-                        <i class="fa fa-calendar"></i> 12/06/2020 10:30
-                      </span>
-                      <span title="Views">
-                        <i class="fa fa-eye"></i> 114
-                      </span>
-                    </div>
-                  </div>
-
-                  <div class="courses-detail">
-                    <h3>
-                      <a href="blog-post-details.html">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing
-                        elit.
-                      </a>
-                    </h3>
-                  </div>
-
-                  <div class="courses-info">
-                    <a
-                      href="blog-post-details.html"
-                      class="section-btn btn btn-primary btn-block"
-                    >
-                      Read More
-                    </a>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-md-4 col-sm-4">
-                <div class="courses-thumb courses-thumb-secondary">
-                  <div class="courses-top">
-                    <div class="courses-image">
-                      <img
-                        src={product}
-                        class="img-responsive"
-                        alt=""
-                        style={{ width: "100%" }}
-                      />
-                    </div>
-                    <div class="courses-date">
-                      <span title="Author">
-                        <i class="fa fa-user"></i> John Doe
-                      </span>
-                      <span title="Date">
-                        <i class="fa fa-calendar"></i> 12/06/2020 10:30
-                      </span>
-                      <span title="Views">
-                        <i class="fa fa-eye"></i> 114
-                      </span>
-                    </div>
-                  </div>
-
-                  <div class="courses-detail">
-                    <h3>
-                      <a href="blog-post-details.html">
-                        Tempora molestiae, iste, consequatur unde sint
-                        praesentium!
-                      </a>
-                    </h3>
-                  </div>
-
-                  <div class="courses-info">
-                    <a
-                      href="blog-post-details.html"
-                      class="section-btn btn btn-primary btn-block"
-                    >
-                      Read More
-                    </a>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-md-4 col-sm-4">
-                <div class="courses-thumb courses-thumb-secondary">
-                  <div class="courses-top">
-                    <div class="courses-image">
-                      <img
-                        src={product}
-                        class="img-responsive"
-                        alt=""
-                        style={{ width: "100%" }}
-                      />
-                    </div>
-                    <div class="courses-date">
-                      <span title="Author">
-                        <i class="fa fa-user"></i> John Doe
-                      </span>
-                      <span title="Date">
-                        <i class="fa fa-calendar"></i> 12/06/2020 10:30
-                      </span>
-                      <span title="Views">
-                        <i class="fa fa-eye"></i> 114
-                      </span>
-                    </div>
-                  </div>
-
-                  <div class="courses-detail">
-                    <h3>
-                      <a href="blog-post-details.html">
-                        A voluptas ratione, error provident distinctio, eaque id
-                        officia?
-                      </a>
-                    </h3>
-                  </div>
-
-                  <div class="courses-info">
-                    <a
-                      href="blog-post-details.html"
-                      class="section-btn btn btn-primary btn-block"
-                    >
-                      Read More
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section> */}
         <section id="testimonial">
-          <div class="container">
-            <div class="row">
-              <div class="col-md-12 col-sm-12">
-                <div class="section-title text-center">
+          <div className="container">
+            <div className="row">
+              <div className="col-md-12 col-sm-12">
+                <div className="section-title text-center">
                   <h2>
-                    Testimonials <small>from around the world</small>
+                    {t('home.testimonial')} <small>{t('home.testimonialFrom')}</small>
                   </h2>
                 </div>
 
-                <div class="owl-carousel owl-theme owl-client">
-                  <EmployeeList/>
+                <div className="owl-carousel owl-theme owl-client">
+                  <EmployeeList />
                 </div>
               </div>
             </div>
           </div>
         </section>
       </main>
+
       <section id="contact">
-        <div class="container">
-          <div class="row">
-            <div class="col-md-6 col-sm-12">
+        <div className="container">
+          <div className="row">
+            <div className="col-md-6 col-sm-12">
               <form id="contact-form" role="form" action="" method="post">
-                <div class="section-title">
+                <div className="section-title">
                   <h2>
-                    Contact us{" "}
-                    <small>we love conversations. let us talk!</small>
+                    {t('home.contactUs')} <small>{t('home.companyContactText')}</small>
                   </h2>
                 </div>
 
-                <div class="col-md-12 col-sm-12">
+                <div className="col-md-12 col-sm-12">
                   <input
                     type="text"
-                    class="form-control"
-                    placeholder="Enter full name"
+                    className="form-control"
+                    placeholder={t('home.enterFullName')}
                     name="name"
                     required
                   />
 
                   <input
                     type="email"
-                    class="form-control"
-                    placeholder="Enter email address"
+                    className="form-control"
+                    placeholder={t('home.enterEmail')}
                     name="email"
                     required
                   />
 
                   <textarea
-                    class="form-control"
+                    className="form-control"
                     rows="6"
-                    placeholder="Tell us about your message"
+                    placeholder={t('home.tellUsMessage')}
                     name="message"
                     required
                   />
                 </div>
 
-                <div class="col-md-4 col-sm-12">
+                <div className="col-md-4 col-sm-12">
                   <input
                     type="submit"
-                    class="form-control"
+                    className="form-control"
                     name="send message"
-                    value="Send Message"
+                    value={t('home.sendMessage')}
                   />
                 </div>
               </form>
             </div>
 
-            <div class="col-md-6 col-sm-12">
-              <div class="contact-image">
+            <div className="col-md-6 col-sm-12">
+              <div className="contact-image">
                 <img
                   src={contact}
-                  class="img-responsive"
+                  className="img-responsive"
                   alt="Smiling Two Girls"
                 />
               </div>
