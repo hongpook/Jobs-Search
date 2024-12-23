@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Container, Card, CardContent, Typography, Box, Avatar, Rating, Button, Grid } from '@mui/material';
+import { useTranslation } from 'react-i18next'; // Import i18n hook
 import PdfViewer from './PdfViewer';
 import BreadCrumbDetail from '../../../components/breadCrumbDetail';
 
 const CandidateDetail = () => {
+  const { t } = useTranslation(); // Hook to use translations
   const { id } = useParams(); // Lấy ID từ URL
   const [candidate, setCandidate] = useState(null);
   const [loading, setLoading] = useState(true);
   const history = useNavigate();
-
-  
 
   useEffect(() => {
     fetchCandidateDetail();
@@ -29,21 +29,17 @@ const CandidateDetail = () => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div>{t('candidateDetail.loading')}</div>;
   }
 
   if (!candidate) {
-    return <div>Candidate not found</div>;
+    return <div>{t('candidateDetail.candidateNotFound')}</div>;
   }
 
   return (
     <section>
-      <BreadCrumbDetail title={"Candidate detail"} link={"candidate-list"} page={"Candidate list"}/>
+      <BreadCrumbDetail title={candidate.fullName} link="candidate-list" page={t('candidateDetail.candidateListLink')} />
       <Container sx={{ py: 5 }}>
-        {/* <Button variant="outlined" onClick={() => history('/candidate-list')}>
-          Back to Candidates List
-        </Button> */}
-
         <Box sx={{ mt: 3 }}>
           <Grid container spacing={4}>
             <Grid item xs={12} md={4}>
@@ -76,44 +72,38 @@ const CandidateDetail = () => {
 
             <Grid item xs={12} md={8}>
               <Card sx={{ boxShadow: 3, borderRadius: 2 }}>
-                          <CardContent>
-                              <Typography variant="h6" component="div">
-                              About {candidate.fullName}
-                              </Typography>
-                              <Typography variant="body2" color="textSecondary" mt={2}>
-                              <strong>Birth date:</strong> {new Date(candidate.birthDate).toLocaleDateString()}
-                              </Typography>
-                              <Typography variant="body2" color="textSecondary" mt={1}>
-                              <strong>Skills:</strong> {candidate.skills}
-                              </Typography>
-                              <Typography variant="body2" color="textSecondary" mt={1}>
-                              <strong>Experience:</strong> {candidate.experience || 'No experience listed'}
-                              </Typography>
-                              <Typography variant="body2" color="textSecondary" mt={1}>
-                              <strong>Education:</strong> {candidate.education || 'No education listed'}
-                              </Typography>
-                              <Typography variant="body2" color="textSecondary" mt={1}>
-                              <strong>Location:</strong> {candidate.address || 'Location not specified'}
-                              </Typography>
-                              <Typography variant="body2" color="textSecondary" mt={1}>
-                              <strong>Contact:</strong> {candidate.phone || 'No contact info'}
-                              </Typography>
-                      <Typography variant="body2" color="textSecondary" mt={2}>
-                              <strong>Resume:</strong>
-                              </Typography>
-                          
-
-                          <img className='p-2' style={{width:'100%'}} src={candidate.cvFile}/>
-                          {/* <PdfViewer pdfUrl={candidate.cvFile}/> */}
-                          </CardContent>
-
-                          
+                <CardContent>
+                  <Typography variant="h6" component="div">
+                    {t('candidateDetail.aboutCandidate', { candidateName: candidate.fullName })}
+                  </Typography>
+                  <Typography variant="body2" color="textSecondary" mt={2}>
+                    <strong>{t('candidateDetail.birthDate')}:</strong> {new Date(candidate.birthDate).toLocaleDateString()}
+                  </Typography>
+                  <Typography variant="body2" color="textSecondary" mt={1}>
+                    <strong>{t('candidateDetail.skills')}:</strong> {candidate.skills}
+                  </Typography>
+                  <Typography variant="body2" color="textSecondary" mt={1}>
+                    <strong>{t('candidateDetail.experience')}:</strong> {candidate.experience || t('candidateDetail.noExperience')}
+                  </Typography>
+                  <Typography variant="body2" color="textSecondary" mt={1}>
+                    <strong>{t('candidateDetail.education')}:</strong> {candidate.education || t('candidateDetail.noEducation')}
+                  </Typography>
+                  <Typography variant="body2" color="textSecondary" mt={1}>
+                    <strong>{t('candidateDetail.location')}:</strong> {candidate.address || t('candidateDetail.noLocation')}
+                  </Typography>
+                  <Typography variant="body2" color="textSecondary" mt={1}>
+                    <strong>{t('candidateDetail.contact')}:</strong> {candidate.phone || t('candidateDetail.noContact')}
+                  </Typography>
+                  <Typography variant="body2" color="textSecondary" mt={2}>
+                    <strong>{t('candidateDetail.resume')}:</strong>
+                  </Typography>
+                  <img className='p-2' style={{ width: '100%' }} src={candidate.cvFile} alt="Resume" />
+                </CardContent>
               </Card>
             </Grid>
           </Grid>
         </Box>
       </Container>
-
     </section>
   );
 };

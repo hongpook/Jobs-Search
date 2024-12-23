@@ -21,7 +21,11 @@ import BreadCrumbDetail from "../../../components/breadCrumbDetail";
 
 import { useSelector, useDispatch } from "react-redux";
 import { addToMarkList } from "../../../redux/slice/jobItem";
-import { notifyError, notifySuccess } from "../../../utils/toastNotification/toastNotification";
+import {
+  notifyError,
+  notifySuccess,
+} from "../../../utils/toastNotification/toastNotification";
+import { useTranslation } from "react-i18next";
 
 const Fade = React.forwardRef(function Fade(props, ref) {
   const {
@@ -121,7 +125,8 @@ const styleJob = {
 };
 
 const JobDetail = () => {
-  const { id } = useParams(); // Lấy job ID từ URL
+  const { t } = useTranslation();
+  const { id } = useParams();
   const [job, setJob] = useState(null);
   const [employer, setEmployer] = useState(null);
 
@@ -132,9 +137,25 @@ const JobDetail = () => {
   const dispatch = useDispatch();
   const markList = useSelector((state) => state.markList.MarkArr);
 
+  const [userInfo, setUserInfo] = useState(null);
+    const getUserInfoFromToken = () => {
+      const token = window.localStorage.getItem("accessToken");
+      if (token) {
+        try {
+          const decodedToken = jwtDecode(token);
+          setUserInfo(decodedToken);
+        } catch (error) {
+          console.error("Invalid token", error);
+        }
+      }
+    };
+  
+    useEffect(() => {
+      getUserInfoFromToken();
+    }, []);
   const handleAddToMark = (job) => {
     dispatch(addToMarkList(job));
-    console.log("click");
+    // console.log("click");
   };
 
   const token = localStorage.getItem("accessToken");
@@ -168,7 +189,7 @@ const JobDetail = () => {
         formData
       );
       console.log("Response:", response.data);
-      notifySuccess("Application submitted successfully!");
+      notifySuccess(t("jobDetail.applicationSubmitted"));
     } catch (error) {
       // console.error("Error submitting application:", error);
       notifyError("Error submitting application");
@@ -198,9 +219,9 @@ const JobDetail = () => {
     <>
       <section>
         <BreadCrumbDetail
-          title={"Job detail"}
+          title={t("jobDetail.jobDetail")}
           link={"jobList"}
-          page={"Job list"}
+          page={t("jobList.jobList")}
         />
         <div class="container mt-4">
           <div class="row">
@@ -242,15 +263,15 @@ const JobDetail = () => {
           <br />
           <div class="panel panel-default">
             <div class="panel-heading">
-              <h4>Job Description </h4>
+              <h4> {t("jobDetail.jobDetail")}:</h4>
             </div>
             <div class="panel-body">
-              <h4>Responsibillitites:</h4>
+              <h4>{t("jobDetail.responsibilities")}:</h4>
               <div
                 dangerouslySetInnerHTML={{ __html: job.description }}
                 style={{ whiteSpace: "pre-wrap" }}
               ></div>
-              <h4>Requirements:</h4>
+              <h4>{t("jobDetail.requirements")}:</h4>
               <div
                 dangerouslySetInnerHTML={{ __html: job.requirements }}
                 style={{ whiteSpace: "pre-wrap" }}
@@ -259,7 +280,9 @@ const JobDetail = () => {
           </div>
           <div class="panel panel-default">
             <div class="panel-heading">
-              <h4>About {employer.companyName}</h4>
+              <h4>
+                {t("jobDetail.aboutCompany")}: {employer.companyName}
+              </h4>
             </div>
 
             <div class="panel-body">
@@ -282,7 +305,7 @@ const JobDetail = () => {
               <div class="row">
                 <div class="col-md-6">
                   <p>
-                    <span>Company name</span>
+                    <span>{t("jobDetail.companyName")}:</span>
 
                     <br />
 
@@ -296,7 +319,7 @@ const JobDetail = () => {
 
                 <div class="col-md-6">
                   <p>
-                    <span>Contact</span>
+                    <span>{t("jobDetail.contact")}:</span>
 
                     <br />
 
@@ -308,7 +331,7 @@ const JobDetail = () => {
               <div class="row">
                 <div class="col-md-6">
                   <p>
-                    <span>Phone</span>
+                    <span>{t("jobDetail.phone")}:</span>
 
                     <br />
 
@@ -320,7 +343,7 @@ const JobDetail = () => {
 
                 <div class="col-md-6">
                   <p>
-                    <span>Mobile phone</span>
+                    <span>{t("jobDetail.mobilePhone")}:</span>
 
                     <br />
 
@@ -334,7 +357,7 @@ const JobDetail = () => {
               <div class="row">
                 <div class="col-md-6">
                   <p>
-                    <span>Email</span>
+                    <span>{t("jobDetail.email")}:</span>
 
                     <br />
 
@@ -346,7 +369,7 @@ const JobDetail = () => {
 
                 <div class="col-md-6">
                   <p>
-                    <span>Website</span>
+                    <span>{t("jobDetail.website")}:</span>
 
                     <br />
 
@@ -358,7 +381,7 @@ const JobDetail = () => {
               </div>
 
               <p>
-                <span>City</span>
+                <span>{t("jobDetail.city")}:</span>
 
                 <br />
 
@@ -367,43 +390,48 @@ const JobDetail = () => {
             </div>
           </div>
 
-          <div
-            class=""
-            style={{ display: "flex", "justify-content": "space-between" }}
-          >
-            <div>
-              <a
-                class="section-btn btn btn-primary pull-left me-2"
-                onClick={handleOpen}
-              >
-                Apply for this job
-              </a>
-              <a
-                class="section-btn btn btn-primary pull-left"
-                onClick={() => handleAddToMark(job)}
-              >
-                <FaRegBookmark /> &nbsp; Mark job
-              </a>
-            </div>
+          {userInfo.roleId === 3 ? (
+            <div
+              class=""
+              style={{ display: "flex", "justify-content": "space-between" }}
+            >
+              <div>
+                <a
+                  class="section-btn btn btn-primary pull-left me-2"
+                  onClick={handleOpen}
+                >
+                  {t("jobDetail.applyForJob")}
+                </a>
+                <a
+                  class="section-btn btn btn-primary pull-left"
+                  onClick={() => handleAddToMark(job)}
+                >
+                  <FaRegBookmark /> &nbsp; {t("jobDetail.markJob")}
+                </a>
+              </div>
 
-            <ul class="social-icon pull-right">
-              <li className="p-1">
-                <a href="#" class="p-1">
-                  <RiFacebookCircleLine />
-                </a>
-              </li>
-              <li className="p-1">
-                <a href="#" class=" p-1">
-                  <FaRegEnvelope />
-                </a>
-              </li>
-              <li className="p-1">
-                <a href="#" class="p-1">
-                  <RiLinkedinBoxLine />
-                </a>
-              </li>
-            </ul>
-          </div>
+              <ul class="social-icon pull-right">
+                <li className="p-1">
+                  <a href="#" class="p-1">
+                    <RiFacebookCircleLine />
+                  </a>
+                </li>
+                <li className="p-1">
+                  <a href="#" class=" p-1">
+                    <FaRegEnvelope />
+                  </a>
+                </li>
+                <li className="p-1">
+                  <a href="#" class="p-1">
+                    <RiLinkedinBoxLine />
+                  </a>
+                </li>
+              </ul>
+            </div>
+          ) : (
+            <></>
+          )}
+
           <div>
             {/* <Button onClick={handleOpen}>Open modal</Button> */}
             <Modal
@@ -426,7 +454,7 @@ const JobDetail = () => {
                     variant="h6"
                     component="h2"
                   >
-                    Please give us your information here!
+                    {t("jobDetail.submitApplication")}
                   </Typography>
                   <form onSubmit={handleSubmit}>
                     <input
@@ -450,7 +478,7 @@ const JobDetail = () => {
                       type="text"
                       name="candidateName"
                       value={formData.candidateName}
-                      placeholder="Your full name"
+                      placeholder={t("jobDetail.fullName")}
                       onChange={handleChange}
                       required
                     />
@@ -458,7 +486,7 @@ const JobDetail = () => {
                       type="email"
                       name="candidateEmail"
                       value={formData.candidateEmail}
-                      placeholder="Your email"
+                      placeholder={t("jobDetail.yourEmail")}
                       onChange={handleChange}
                       required
                     />
@@ -466,29 +494,27 @@ const JobDetail = () => {
                       type="text"
                       name="candidatePhone"
                       value={formData.candidatePhone}
-                      placeholder="Your phone"
+                      placeholder={t("jobDetail.yourPhone")}
                       onChange={handleChange}
                       required
-
                     />
                     <textarea
                       name="candidateNote"
                       value={formData.candidateNote}
-                      placeholder="Your note"
+                      placeholder={t("jobDetail.yourNote")}
                       onChange={handleChange}
                     />
                     <button
                       type="submit"
                       class="section-btn btn btn-primary pull-left"
                     >
-                      Send
+                      {t("jobDetail.applyNow")}
                     </button>
                   </form>
                 </Box>
               </Fade>
             </Modal>
           </div>
-          {/* </div> */}
         </div>
       </section>
     </>

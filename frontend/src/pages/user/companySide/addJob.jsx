@@ -5,8 +5,10 @@ import 'react-quill/dist/quill.snow.css';
 import { notifySuccess, notifyError, notifyWarning } from '../../../utils/toastNotification/toastNotification';
 import { useNavigate } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
+import { useTranslation } from 'react-i18next';
 
 function AddNewJob() {
+  const { t } = useTranslation(); // Hook để sử dụng t từ i18n
   const token = localStorage.getItem('accessToken');
   const decodedToken = jwtDecode(token);
   const userId = decodedToken.id;
@@ -56,7 +58,7 @@ function AddNewJob() {
   };
 
   const cancel = () => {
-    notifyWarning('No thing!!!');
+    notifyWarning(t('createJobCompany.noAction'));
     navigate('/');
   };
 
@@ -82,60 +84,60 @@ function AddNewJob() {
           'Content-Type': 'multipart/form-data',
         },
       });
-      console.log('Job created successfully:', response.data);
-      notifySuccess('Job created successfully!');
+      // console.log('Job created successfully:', response.data);
+      notifySuccess(t('createJobCompany.jobCreatedSuccess'));
       navigate('/companySide');
     } catch (error) {
-      console.error('Error creating job:', error);
-      notifyError('Error creating job');
+      // console.error('Error creating job:', error);
+      notifyError(t('createJobCompany.jobCreatedError'));
     }
   };
 
   return (
     <div className="form-container">
-      <h2>Create Job</h2>
+      <h2>{t('createJobCompany.createJob')}</h2> 
       <form onSubmit={handleSubmit} className="row">
         <div className="form-group col-6">
-          <label>Title</label>
+          <label>{t('createJobCompany.title')}</label> 
           <input
             type="text"
             name="title"
             value={formData.title}
             onChange={handleChange}
-            placeholder="Enter job title"
+            placeholder={t('createJobCompany.titlePlaceholder')} 
             required
           />
         </div>
 
         <div className="form-group col-6">
-          <label>Salary Range</label>
+          <label>{t('createJobCompany.salaryRange')}</label> 
           <input
             type="text"
             name="salaryRange"
             value={formData.salaryRange}
             onChange={handleChange}
-            placeholder="Enter salary range"
+            placeholder={t('createJobCompany.salaryRangePlaceholder')} 
           />
         </div>
 
         <div className="form-group col-12">
-          <label>Location</label>
+          <label>{t('createJobCompany.location')}</label> 
           <input
             type="text"
             name="location"
             value={formData.location}
             onChange={handleChange}
-            placeholder="Enter job location"
+            placeholder={t('createJobCompany.locationPlaceholder')} 
             required
           />
         </div>
 
         <div className="form-group col-12">
-          <label>Description</label>
+          <label>{t('createJobCompany.description')}</label> 
           <ReactQuill
             value={formData.description}
             onChange={handleDescriptionChange}
-            placeholder="Enter job description"
+            placeholder={t('createJobCompany.descriptionPlaceholder')}
             theme="snow"
             modules={{
               toolbar: [
@@ -152,11 +154,11 @@ function AddNewJob() {
         </div>
 
         <div className="form-group col-12">
-          <label>Requirements</label>
+          <label>{t('createJobCompany.requirements')}</label> 
           <ReactQuill
             value={formData.requirements}
             onChange={handleRequirementsChange}
-            placeholder="Enter job requirements"
+            placeholder={t('createJobCompany.requirementsPlaceholder')} 
             theme="snow"
             modules={{
               toolbar: [
@@ -173,32 +175,32 @@ function AddNewJob() {
         </div>
 
         <div className="form-group col-6">
-          <label>Job Type</label>
+          <label>{t('createJobCompany.jobType')}</label> 
           <select
             name="jobType"
             value={formData.jobType}
             onChange={handleChange}
             style={{ width: '100%', padding: '15px 0', marginTop: '5px' }}
           >
-            <option value="Full-time">Full-time</option>
-            <option value="Part-time">Part-time</option>
-            <option value="Internship">Internship</option>
-            <option value="Freelance">Freelance</option>
+            <option value="Full-time">{t('createJobCompany.fullTime')}</option> 
+            <option value="Part-time">{t('createJobCompany.partTime')}</option> 
+            <option value="Internship">{t('createJobCompany.internship')}</option> 
+            <option value="Freelance">{t('createJobCompany.freelance')}</option> 
           </select>
         </div>
 
         <div className="form-group col-6">
-          <label>Job Image</label>
+          <label>{t('createJobCompany.jobImage')}</label> 
           <input type="file" name="imageUrl" onChange={handleFileChange} accept="image/*" />
         </div>
 
         <div className="form-group col-6">
           <div className="row p-3">
             <button type="submit" className="btn btn-success col-3 me-2">
-              Create Job
+              {t('createJobCompany.createJobButton')} 
             </button>
             <button type="button" className="btn btn-danger col-3" onClick={cancel}>
-              Cancel
+              {t('createJobCompany.cancelButton')} 
             </button>
           </div>
         </div>

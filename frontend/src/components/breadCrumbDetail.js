@@ -1,7 +1,9 @@
 import { AiOutlineRight } from "react-icons/ai";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const BreadCrumbDetail = ({title, link, page}) =>{
+    const { t } = useTranslation();
     return (
         <>
                 <div class="container" style={{}}>
@@ -10,7 +12,7 @@ const BreadCrumbDetail = ({title, link, page}) =>{
                             <div style={{    display: 'flex', 'flex-direction': 'column', 'align-items': 'flex-start'}}>
                                 <h4>{title}</h4>
                                 <div>
-                                    <Link to="/">Home</Link>
+                                    <Link to="/">{t('header.home')}</Link>
                                     <AiOutlineRight />
                                     <Link to={`/${link}`}>&nbsp;  {page}</Link>
                                     <AiOutlineRight />

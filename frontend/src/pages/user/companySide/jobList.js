@@ -18,11 +18,11 @@ import {
   Checkbox,
 } from "@mui/material";
 import jwtDecode from "jwt-decode";
+import { useTranslation } from 'react-i18next';
 
-import Modal from "@mui/material/Modal";
-import Button from "@mui/material/Button";
 import { notifyError, notifySuccess } from "../../../utils/toastNotification/toastNotification";
 import { useNavigate } from "react-router-dom";
+import { t } from "i18next";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -41,11 +41,11 @@ function getComparator(order, orderBy) {
 }
 
 const headCells = [
-  { id: "title", numeric: false, disablePadding: true, label: "Job Title" },
-  { id: "Type job", numeric: false, disablePadding: true, label: "Type job" },
-  { id: "DateTime", numeric: false, disablePadding: false, label: "DateTime" },
-  { id: "location", numeric: false, disablePadding: false, label: "Location" },
-  { id: "action", numeric: false, disablePadding: false, label: "Action" },
+  { id: "title", numeric: false, disablePadding: true, label: t('jobListCompany.jobTitle')},
+  { id: "Type job", numeric: false, disablePadding: true, label: t('jobListCompany.typeJob')},
+  { id: "DateTime", numeric: false, disablePadding: false, label: t('jobListCompany.dateTime') },
+  { id: "location", numeric: false, disablePadding: false, label: t('jobListCompany.location') },
+  { id: "action", numeric: false, disablePadding: false, label: t('jobListCompany.action') },
 ];
 
 function EnhancedTableHead(props) {
@@ -107,6 +107,8 @@ EnhancedTableHead.propTypes = {
 // ---------------------------
 
 function JobListSide() {
+  const { t } = useTranslation(); // Hook i18n
+
   const [jobs, setJobs] = useState([]);
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("title");
@@ -120,26 +122,26 @@ function JobListSide() {
   const handleDelete = async (jobId) => {
     try {
       const result = await Swal.fire({
-        title: "Are you sure?",
-        text: "Do you really want to delete this job? This action cannot be undone.",
+        title: t('jobListCompany.confirmDelete'),
+        text: t('jobListCompany.deleteMessage'),
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#d33",
         cancelButtonColor: "#3085d6",
-        confirmButtonText: "Yes, delete it!",
-        cancelButtonText: "Cancel",
+        confirmButtonText: t('jobListCompany.yesDelete'),
+        cancelButtonText: t('jobListCompany.cancel'),
       });
   
       if (!result.isConfirmed) return;
   
       await axios.delete(`http://localhost:5000/api/v1/job/${jobId}`);
-      notifySuccess("Job deleted successfully");
+      notifySuccess(t('jobListCompany.deleteSuccess'));
   
       setJobs((prevJobs) => prevJobs.filter((job) => job.id !== jobId));
     } catch (error) {
       console.error("Error deleting job:", error.response?.data || error.message);
       notifyError(
-        error.response?.data?.message || "Failed to delete job. Please try again later."
+        error.response?.data?.message || t('jobListCompany.deleteError')
       );
     }
   };
@@ -226,7 +228,7 @@ function JobListSide() {
       <Paper sx={{ width: "100%", mb: 2 }}>
         <Toolbar>
           <Typography variant="h6" id="tableTitle" component="div">
-            Job List
+          {t('jobListCompany.jobList')}
           </Typography>
         </Toolbar>
         <TableContainer>
@@ -276,12 +278,13 @@ function JobListSide() {
                     <TableCell align="left">{job.location}</TableCell>
                     <TableCell align="left" style={{ display: "flex" }}>
                       <a
-                        href={`/createJob/${job.id}`}
+                        href={`/editJob/${job.id}`}
                         className="btn btn-primary me-1"
+                        // style={{width: '180px'}}
                       >
-                        Edit
+                        {t('jobListCompany.edit')}
                       </a>
-                      <button className="btn btn-danger me-1"  onClick={() => handleDelete(job.id)}>Delete</button>
+                      <button className="btn btn-danger me-1"  onClick={() => handleDelete(job.id)}>{t('jobListCompany.delete')}</button>
                       
                     </TableCell>
                   </TableRow>

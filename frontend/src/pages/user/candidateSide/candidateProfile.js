@@ -16,6 +16,7 @@ import {
   notifyError,
   notifyWarning,
 } from "../../../utils/toastNotification/toastNotification";
+import { useTranslation } from "react-i18next";
 
 const Fade = React.forwardRef(function Fade(props, ref) {
   const {
@@ -116,6 +117,7 @@ const styleJob = {
 };
 
 const UserProfile = () => {
+  const { t } = useTranslation();
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -234,59 +236,60 @@ const UserProfile = () => {
         {userInfo ? (
           <div className="profile-card">
             <div className="profile-header">
-              <div className="img-profile" >
+              <div className="img-profile">
                 <img
                   src={userInfo.avt}
-                  alt="Avatar"
+                  alt={t("candidateProfile.avatar")}
                   className="profile-avatar"
                 />
               </div>
               <div className="profile-details">
                 <h3>{userInfo.fullName}</h3>
                 <p>
-                  <strong>Birth Date:</strong>{new Date(userInfo.birthDate).toLocaleDateString()}
+                  <strong>{t("candidateProfile.birthDate")}:</strong>{" "}
+                  {new Date(userInfo.birthDate).toLocaleDateString()}
                 </p>
                 <p>
-                  <strong>Email:</strong> {userInfo.email}
+                  <strong>{t("candidateProfile.email")}:</strong> {userInfo.email}
                 </p>
                 <p>
-                  <strong>Phone:</strong> {userInfo.phone}
+                  <strong>{t("candidateProfile.phone")}:</strong> {userInfo.phone}
                 </p>
                 <p>
-                  <strong>Address:</strong> {userInfo.address}
+                  <strong>{t("candidateProfile.address")}:</strong> {userInfo.address}
                 </p>
                 <p>
-                  <strong>Position Desired:</strong> {userInfo.positionDesired}
+                  <strong>{t("candidateProfile.positionDesired")}:</strong> {userInfo.positionDesired}
                 </p>
                 <p>
-                  <strong>Skill:</strong> {userInfo.skills}
+                  <strong>{t("candidateProfile.skills")}:</strong> {userInfo.skills}
                 </p>
                 <p>
-                  <strong>Experience:</strong> {userInfo.experience}
+                  <strong>{t("candidateProfile.experience")}:</strong> {userInfo.experience}
                 </p>
                 <p>
-                  <strong>Salary Expected:</strong> {userInfo.salaryExpected}
+                  <strong>{t("candidateProfile.salaryExpected")}:</strong> {userInfo.salaryExpected}
                 </p>
                 <p>
-                  <strong>Education:</strong> {userInfo.education}
+                  <strong>{t("candidateProfile.education")}:</strong> {userInfo.education}
                 </p>
                 <p>
-                  <strong>CV:</strong>{" "}
+                  <strong>{t("candidateProfile.cv")}:</strong>{" "}
                   <a
                     href={userInfo.cvFile}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    Download CV
+                    {t("candidateProfile.viewCV")}
                   </a>
                 </p>
               </div>
             </div>
             <a
-              class="section-btn btn btn-primary pull-left me-2"
+              className="section-btn btn btn-primary pull-left me-2"
               onClick={handleOpen}
             >
-              Update your frofile
+              {t("candidateProfile.updateProfile")}
             </a>
             <Modal
               aria-labelledby="spring-modal-title"
@@ -308,7 +311,7 @@ const UserProfile = () => {
                     variant="h6"
                     component="h2"
                   >
-                    Update your infomation
+                    {t("candidateProfile.updateProfile")}
                   </Typography>
                   <form onSubmit={handleSubmit} style={{ display: "flex" }}>
                     <input
@@ -316,14 +319,14 @@ const UserProfile = () => {
                       name="fullName"
                       value={formData.fullName}
                       onChange={handleChange}
-                      placeholder="Full Name"
+                      placeholder={t("candidateProfile.fullName")}
                     />
                     <input
                       type="email"
                       name="email"
                       value={formData.email}
                       onChange={handleChange}
-                      placeholder="Email"
+                      placeholder={t("candidateProfile.email")}
                       disabled
                     />
                     <input
@@ -331,69 +334,68 @@ const UserProfile = () => {
                       name="birthDate"
                       value={formData.birthDate}
                       onChange={handleChange}
-                      placeholder="BirthDate"
+                      placeholder={t("candidateProfile.birthDate")}
                     />
                     <input
                       type="text"
                       name="phone"
                       value={formData.phone}
                       onChange={handleChange}
-                      placeholder="Phone"
+                      placeholder={t("candidateProfile.phone")}
                     />
                     <input
                       type="text"
                       name="positionDesired"
                       value={formData.positionDesired}
                       onChange={handleChange}
-                      placeholder="Position Desired"
+                      placeholder={t("candidateProfile.positionDesired")}
                     />
                     <input
                       type="number"
                       name="salaryExpected"
                       value={formData.salaryExpected}
                       onChange={handleChange}
-                      placeholder="Salary Expected"
+                      placeholder={t("candidateProfile.salaryExpected")}
                     />
                     <input
                       type="text"
                       name="address"
                       value={formData.address}
                       onChange={handleChange}
-                      placeholder="Address"
-                      style={{width: '100%'}}
+                      placeholder={t("candidateProfile.address")}
+                      style={{ width: "100%" }}
                     />
-
                     <textarea
                       name="skills"
                       value={formData.skills}
                       onChange={handleChange}
-                      placeholder="Skills"
+                      placeholder={t("candidateProfile.skills")}
                     />
                     <textarea
                       name="experience"
                       value={formData.experience}
                       onChange={handleChange}
-                      placeholder="Experience"
+                      placeholder={t("candidateProfile.experience")}
                     />
                     <textarea
                       name="education"
                       value={formData.education}
                       onChange={handleChange}
-                      placeholder="Education"
+                      placeholder={t("candidateProfile.education")}
                     />
-
-                    {/* Avatar File Input */}
-                    <input type="file" name="avt" onChange={handleFileChange} />
+                    <input
+                      type="file"
+                      name="avt"
+                      onChange={handleFileChange}
+                    />
                     {formData.avt && (
                       <img
                         src={formData.avt}
-                        alt="Avatar"
+                        alt={t("candidateProfile.avatar")}
                         width="100"
                         height="100"
                       />
                     )}
-
-                    {/* CV File Input */}
                     <input
                       type="file"
                       name="cvFile"
@@ -405,22 +407,22 @@ const UserProfile = () => {
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        View CV
+                        {t("candidateProfile.viewCV")}
                       </a>
                     )}
-
-                    <button type="submit">Update</button>
+                    <button type="submit">{t("candidateProfile.update")}</button>
                   </form>
                 </Box>
               </Fade>
             </Modal>
           </div>
         ) : (
-          <p>Loading user information...</p>
+          <p>{t("candidateProfile.loadingUserInfo")}</p>
         )}
       </div>
     </div>
   );
 };
+
 
 export default UserProfile;

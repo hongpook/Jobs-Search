@@ -13,6 +13,7 @@ import AppliedList from './applied';
 
 import jwtDecode from "jwt-decode";
 import BlogListSide from './blogList';
+import { useTranslation } from 'react-i18next'; // Import hook i18n
 
 function CompanySide(props) {
   const { children, value, index, ...other } = props;
@@ -48,6 +49,7 @@ function a11yProps(index) {
 }
 
 export default function VerticalTabs() {
+  const { t } = useTranslation(); // Hook i18n
   const [value, setValue] = React.useState(0);
   const [userInfo, setUserInfo] = useState(null);
 
@@ -55,13 +57,12 @@ export default function VerticalTabs() {
     setValue(newValue);
   };
 
-  // Hàm giải mã token và lấy thông tin người dùng
   const getUserInfoFromToken = () => {
     const token = window.localStorage.getItem('accessToken');
     if (token) {
       try {
         const decodedToken = jwtDecode(token);
-        setUserInfo(decodedToken); // Lưu thông tin từ token vào state
+        setUserInfo(decodedToken);
       } catch (error) {
         console.error("Invalid token", error);
       }
@@ -69,7 +70,7 @@ export default function VerticalTabs() {
   };
 
   useEffect(() => {
-    getUserInfoFromToken(); // Lấy thông tin khi component mount
+    getUserInfoFromToken();
   }, []);
 
   return (
@@ -86,12 +87,12 @@ export default function VerticalTabs() {
             aria-label="Vertical tabs example"
             sx={{ borderRight: 1, borderColor: 'divider' }}
           >
-            <Tab label="Your profile" {...a11yProps(0)} />
-            <Tab label="Your job list" {...a11yProps(1)} />
-            <Tab label="Create job" {...a11yProps(2)} />
-            <Tab label="Create blog" {...a11yProps(3)} />
-            <Tab label="Applications" {...a11yProps(4)} />
-            <Tab label="Your blog list" {...a11yProps(5)} />
+            <Tab label={t('companySide.yourProfile')} {...a11yProps(0)} />
+            <Tab label={t('companySide.yourJobList')} {...a11yProps(1)} />
+            <Tab label={t('companySide.createJob')} {...a11yProps(2)} />
+            <Tab label={t('companySide.createBlog')} {...a11yProps(3)} />
+            <Tab label={t('companySide.applications')} {...a11yProps(4)} />
+            <Tab label={t('companySide.yourBlogList')} {...a11yProps(5)} />
           </Tabs>
 
           <CompanySide style={{ width: '1130px' }} value={value} index={0}>
@@ -112,16 +113,14 @@ export default function VerticalTabs() {
 
           <CompanySide style={{ width: '1130px' }} value={value} index={4}>
             {userInfo ? (
-              <>
-                <AppliedList id={userInfo.id} />
-              </>
+              <AppliedList id={userInfo.id} />
             ) : (
-              <h1>Không tìm thấy thông tin người dùng</h1>
+              <h1>{t('companySide.userInfoNotFound')}</h1>
             )}
           </CompanySide>
 
           <CompanySide style={{ width: '1130px' }} value={value} index={5}>
-            <BlogListSide/>
+            <BlogListSide />
           </CompanySide>
         </Box>
       </div>

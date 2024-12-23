@@ -3,14 +3,16 @@ import { initReactI18next } from 'react-i18next';
 import eng from './english';
 import vie from './vietnamese';
 
+const savedLanguage = localStorage.getItem('language') || 'vi';
 
 i18n
-  .use(initReactI18next) // Khởi tạo i18next cho React
+  .use(initReactI18next) 
   .init({
-    fallbackLng: 'en', // Ngôn ngữ mặc định
+    lng: savedLanguage, 
+    fallbackLng: 'vi', 
     debug: true,
     interpolation: {
-      escapeValue: false, // Không cần escape HTML
+      escapeValue: false, 
     },
     resources: {
       en: {
@@ -21,5 +23,9 @@ i18n
       },
     },
   });
+
+i18n.on('languageChanged', (lng) => {
+  localStorage.setItem('language', lng);
+});
 
 export default i18n;

@@ -6,8 +6,10 @@ import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import BreadCrumbDetail from '../../../components/breadCrumbDetail';
 import { notifyError, notifySuccess, notifyWarning } from '../../../utils/toastNotification/toastNotification';
+import { useTranslation } from 'react-i18next';
 
 const UpdateBlog = () => {
+  const { t } = useTranslation();  // Lấy hàm t() từ useTranslation
   const { id } = useParams();
   const navigate = useNavigate();
   const [title, setTitle] = useState('');
@@ -19,7 +21,7 @@ const UpdateBlog = () => {
   const [error, setError] = useState(null);
 
   const handleCancel = () => {
-    notifyWarning('No thing!!!');
+    notifyWarning(t('updateBlogCompany.cancel'));
     navigate('/companySide');
   };
 
@@ -36,12 +38,12 @@ const UpdateBlog = () => {
         
       } catch (error) {
         console.error('Error fetching blog:', error);
-        notifyError('Failed to load blog data. Please try again.');
+        notifyError(t('updateBlogCompany.failedToLoadBlog'));
       }
     };
 
     fetchBlog();
-  }, [id]);
+  }, [id, t]);
 
   const handleImageChange = (e) => {
     setBlogImg(e.target.files[0]);
@@ -63,12 +65,11 @@ const UpdateBlog = () => {
 
     try {
       const response = await axios.put(`http://localhost:5000/api/v1/blog/${id}`, formData);
-      notifySuccess('Blog updated successfully');
+      notifySuccess(t('updateBlogCompany.blogUpdatedSuccessfully'));
       console.log(response.data);
       navigate('/companySide'); // Redirect sau khi cập nhật thành công
     } catch (error) {
-      // console.error('Error updating blog:', error);
-      notifyError('Failed to update blog. Please try again.');
+      notifyError(t('updateBlogCompany.failedToUpdateBlog'));
     } finally {
       setLoading(false);
     }
@@ -78,14 +79,14 @@ const UpdateBlog = () => {
     <section>
 
       <div className="container">
-      <BreadCrumbDetail title={title} link={"companySide"} page={"Company Side"}/>
-        <h2 className="text-center mb-4 mt-4">Update Blog</h2>
+      <BreadCrumbDetail title={title} link={"companySide"} page={t('editJobCompany.yourProfile')}/>
+        <h2 className="text-center mb-4 mt-4">{t('updateBlogCompany.updateBlog')}</h2>
 
         {error && <div className="alert alert-danger">{error}</div>}
 
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
-            <label htmlFor="title" className="form-label">Title</label>
+            <label htmlFor="title" className="form-label">{t('updateBlogCompany.title')}</label>
             <input
               type="text"
               id="title"
@@ -97,7 +98,7 @@ const UpdateBlog = () => {
           </div>
 
           <div className="mb-3">
-            <label htmlFor="category" className="form-label">Category</label>
+            <label htmlFor="category" className="form-label">{t('updateBlogCompany.category')}</label>
             <select
               id="category"
               className="form-select"
@@ -105,14 +106,14 @@ const UpdateBlog = () => {
               onChange={(e) => setCategory(e.target.value)}
               required
             >
-              <option value="">Select Category</option>
-              <option value="Job search tips">Job search tips</option>
-              <option value="Recruitment solutions">Recruitment solutions</option>
+              <option value="">{t('updateBlogCompany.selectCategory')}</option>
+              <option value="Job search tips">{t('updateBlogCompany.jobSearchTips')}</option>
+              <option value="Recruitment solutions">{t('updateBlogCompany.recruitmentSolutions')}</option>
             </select>
           </div>
 
-          <div className="mb-3">
-            <label htmlFor="authorId" className="form-label">Author ID</label>
+          <div className="mb-3" style={{display: 'none'}}>
+            <label htmlFor="authorId" className="form-label">{t('updateBlogCompany.authorId')}</label>
             <input
               type="number"
               id="authorId"
@@ -125,7 +126,7 @@ const UpdateBlog = () => {
 
           {blogImg && (
             <div className="mb-3">
-              <label htmlFor="currentImg" className="form-label">Current Image</label>
+              <label htmlFor="currentImg" className="form-label">{t('updateBlogCompany.currentImage')}</label>
               <img
                 src={blogImg}
                 alt="Current Blog"
@@ -137,7 +138,7 @@ const UpdateBlog = () => {
           )}
 
           <div className="mb-3">
-            <label htmlFor="blogImg" className="form-label">Change Image</label>
+            <label htmlFor="blogImg" className="form-label">{t('updateBlogCompany.changeImage')}</label>
             <input
               type="file"
               id="blogImg"
@@ -147,11 +148,11 @@ const UpdateBlog = () => {
           </div>
 
           <div className="mb-3">
-            <label htmlFor="content" className="form-label">Content</label>
+            <label htmlFor="content" className="form-label">{t('updateBlogCompany.content')}</label>
             <ReactQuill
               value={content}
               onChange={setContent}
-              placeholder="Write your blog content here..."
+              placeholder={t('updateBlogCompany.writeContent')}
               theme="snow"
               modules={{
                 toolbar: [
@@ -170,10 +171,10 @@ const UpdateBlog = () => {
 
           <div className='row'>
             <button type="submit" className="btn btn-primary col-3 me-3" disabled={loading}>
-            {loading ? 'Updating...' : 'Update Blog'}
+            {loading ? t('updateBlogCompany.updating') : t('updateBlogCompany.updateBlog')}
           </button>
             <button onClick={handleCancel} className="btn btn-danger col-3">
-                Cancel
+                {t('updateBlogCompany.cancel')}
             </button>
           </div>
         </div>

@@ -4,9 +4,10 @@ import BreadCrumb from "../../../components/breadCrumb";
 import jwtDecode from "jwt-decode";
 import { useSelector, useDispatch } from "react-redux";
 import { removeMarkList } from "../../../redux/slice/jobItem";
-
+import { useTranslation } from "react-i18next";
 
 const JobListMark = () => {
+  const { t } = useTranslation();
   const [jobs, setJobs] = useState([]);
   const [userInfo, setUserInfo] = useState(null); // State để lưu thông tin người dùng
   const dispatch = useDispatch();
@@ -15,6 +16,7 @@ const JobListMark = () => {
   const handleUnMark = (job) => {
     dispatch(removeMarkList(job)); 
   };
+
   // Hàm giải mã token và lấy thông tin
   const getUserInfoFromToken = () => {
     const token = window.localStorage.getItem("accessToken");
@@ -35,10 +37,10 @@ const JobListMark = () => {
   return (
     <>
       <section>
-        <BreadCrumb title={"Jobs list mark"} />
+        <BreadCrumb title={t('jobMark.jobsListMark')} />
         <div className="container">
           <div className="text-center">
-            <h1>Jobs list mark</h1>
+            <h1>{t('jobMark.jobsListMark')}</h1>
             <br />
           </div>
         </div>
@@ -49,16 +51,15 @@ const JobListMark = () => {
           <div className="row">
             {/* Job listings */}
             <div className="col-lg-12 col-xs-12">
-                {markList.length > 0 ? (
-              <div className="row">
-                  
-                    {markList.map((job) => (
-                      <div key={job.id} className="col-lg-3 col-md-3 col-sm-6">
+              {markList.length > 0 ? (
+                <div className="row">
+                  {markList.map((job) => (
+                    <div key={job.id} className="col-lg-3 col-md-3 col-sm-6">
                       <div className="courses-thumb courses-thumb-secondary">
                         <div className="courses-top">
                           <div className="courses-image" style={{ height: "204px" }}>
                             <img
-                              style={{ width: "100%", height: "inherit"}}
+                              style={{ width: "100%", height: "inherit" }}
                               src={job.imageUrl} // Nếu job không có image, dùng ảnh mặc định
                               className="img-responsive"
                               alt={job.title}
@@ -77,68 +78,64 @@ const JobListMark = () => {
                           </div>
                         </div>
                         {
-                          userInfo ?(
+                          userInfo ? (
                             <>
                               <div className="courses-detail">
                                 <h3 className="text">
-                                  <a href={`/job-details/${job.id}`} className=" text-threedot" style={{'font-size': '18px'}} title={job.title} >{job.title}</a>
+                                  <a href={`/job-details/${job.id}`} className=" text-threedot" style={{ fontSize: '18px' }} title={job.title}>
+                                    {job.title}
+                                  </a>
                                 </h3>
                                 <p className="lead">
                                   <strong>{job.salaryRange}</strong>
                                 </p>
-                                {/* <p>
-                                  {job.category} for <strong>{job.company}</strong>
-                                </p> */}
                               </div>
                               <div className="courses-info">
-                              <a
-                                href={`/job-details/${job.id}`}
-                                className="section-btn btn btn-primary btn-block p-2 me-3"
-                                style={{padding: 0}}
-                              >
-                                View Details
-                              </a>
+                                <a
+                                  href={`/job-details/${job.id}`}
+                                  className="section-btn btn btn-primary btn-block p-2 me-3"
+                                  style={{ padding: 0 }}
+                                >
+                                  {t('jobMark.viewDetails')}
+                                </a>
 
-                              <a
-                                onClick={() => handleUnMark(job)}
-                                className="section-btn btn btn-danger btn-block p-2"
-                                style={{padding: 0}}
-                              >
-                                Un Mark
-                              </a>
-                            </div>
+                                <a
+                                  onClick={() => handleUnMark(job)}
+                                  className="section-btn btn btn-danger btn-block p-2"
+                                  style={{ padding: 0 }}
+                                >
+                                  {t('jobMark.unMark')}
+                                </a>
+                              </div>
                             </>
-  
-                          ): (
+                          ) : (
                             <>
-                            <div className="courses-detail">
-                            <h3 className="text">
-                              <a  className=" text-threedot" style={{'font-size': '18px'}} title={job.title} >{job.title}</a>
-                            </h3>
-                            
-                          </div>
-                          <div className="courses-info">
-                              <a
-                                href={`/login`}
-                                className="section-btn btn btn-primary btn-block p-2"
-                                style={{padding: 0}}
-                              >
-                                Vui lòng đăng nhập để xem chi tiết
-                              </a>
-                            </div>
+                              <div className="courses-detail">
+                                <h3 className="text">
+                                  <a className=" text-threedot" style={{ fontSize: '18px' }} title={job.title}>
+                                    {job.title}
+                                  </a>
+                                </h3>
+                              </div>
+                              <div className="courses-info">
+                                <a
+                                  href={`/login`}
+                                  className="section-btn btn btn-primary btn-block p-2"
+                                  style={{ padding: 0 }}
+                                >
+                                  {t('jobMark.pleaseLogIn')}
+                                </a>
+                              </div>
                             </>
                           )
                         }
-  
-                        
                       </div>
                     </div>
-                    ))}
-              </div>
-                  
-                ) : (
-                  <p>No jobs marked</p>
-                )}
+                  ))}
+                </div>
+              ) : (
+                <p>{t('jobMark.noJobsMarked')}</p>
+              )}
             </div>
           </div>
         </div>

@@ -19,7 +19,7 @@ const HomePage = () => {
               <div className="col-md-12 col-sm-12">
                 <div className="section-title text-center">
                   <h2>
-                    {t('home.featuredJobs')} <small>{t('home.testimonial')}</small>
+                    {t('home.featuredJobs')} 
                   </h2>
                 </div>
               </div>
@@ -35,7 +35,7 @@ const HomePage = () => {
               <div className="col-md-12 col-sm-12">
                 <div className="section-title text-center">
                   <h2>
-                    {t('home.testimonial')} <small>{t('home.testimonialFrom')}</small>
+                     <small>{t('home.testimonialFrom')}</small>
                   </h2>
                 </div>
 

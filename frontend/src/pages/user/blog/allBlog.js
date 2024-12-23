@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import BreadCrumb from "../../../components/breadCrumb";
+import { useTranslation } from 'react-i18next';
 
 const AllBlogs = () => {
+  const { t } = useTranslation();
   const [blogs, setBlogs] = useState([]);
   const [filteredBlogs, setFilteredBlogs] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -37,12 +39,12 @@ const AllBlogs = () => {
 
   return (
     <section>
-      <BreadCrumb title={"All blogs"} />
-      <h2>All Blogs</h2>
+      <BreadCrumb title={t('blogList.allBlogsTitle')} />
+      <h2>{t('blogList.allBlogsTitle')}</h2>
       <div className="container">
         <div className="mb-3 ">
           <label htmlFor="category" className="form-label">
-            Filter by Category:
+          {t('blogList.filterByCategory')}
           </label>
           <select
             id="category"
@@ -50,15 +52,15 @@ const AllBlogs = () => {
             onChange={handleCategoryChange}
             className="form-select" // Bootstrap class for styled select dropdown
           >
-            <option value="">All Categories</option>
-            <option value="Job search tips">Job search tips</option>
-            <option value="Recruitment solutions">Recruitment solutions</option>
+            <option value="">{t('blogList.allCategories')}</option>
+            <option value="Job search tips">{t('blogList.jobSearchTips')}</option>
+            <option value="Recruitment solutions">{t('blogList.recruitmentSolutions')}</option>
             {/* Add more categories here */}
           </select>
         </div>
 
         {filteredBlogs.length === 0 ? (
-          <p>No blogs found</p>
+          <p>{t('blogList.noBlogsFound')}</p>
         ) : (
           <div className="container">
             <div className="row">

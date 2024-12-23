@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useTranslation } from 'react-i18next';
 
 const CandidateResumes = () => {
+  const { t } = useTranslation(); // Hook để truy cập các hàm của i18n
   const [resumes, setResumes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -13,22 +15,22 @@ const CandidateResumes = () => {
         setResumes(response.data.resumes); // Gán resumes từ API vào state
         setLoading(false);
       } catch (err) {
-        setError("Không thể tải dữ liệu resumes.");
+        setError(t("candidateResume.error")); 
         setLoading(false);
       }
     };
 
     fetchResumes();
-  }, []);
+  }, [t]);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>{error}</p>;
+  if (loading) return <p>{t("candidateResume.loading")}</p>; 
+  if (error) return <p>{error}</p>; 
 
   return (
     <div className="container mt-4">
-      <h3 className="text-center mb-4">Resumes list</h3>
+      <h3 className="text-center mb-4">{t("candidateResume.resumesList")}</h3> 
       {resumes.length === 0 ? (
-        <p className="text-center">No resumes have been created yet.</p>
+        <p className="text-center">{t("candidateResume.noResumes")}</p> 
       ) : (
         <div className="row g-4">
           {resumes.map((resume) => (
@@ -36,12 +38,12 @@ const CandidateResumes = () => {
               <div className="card h-100 shadow-sm">
                 <div className="card-body d-flex flex-column justify-content-between">
                   <h5 className="card-title text-primary text-truncate">{resume.name}</h5>
-                  <p className="card-text text-muted">Position: {resume.position || "N/A"}</p>
+                  <p className="card-text text-muted">{t("candidateResume.position")}: {resume.position || "N/A"}</p> 
                   <a
                     href={`/resume-list/${resume.id}`}
                     className="btn btn-info mt-auto text-white"
                   >
-                    Resume detail
+                    {t("candidateResume.resumeDetail")} 
                   </a>
                 </div>
               </div>

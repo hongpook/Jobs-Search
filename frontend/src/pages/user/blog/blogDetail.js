@@ -3,8 +3,10 @@ import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import BreadCrumbDetail from '../../../components/breadCrumbDetail';
 import BannerBlog from '../../../components/bannerBlog';
+import { useTranslation } from 'react-i18next';
 
 const BlogDetails = () => {
+  const { t } = useTranslation();
   const { id } = useParams();
   const [blog, setBlog] = useState(null);
 
@@ -22,27 +24,24 @@ const BlogDetails = () => {
   }, [id]);
 
   if (!blog) {
-    return <p>Loading blog details...</p>;
+    return <p>{t('blogDetail.loadingBlogDetails')}</p>;
   }
 
   return (
     <section>
-
-        <div className='container'>
-          <BreadCrumbDetail title={blog.title} link={"all-blogs"}
-          page={"Blogs list"}/>
-                    <h2 className='mt-5 mb-3'>{blog.title}</h2>
-            <div className='row'>
-                <div className='col-8'>
-                    <p>Category: {blog.category}</p>
-                    <div className="ql-editor" dangerouslySetInnerHTML={{ __html: blog.content }} />
-
-                </div>
-                <div className='col-4'>
-                  <BannerBlog/>
-                </div>
-            </div>
+      <div className='container'>
+        <BreadCrumbDetail title={blog.title} link="all-blogs" page={t('blogDetail.blogsList')} />
+        <h2 className='mt-5 mb-3'>{blog.title}</h2>
+        <div className='row'>
+          <div className='col-8'>
+            <p>{t('blogDetail.category')}: {blog.category}</p>
+            <div className="ql-editor" dangerouslySetInnerHTML={{ __html: blog.content }} />
+          </div>
+          <div className='col-4'>
+            <BannerBlog />
+          </div>
         </div>
+      </div>
     </section>
   );
 };

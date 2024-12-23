@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import jwtDecode from "jwt-decode";
 import axios from "axios";
-import "../candidateSide/UserProfile.css"; // Import file CSS
+import "../candidateSide/UserProfile.css"; 
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import Backdrop from "@mui/material/Backdrop";
@@ -10,12 +10,9 @@ import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { useSpring, animated } from "@react-spring/web";
-import {
-  notifySuccess,
-  notifyError,
-  notifyWarning,
-} from "../../../utils/toastNotification/toastNotification";
+import { useTranslation } from 'react-i18next';
 
+import { notifySuccess, notifyError } from "../../../utils/toastNotification/toastNotification";
 
 const Fade = React.forwardRef(function Fade(props, ref) {
   const { children, in: open, onClick, onEnter, onExited, ownerState, ...other } = props;
@@ -40,15 +37,6 @@ const Fade = React.forwardRef(function Fade(props, ref) {
     </animated.div>
   );
 });
-
-Fade.propTypes = {
-  children: PropTypes.element.isRequired,
-  in: PropTypes.bool,
-  onClick: PropTypes.any,
-  onEnter: PropTypes.func,
-  onExited: PropTypes.func,
-  ownerState: PropTypes.any,
-};
 
 const styleJob = {
   position: "absolute",
@@ -108,13 +96,15 @@ const styleJob = {
 };
 
 const CompanyProfile = () => {
+  const { t } = useTranslation(); // Truyền vào hook i18n
+
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   const [userInfo, setUserInfo] = useState(null);
   const [message, setMessage] = useState("");
-  const navigate = useNavigate(); // Khai báo navigate để điều hướng sau khi cập nhật
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     companyName: "",
@@ -124,7 +114,7 @@ const CompanyProfile = () => {
     website: "",
     description: "",
     contactPerson: "",
-    logo: null, // avatar file
+    logo: null,
   });
 
   useEffect(() => {
@@ -133,7 +123,6 @@ const CompanyProfile = () => {
       const decodedToken = jwtDecode(token);
       const userId = decodedToken.id;
 
-      // Gửi yêu cầu lấy thông tin employee từ backend
       axios
         .get(`http://localhost:5000/api/v1/employee/${userId}`, {
           headers: {
@@ -154,22 +143,22 @@ const CompanyProfile = () => {
           });
         })
         .catch((error) => {
-          setMessage("Failed to load employee info");
+          setMessage(t("error_update"));
           console.error(error);
         });
     } else {
-      setMessage("No access token found");
+      setMessage(t("error_update"));
     }
-  }, []);
+  }, [t]);
 
   const handleFileChange = (e) => {
     const { name, files } = e.target;
     setFormData((prevState) => ({
       ...prevState,
-      [name]: files[0], // Lấy file đầu tiên nếu có
+      [name]: files[0],
     }));
   };
-  // Xử lý thay đổi trong form
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -199,13 +188,10 @@ const CompanyProfile = () => {
           },
         }
       );
-
-      console.log(response.data); 
-      navigate(`/`); 
-      notifySuccess("Update profile successfully!!")
+      notifySuccess(t("success_update"));
+      navigate(`/`);
     } catch (error) {
-      // console.error(error); 
-      notifyError("Error update fail!!")
+      notifyError(t("error_update"));
     }
   };
 
@@ -219,31 +205,31 @@ const CompanyProfile = () => {
               <div className="img-profile" >
                 <img
                   src={userInfo.logo}
-                  alt="Logo"
+                  alt={t('companyProfile.logo')}
                   className="profile-avatar"
                 />
               </div>
               <div className="profile-details">
                 <h3>{userInfo.companyName}</h3>
                 <p>
-                  <strong>Email:</strong> {userInfo.email}
+                  <strong>{t('companyProfile.email')}:</strong> {userInfo.email}
                 </p>
                 <p>
-                  <strong>Phone:</strong> {userInfo.phone}
+                  <strong>{t('companyProfile.phone')}:</strong> {userInfo.phone}
                 </p>
                 <p>
-                  <strong>Address:</strong> {userInfo.address}
+                  <strong>{t('companyProfile.address')}:</strong> {userInfo.address}
                 </p>
                 <p>
-                  <strong>Website:</strong> {userInfo.website}
+                  <strong>{t('companyProfile.website')}:</strong> {userInfo.website}
                 </p>
                 <p>
-                  <strong>Contact Person:</strong> {userInfo.contactPerson}
+                  <strong>{t('companyProfile.contact_person')}:</strong> {userInfo.contactPerson}
                 </p>
               </div>
             </div>
             <button onClick={handleOpen} className="section-btn btn btn-primary pull-left me-2">
-              Update Profile
+              {t('companyProfile.update_profile')}
             </button>
             <Modal
               aria-labelledby="spring-modal-title"
@@ -265,7 +251,7 @@ const CompanyProfile = () => {
                     variant="h6"
                     component="h2"
                   >
-                    Update Your Information
+                    {t('companyProfile.update_profile')}
                   </Typography>
                   <form onSubmit={handleSubmit} style={{ display: "flex" }}>
                     <input
@@ -273,14 +259,14 @@ const CompanyProfile = () => {
                       name="companyName"
                       value={formData.companyName}
                       onChange={handleChange}
-                      placeholder="Company Name"
+                      placeholder={t('companyProfile.company_name')}
                     />
                     <input
                       type="email"
                       name="email"
                       value={formData.email}
                       onChange={handleChange}
-                      placeholder="Email"
+                      placeholder={t('companyProfile.email')}
                       disabled
                     />
                     <input
@@ -288,34 +274,34 @@ const CompanyProfile = () => {
                       name="phone"
                       value={formData.phone}
                       onChange={handleChange}
-                      placeholder="Phone"
+                      placeholder={t('companyProfile.phone')}
                     />
                     <input
                       type="text"
                       name="address"
                       value={formData.address}
                       onChange={handleChange}
-                      placeholder="Address"
+                      placeholder={t('companyProfile.address')}
                     />
                     <input
                       type="text"
                       name="website"
                       value={formData.website}
                       onChange={handleChange}
-                      placeholder="Website"
+                      placeholder={t('companyProfile.website')}
                     />
                     <textarea
                       name="description"
                       value={formData.description}
                       onChange={handleChange}
-                      placeholder="Description"
+                      placeholder={t('companyProfile.description')}
                     ></textarea>
                     <input
                       type="text"
                       name="contactPerson"
                       value={formData.contactPerson}
                       onChange={handleChange}
-                      placeholder="Contact Person"
+                      placeholder={t('companyProfile.contact_person')}
                     />
                     <input
                       type="file"
@@ -323,7 +309,7 @@ const CompanyProfile = () => {
                       onChange={handleFileChange}
                     />
                     <Button variant="contained" color="primary" type="submit">
-                      Submit
+                      {t('companyProfile.submit')}
                     </Button>
                   </form>
                 </Box>
@@ -331,7 +317,7 @@ const CompanyProfile = () => {
             </Modal>
           </div>
         ) : (
-          <p>Loading...</p>
+          <p>{t('companyProfile.loading')}</p>
         )}
       </div>
     </div>

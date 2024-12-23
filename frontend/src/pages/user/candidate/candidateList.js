@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Card, CardContent, Typography, Grid, Container, Box, Avatar, Rating, Pagination } from '@mui/material';
+import { useTranslation } from 'react-i18next';  // Import i18n hook
 import BreadCrumb from '../../../components/breadCrumb';
 
 const CandidateList = () => {
+  const { t } = useTranslation(); // Hook to use translations
   const [candidates, setCandidates] = useState([]);
   const [page, setPage] = useState(1);
   const itemsPerPage = 6; // Số lượng ứng viên hiển thị mỗi trang
@@ -34,11 +36,11 @@ const CandidateList = () => {
 
   return (
     <section id="testimonial">
-      <BreadCrumb title={"Candidate list"}/>
+      <BreadCrumb title={t('candidateList.candidateListTitle')} />
       <Container sx={{ py: 5 }}>
         <Box textAlign="center" mb={4}>
           <Typography variant="h4" component="h2">
-            Testimonials <small>from around the world</small>
+            {t('candidateList.testimonialsTitle')}
           </Typography>
         </Box>
 

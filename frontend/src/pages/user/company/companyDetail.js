@@ -16,10 +16,11 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/autoplay";
 import BreadCrumbDetail from "../../../components/breadCrumbDetail";
-
+import { useTranslation } from 'react-i18next';
 import jwtDecode from "jwt-decode";
 
 const CompanyDetail = () => {
+  const { t } = useTranslation(); 
   const { id } = useParams(); // Lấy ID từ URL
   const [company, setCompany] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -71,9 +72,9 @@ const CompanyDetail = () => {
   return (
     <section>
       <BreadCrumbDetail
-        title={"Company detail"}
+        title={company.companyName}
         link={"company-list"}
-        page={"Company list"}
+        page={t('companyProfile.page')}
       />
       <Container sx={{ py: 5 }}>
         {/* <Button variant="outlined" onClick={() => history('/company-list')}>
@@ -104,12 +105,12 @@ const CompanyDetail = () => {
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <Typography variant="h6">
-                  About {company.companyName}
+                  {t('jobDetail.aboutCompany')}: {company.companyName}
                 </Typography>
               </Grid>
               <Grid item xs={12}>
                 <Typography variant="body2" color="textSecondary">
-                  <strong>Website:</strong>{" "}
+                  <strong>{t('jobDetail.website')}:</strong>{" "}
                   <a
                     href={company.website}
                     target="_blank"
@@ -121,35 +122,35 @@ const CompanyDetail = () => {
               </Grid>
               <Grid item xs={12}>
                 <Typography variant="body2" color="textSecondary">
-                  <strong>Email:</strong> {company.email}
+                  <strong>{t('jobDetail.email')}:</strong> {company.email}
                 </Typography>
               </Grid>
               <Grid item xs={12}>
                 <Typography variant="body2" color="textSecondary">
-                  <strong>Phone:</strong> {company.phone}
+                  <strong>{t('jobDetail.phone')}:</strong> {company.phone}
                 </Typography>
               </Grid>
               <Grid item xs={12}>
                 <Typography variant="body2" color="textSecondary">
-                  <strong>Address:</strong>{" "}
+                  <strong>{t('jobDetail.location')}:</strong>{" "}
                   {company.address || "Location not specified"}
                 </Typography>
               </Grid>
               <Grid item xs={12}>
                 <Typography variant="body2" color="textSecondary">
-                  <strong>Description:</strong>{" "}
+                  <strong>{t('companyProfile.description')}:</strong>{" "}
                   {company.description || "No description available"}
                 </Typography>
               </Grid>
               <Grid item xs={12}>
                 <Typography variant="body2" color="textSecondary">
-                  <strong>Contact Person:</strong> {company.contactPerson}
+                  <strong>{t('companyProfile.contact_person')}:</strong> {company.contactPerson}
                 </Typography>
               </Grid>
               <Grid item xs={12}>
                 <Typography variant="body2" color="textSecondary">
-                  <strong>Status:</strong>{" "}
-                  {company.active ? "Active" : "Inactive"}
+                  <strong>{t('companyProfile.status')}:</strong>{" "}
+                  {company.active ? "Đang hoạt động" : "Ngừng hoạt động"}
                 </Typography>
               </Grid>
             </Grid>
@@ -158,7 +159,7 @@ const CompanyDetail = () => {
       </Container>
       <section>
         <Container>
-          <h2>Related jobs</h2>
+          <h2>{t('companyProfile.related')}</h2>
           <CardContent>
             <Swiper
               navigation={true}

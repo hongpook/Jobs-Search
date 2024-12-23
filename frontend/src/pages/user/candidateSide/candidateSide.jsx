@@ -4,16 +4,14 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import { useTranslation } from 'react-i18next';
 import CandidateProfile from './candidateProfile';
 import CandidateApplications from './appliedList';
 import ResumePages from '../resume/resumePages';
 import CandidateResumes from '../resume/test';
 
-
-function CandidateSide(props) {  // Đổi tên từ CompanySide thành TabPanel
+function CandidateSide(props) {
   const { children, value, index, ...other } = props;
-
-
 
   return (
     <div
@@ -46,6 +44,7 @@ function a11yProps(index) {
 }
 
 export default function VerticalTabs() {
+  const { t } = useTranslation(); // Sử dụng i18n để dịch
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -54,38 +53,37 @@ export default function VerticalTabs() {
 
   return (
     <section>
-
-    
-    <div className='container'>
-
+      <div className="container">
         <Box
-        sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex'}}
+          sx={{
+            flexGrow: 1,
+            bgcolor: 'background.paper',
+            display: 'flex',
+          }}
         >
-        <Tabs
+          <Tabs
             orientation="vertical"
             variant="scrollable"
             value={value}
             onChange={handleChange}
             aria-label="Vertical tabs example"
             sx={{ borderRight: 1, borderColor: 'divider' }}
-        >
-            <Tab label="Your profile" {...a11yProps(0)} />
-            <Tab label="Your application" {...a11yProps(1)} />
-            <Tab label="Your resume list" {...a11yProps(2)} />
-        </Tabs>
-        <CandidateSide style={{width: '1130px'}} value={value} index={0}>
-            <CandidateProfile/>
-        </CandidateSide>
-        <CandidateSide style={{width: '1130px'}} value={value} index={1}>
-            <CandidateApplications/>
-        </CandidateSide>
-        <CandidateSide style={{width: '1130px'}} value={value} index={2}>
-            {/* <ResumePages/> */}
-            <CandidateResumes/>
-        </CandidateSide>
-        
+          >
+            <Tab label={t('profileCandidate.candidateProfile')} {...a11yProps(0)} />
+            <Tab label={t('profileCandidate.candidateApplication')} {...a11yProps(1)} />
+            <Tab label={t('profileCandidate.candidateResumeList')} {...a11yProps(2)} />
+          </Tabs>
+          <CandidateSide style={{ width: '1130px' }} value={value} index={0}>
+            <CandidateProfile />
+          </CandidateSide>
+          <CandidateSide style={{ width: '1130px' }} value={value} index={1}>
+            <CandidateApplications />
+          </CandidateSide>
+          <CandidateSide style={{ width: '1130px' }} value={value} index={2}>
+            <CandidateResumes />
+          </CandidateSide>
         </Box>
-    </div>
+      </div>
     </section>
   );
 }

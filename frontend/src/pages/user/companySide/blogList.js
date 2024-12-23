@@ -15,13 +15,12 @@ import {
   Toolbar,
   Typography,
   Paper,
-  Checkbox,
   Modal,
-  Button,
 } from "@mui/material";
 import jwtDecode from "jwt-decode";
 import { notifyError, notifySuccess } from "../../../utils/toastNotification/toastNotification";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next"; // Import useTranslation
 
 const style = {
   position: "absolute",
@@ -38,16 +37,15 @@ const style = {
 };
 
 function BlogListSide() {
+  const { t } = useTranslation(); // Initialize translation hook
   const [blogs, setBlogs] = useState([]);
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("title");
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [userId, setUserId] = useState(null);
-
   const [open, setOpen] = useState(false);
   const [selectedBlog, setSelectedBlog] = useState(null);
-
   const navigate = useNavigate();
 
   const handleOpen = (id) => {
@@ -88,36 +86,30 @@ function BlogListSide() {
 
   const handleDelete = async (blogId) => {
     try {
-      // Display confirmation dialog
       const result = await Swal.fire({
-        title: "Are you sure?",
-        text: "Do you want to delete this blog? This action cannot be undone.",
+        title: t("blogListCompany.deleteConfirmationTitle"),
+        text: t("blogListCompany.deleteConfirmationText"),
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#d33",
         cancelButtonColor: "#3085d6",
-        confirmButtonText: "Delete",
-        cancelButtonText: "Cancel",
+        confirmButtonText: t("blogListCompany.deleteConfirmationConfirm"),
+        cancelButtonText: t("blogListCompany.deleteConfirmationCancel"),
       });
-  
-      // Exit if user cancels
+
       if (!result.isConfirmed) return;
-  
-      // Send DELETE request
+
       await axios.delete(`http://localhost:5000/api/v1/blog/${blogId}`);
-      notifySuccess("Blog deleted successfully");
-  
-      // Update blogs state
+      notifySuccess(t("blogListCompany.deleteSuccess"));
+
       setBlogs((prevBlogs) => prevBlogs.filter((blog) => blog.id !== blogId));
     } catch (error) {
-      // Log and notify error
       console.error("Error deleting blog:", error.response?.data || error.message);
       notifyError(
-        error.response?.data?.message || "Failed to delete blog. Please try again."
+        error.response?.data?.message || t("blogListCompany.deleteFailure")
       );
     }
   };
-  
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -135,17 +127,17 @@ function BlogListSide() {
       <Paper sx={{ width: "100%", mb: 2 }}>
         <Toolbar>
           <Typography variant="h6" id="tableTitle" component="div">
-            Blog List
+            {t("blogListCompany.blogList")}
           </Typography>
         </Toolbar>
         <TableContainer>
           <Table sx={{ minWidth: 1100 }}>
             <TableHead>
               <TableRow>
-                <TableCell>Image</TableCell>
-                <TableCell>Title</TableCell>
-                <TableCell>Category</TableCell>
-                <TableCell>Action</TableCell>
+                <TableCell>{t("blogListCompany.image")}</TableCell>
+                <TableCell>{t("blogListCompany.title")}</TableCell>
+                <TableCell>{t("blogListCompany.category")}</TableCell>
+                <TableCell>{t("blogListCompany.action")}</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -160,17 +152,16 @@ function BlogListSide() {
                   </TableCell>
                   <TableCell>{blog.title}</TableCell>
                   <TableCell>{blog.category}</TableCell>
-                  
+
                   <TableCell>
                     <div className="row">
-
-                      <button className="col-3" variant="contained" color="primary" onClick={() => navigate(`/edit-blog/${blog.id}`)}>
-                      <MdOutlineEdit />
+                      <button className="col-3" onClick={() => navigate(`/edit-blog/${blog.id}`)}>
+                        <MdOutlineEdit />
                       </button>
-                      <button className="col-3"  variant="contained" color="error" onClick={() => handleDelete(blog.id)}>
-                      <RiDeleteBinLine />
+                      <button className="col-3" onClick={() => handleDelete(blog.id)}>
+                        <RiDeleteBinLine />
                       </button>
-                      <button className="col-3"  variant="contained" color="info" onClick={() => handleOpen(blog.id)}>
+                      <button className="col-3" onClick={() => handleOpen(blog.id)}>
                         <MdOutlineRemoveRedEye />
                       </button>
                     </div>
@@ -206,7 +197,7 @@ function BlogListSide() {
               />
             </>
           ) : (
-            <Typography variant="body1">No blog selected</Typography>
+            <Typography variant="body1">{t("blogListCompany.noBlogSelected")}</Typography>
           )}
         </Box>
       </Modal>

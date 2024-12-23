@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import jwtDecode from "jwt-decode";
+import { useTranslation } from 'react-i18next';
+import Loading from '../../../components/loading';
 
 function CandidateApplications() {
+  const { t } = useTranslation();
   const [candidateData, setCandidateData] = useState(null);
   const [jobDetails, setJobDetails] = useState({});
   const [visibleJobId, setVisibleJobId] = useState(null); // State để lưu trữ jobId đang được hiển thị
@@ -59,29 +62,27 @@ function CandidateApplications() {
     }
   };
 
-  if (!candidateData) return <p>Loading...</p>;
+  if (!candidateData) return <Loading/>;
 
   return (
     <div>
-      <h2>Applications for {candidateData.fullName}</h2>
+      <h2>{t('candidateApplied.applicationsFor')} {candidateData.fullName}</h2>
       <div className='row'>
         {candidateData.applications.map(application => (
           <div className='col-4' key={application.id}>
-            <p>Status: {application.status}</p>
-            <p>Application Date: {new Date(application.applicationDate).toLocaleString()}</p>
+            <p>{t('candidateApplied.status')}: {application.status}</p>
+            <p>{t('candidateApplied.applicationDate')}: {new Date(application.applicationDate).toLocaleString()}</p>
             <button onClick={() => fetchJobDetails(application.jobId)}>
-              {visibleJobId === application.jobId ? "Hide Job Details" : "View Job Details"}
+              {visibleJobId === application.jobId ? t('candidateApplied.hideJobDetails') : t('candidateApplied.viewJobDetails')}
             </button>
             {visibleJobId === application.jobId && jobDetails[application.jobId] && (
               <div>
-                <h3>Job Details:</h3>
+                <h3>{t('candidateApplied.jobDetails')}:</h3>
                 <img src={jobDetails[application.jobId].imageUrl} style={{width: '50%'}}/>
                 <hr/>
-                <p>Title: {jobDetails[application.jobId].title}</p>
-                {/* <p>Description: {jobDetails[application.jobId].description}</p> */}
-                <p>Location: {jobDetails[application.jobId].location}</p>
-                <p>Salary: {jobDetails[application.jobId].salaryRange}</p>
-                {/* Các chi tiết công việc khác */}
+                <p>{t('candidateApplied.title')}: {jobDetails[application.jobId].title}</p>
+                <p>{t('candidateApplied.location')}: {jobDetails[application.jobId].location}</p>
+                <p>{t('candidateApplied.salary')}: {jobDetails[application.jobId].salaryRange}</p>
                 <hr/>
               </div>
             )}
