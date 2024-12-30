@@ -114,12 +114,10 @@ const RegisterForm = () => {
                             {t("registerCandidate.registerButton")}
                         </button>
 
-                        {/* Divider */}
-                        <div className="text-center my-3">
+                        {/* <div className="text-center my-3">
                             <span className="text-muted">{t("registerCandidate.or")}</span>
                         </div>
 
-                        {/* Third-party buttons */}
                         <div className='d-flex'>
                             <button
                                 type="button"
@@ -135,7 +133,7 @@ const RegisterForm = () => {
                             >
                                 <FaFacebook size={20} /> &nbsp; {t("registerCandidate.facebookButton")}
                             </button>
-                        </div>
+                        </div> */}
                     </form>
                 </div>
             </div>

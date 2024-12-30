@@ -42,6 +42,7 @@ export const search = {
   internship: "Internship",
   freelancer: "Freelancer",
   keywordPlaceholder: "Job position, company name...",
+  noJobsFound: "No job found"
 }
 
 export const loginCandidate={

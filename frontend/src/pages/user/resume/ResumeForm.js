@@ -5,7 +5,7 @@ import 'react-quill/dist/quill.snow.css';
 import jwtDecode from "jwt-decode"; 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { notifyError, notifySuccess } from '../../../utils/toastNotification/toastNotification';
-import {useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const ResumeUploadForm = () => {
   const navigate = useNavigate();
@@ -29,6 +29,14 @@ const ResumeUploadForm = () => {
     interests: '',
     candidateId: userId,
   });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
 
   const handleQuillChange = (value, name) => {
     setFormData({
@@ -61,47 +69,57 @@ const ResumeUploadForm = () => {
               <form onSubmit={handleSubmit}>
                 <div className="mb-3">
                   <label htmlFor="name" className="form-label fw-bold">Full Name</label>
-                  <ReactQuill
+                  <input
+                    type="text"
+                    name="name"
+                    className="form-control"
                     value={formData.name}
-                    onChange={(value) => handleQuillChange(value, 'name')}
-                    className="bg-white border rounded"
-                    theme="snow"
+                    onChange={handleInputChange}
+                    placeholder="Enter your name"
                   />
                 </div>
                 <div className="mb-3">
                   <label htmlFor="email" className="form-label fw-bold">Email Address</label>
-                  <ReactQuill
+                  <input
+                    type="email"
+                    name="email"
+                    className="form-control"
                     value={formData.email}
-                    onChange={(value) => handleQuillChange(value, 'email')}
-                    className="bg-white border rounded"
-                    theme="snow"
+                    onChange={handleInputChange}
+                    placeholder="Enter your email"
                   />
                 </div>
                 <div className="mb-3">
                   <label htmlFor="phone" className="form-label fw-bold">Phone Number</label>
-                  <ReactQuill
+                  <input
+                    type="text"
+                    name="phone"
+                    className="form-control"
                     value={formData.phone}
-                    onChange={(value) => handleQuillChange(value, 'phone')}
-                    className="bg-white border rounded"
-                    theme="snow"
+                    onChange={handleInputChange}
+                    placeholder="Enter your phone number"
                   />
                 </div>
                 <div className="mb-3">
                   <label htmlFor="linkedin" className="form-label fw-bold">LinkedIn Profile</label>
-                  <ReactQuill
+                  <input
+                    type="text"
+                    name="linkedin"
+                    className="form-control"
                     value={formData.linkedin}
-                    onChange={(value) => handleQuillChange(value, 'linkedin')}
-                    className="bg-white border rounded"
-                    theme="snow"
+                    onChange={handleInputChange}
+                    placeholder="Enter your LinkedIn profile"
                   />
                 </div>
                 <div className="mb-3">
                   <label htmlFor="position" className="form-label fw-bold">Position</label>
-                  <ReactQuill
+                  <input
+                    type="text"
+                    name="position"
+                    className="form-control"
                     value={formData.position}
-                    onChange={(value) => handleQuillChange(value, 'position')}
-                    className="bg-white border rounded"
-                    theme="snow"
+                    onChange={handleInputChange}
+                    placeholder="Enter your desired position"
                   />
                 </div>
                 <div className="mb-3">

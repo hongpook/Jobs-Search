@@ -17,7 +17,7 @@ const LanguageSwitcher = () => {
           
         >
           <option value="en">English</option>
-          <option value="vi">Tiếng Việt</option>
+          <option value="vi">Vietnamese</option>
         </select>
       </div>
     </div>

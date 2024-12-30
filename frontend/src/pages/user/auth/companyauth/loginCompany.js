@@ -44,11 +44,11 @@ const LoginCompany = () => {
           Authorization: `Bearer ${accessToken}`, // Gửi token trong header để xác thực
         }
       });
-
       // Lưu thông tin người dùng vào state
       setUserInfo(userResponse.data);
       navigate('/');
       notifySuccess(t('loginCompany.login_success')); // Add translation for success message
+      window.location.reload();
     } catch (error) {
       notifyError(t('loginCompany.login_error') || 'Error occurred during login'); // Add translation for error message
     }
@@ -124,7 +124,7 @@ const LoginCompany = () => {
                 <div className="col-12">
                   <hr className="mt-5 mb-4 border-secondary-subtle" />
                   <div className="d-flex gap-2 gap-md-4 flex-column flex-md-row justify-content-md-end">
-                    <a href="#!" className="link-secondary text-decoration-none">
+                    <a href="/sign-up" className="link-secondary text-decoration-none">
                       {t('loginCompany.create_account')}
                     </a>
                     <a href="#!" className="link-secondary text-decoration-none">
@@ -133,7 +133,7 @@ const LoginCompany = () => {
                   </div>
                 </div>
               </div>
-              <div className="row">
+              {/* <div className="row">
                 <div className="col-12">
                   <p className="mt-5 mb-4">{t('loginCompany.or_sign_in_with')}</p>
                   <div className="d-flex gap-3 flex-column flex-xl-row">
@@ -157,7 +157,7 @@ const LoginCompany = () => {
                     </a>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
           <div className="col-12 col-md-6 text-bg-primary">

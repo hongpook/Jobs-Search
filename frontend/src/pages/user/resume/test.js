@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useTranslation } from 'react-i18next';
+import jwtDecode from "jwt-decode"; 
 
 const CandidateResumes = () => {
   const { t } = useTranslation(); // Hook để truy cập các hàm của i18n
@@ -8,10 +9,15 @@ const CandidateResumes = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
+
+  const token = localStorage.getItem('accessToken');
+    const decodedToken = jwtDecode(token);
+    const userId = decodedToken.id;
+
   useEffect(() => {
     const fetchResumes = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/v1/candidate/18");
+        const response = await axios.get(`http://localhost:5000/api/v1/candidate/${userId}`);
         setResumes(response.data.resumes); // Gán resumes từ API vào state
         setLoading(false);
       } catch (err) {

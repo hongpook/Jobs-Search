@@ -9,8 +9,10 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
-import { useTranslation } from 'react-i18next';
-import { notifyError, notifySuccess } from "../../../utils/toastNotification/toastNotification";
+import {
+  notifyError,
+  notifySuccess,
+} from "../../../utils/toastNotification/toastNotification";
 
 const style = {
   position: "absolute",
@@ -25,18 +27,18 @@ const style = {
   px: 4,
   pb: 3,
 };
-
 function ChildModal({ applicationData }) {
-  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [status, setStatus] = useState(applicationData.status);
-  const [candidateNote, setCandidateNote] = useState(applicationData.candidateNote);
+  const [candidateNote, setCandidateNote] = useState(
+    applicationData.candidateNote
+  );
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const statusOptions = [t("applicationListCompany.pending"), t("applicationListCompany.interview"), t("applicationListCompany.hired"), t("applicationListCompany.rejected")];
+  const statusOptions = ["Pending", "Interview", "Hired", "Rejected"];
   const handleSubmit = async () => {
     setLoading(true);
     setError(null);
@@ -49,16 +51,20 @@ function ChildModal({ applicationData }) {
         updatedAt: new Date().toISOString(),
       };
 
+      // console.log("Dữ liệu gửi đi:", updatedData);
+
       const response = await axios.put(
         `http://localhost:5000/api/v1/application/${applicationData.id}`,
         updatedData
       );
-      notifySuccess(t("applicationListCompany.updateSuccess"));
+      notifySuccess("Update successfully!!");
+      // console.log("Response:", response.data);
       handleClose();
     } catch (err) {
-      notifyError(t("applicationListCompany.updateError"), err.response?.data || err.message);
+      notifyError("Error for update!!", err.response?.data || err.message);
       setError(
-        err.response?.data?.message || t("applicationListCompany.updateError")
+        err.response?.data?.message ||
+          "Không thể cập nhật thông tin. Vui lòng thử lại."
       );
     } finally {
       setLoading(false);
@@ -73,7 +79,7 @@ function ChildModal({ applicationData }) {
         className="btn col-5 m-2 p-0"
         style={{ border: "1px solid" }}
       >
-        {t("applicationListCompany.update")}
+        Update
       </button>
       <Modal
         open={open}
@@ -82,9 +88,9 @@ function ChildModal({ applicationData }) {
         aria-describedby="child-modal-description"
       >
         <Box sx={{ ...style, width: 400 }}>
-          <h2 id="child-modal-title">{t("applicationListCompany.updateApplication")}</h2>
+          <h2 id="child-modal-title">Update application</h2>
           <FormControl fullWidth margin="normal">
-            <InputLabel id="status-select-label">{t("applicationListCompany.status")}</InputLabel>
+            <InputLabel id="status-select-label">Status</InputLabel>
             <Select
               labelId="status-select-label"
               id="status-select"
@@ -100,7 +106,7 @@ function ChildModal({ applicationData }) {
             </Select>
           </FormControl>
           <TextField
-            label={t("applicationListCompany.note")}
+            label="Note"
             variant="outlined"
             fullWidth
             margin="normal"
@@ -110,7 +116,7 @@ function ChildModal({ applicationData }) {
           {error && <p style={{ color: "red" }}>{error}</p>}
           <Box mt={2} display="flex" justifyContent="space-between">
             <Button onClick={handleClose} variant="outlined" color="secondary">
-              {t("applicationListCompany.cancel")}
+              Cancel
             </Button>
             <Button
               onClick={handleSubmit}
@@ -118,7 +124,7 @@ function ChildModal({ applicationData }) {
               color="primary"
               disabled={loading}
             >
-              {loading ? t("applicationListCompany.loading") : t("applicationListCompany.update")}
+              {loading ? "Loading..." : "Update"}
             </Button>
           </Box>
         </Box>
@@ -128,7 +134,6 @@ function ChildModal({ applicationData }) {
 }
 
 const EmployeeDetail = ({ id }) => {
-  const { t } = useTranslation();
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -140,7 +145,7 @@ const EmployeeDetail = ({ id }) => {
         const response = await axios.get(`http://localhost:5000/api/v1/jobs`);
         setJobs(response.data); // Gán danh sách công việc vào state
       } catch (error) {
-        setError(t("applicationListCompany.error"));
+        setError("Không thể lấy thông tin công việc. Vui lòng thử lại sau.");
         console.error("Error fetching job data:", error);
       } finally {
         setLoading(false);
@@ -152,13 +157,13 @@ const EmployeeDetail = ({ id }) => {
 
   const handleDelete = async (applicationId) => {
     const result = await Swal.fire({
-      title: t("applicationListCompany.deleteConfirmation"),
-      text: t("applicationListCompany.deleteConfirmation"),
+      title: "Are you sure?",
+      text: "Do you really want to delete this application?",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: t("applicationListCompany.delete"),
+      confirmButtonText: "Yes, delete it!",
     });
   
     if (!result.isConfirmed) return;
@@ -167,7 +172,10 @@ const EmployeeDetail = ({ id }) => {
       const response = await axios.delete(
         `http://localhost:5000/api/v1/application/${applicationId}`
       );
-      notifySuccess(t("applicationListCompany.deleteSuccess"));
+      notifySuccess("Deleted successfully!");
+      console.log("Response:", response.data);
+  
+      // Remove the application from the current list
       setJobs((prevJobs) =>
         prevJobs.map((job) => ({
           ...job,
@@ -181,14 +189,14 @@ const EmployeeDetail = ({ id }) => {
         "Error deleting application:",
         err.response?.data || err.message
       );
-      notifyError(t("applicationListCompany.error"));
+      notifyError("Failed to delete the application. Please try again later.");
     }
   };
 
   if (loading) {
     return (
       <div className="text-center mt-5">
-        <p>{t("applicationListCompany.loading")}</p>
+        <p>Loading...</p>
       </div>
     );
   }
@@ -206,7 +214,9 @@ const EmployeeDetail = ({ id }) => {
   if (filteredJobs.length === 0) {
     return (
       <div className="text-center mt-5">
-        <p style={{ color: "orange" }}>{t("applicationListCompany.noJobsFound")}</p>
+        <p style={{ color: "orange" }}>
+          Không tìm thấy công việc nào cho nhân viên này.
+        </p>
       </div>
     );
   }
@@ -223,16 +233,16 @@ const EmployeeDetail = ({ id }) => {
 
   return (
     <div className="mt-5">
-      <h4>{t("applicationListCompany.applicationList")}</h4>
+      <h4>List application job</h4>
       {filteredJobs.map((job) => (
         <div key={job.id} className="mb-4">
           <h5 style={{ color: "blue" }}>{job.title}</h5>
           <p>
-            <strong>{t("jobDetail.location")}:</strong> {job.location} <br />
-            <strong>{t("jobDetail.salaryRange")}:</strong> {job.salaryRange} <br />
+            <strong>Location:</strong> {job.location} <br />
+            <strong>Salary Range:</strong> {job.salaryRange} <br />
           </p>
           <button onClick={() => handleOpenModal(job.id)}>
-            {t("applicationListCompany.applicationList")}
+            Application list
           </button>
           <hr />
         </div>
@@ -249,31 +259,35 @@ const EmployeeDetail = ({ id }) => {
             <table className="table table-bordered">
               <thead>
                 <tr>
-                  <th>{t("applicationListCompany.fullName")}</th>
-                  <th>{t("applicationListCompany.email")}</th>
-                  <th>{t("applicationListCompany.phone")}</th>
-                  <th>{t("applicationListCompany.status")}</th>
-                  <th>{t("applicationListCompany.applyDate")}</th>
-                  <th>{t("applicationListCompany.action")}</th>
+                  {/* <th>ID</th> */}
+                  <th>Full name</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Status</th>
+                  <th>Applydate</th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>
                 {currentJob.applications.map((application) => (
                   <tr key={application.id}>
+                    {/* <td>{application.id}</td> */}
                     <td>{application.candidateName}</td>
                     <td>{application.candidateEmail}</td>
                     <td>{application.candidatePhone}</td>
                     <td>{application.status}</td>
                     <td>
-                      {new Date(application.applicationDate).toLocaleDateString()}
+                      {new Date(
+                        application.applicationDate
+                      ).toLocaleDateString()}
                     </td>
                     <td className="row" style={{ display: "contents" }}>
                       <ChildModal applicationData={application} />
                       <button
-                        className="btn btn-danger col-5"
+                        className="btn btn-danger btn-sm col-5"
                         onClick={() => handleDelete(application.id)}
                       >
-                        {t("applicationListCompany.delete")}
+                        Delete
                       </button>
                     </td>
                   </tr>
@@ -281,7 +295,7 @@ const EmployeeDetail = ({ id }) => {
               </tbody>
             </table>
           ) : (
-            <div>{t("applicationListCompany.noApplications")}</div>
+            <p>Không có ứng viên nào ứng tuyển.</p>
           )}
         </Box>
       </Modal>

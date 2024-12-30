@@ -6,6 +6,7 @@ import 'react-quill/dist/quill.snow.css';
 import { notifyError, notifySuccess, notifyWarning } from '../../../utils/toastNotification/toastNotification';
 import BreadCrumbDetail from '../../../components/breadCrumbDetail';
 import { useTranslation } from 'react-i18next';
+import Loading from '../../../components/loading';
 
 function EditJob() {
   const { t } = useTranslation();
@@ -103,7 +104,7 @@ function EditJob() {
   }, [id]);
 
   if (loading) {
-    return <div>{t('editJobCompany.loading')}</div>;
+    return <Loading/>;
   }
 
   return (

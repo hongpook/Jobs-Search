@@ -245,7 +245,7 @@ const JobDetail = () => {
                 <h2>{job.title}</h2>
 
                 <p class="lead">
-                  <strong class="text-primary">{job.salaryRange}</strong>
+                  <strong class="text-primary">Mức lương: {job.salaryRange}</strong>
                 </p>
 
                 <p class="lead">
@@ -266,12 +266,12 @@ const JobDetail = () => {
               <h4> {t("jobDetail.jobDetail")}:</h4>
             </div>
             <div class="panel-body">
-              <h4>{t("jobDetail.responsibilities")}:</h4>
+              {/* <h4>{t("jobDetail.responsibilities")}:</h4> */}
               <div
                 dangerouslySetInnerHTML={{ __html: job.description }}
                 style={{ whiteSpace: "pre-wrap" }}
               ></div>
-              <h4>{t("jobDetail.requirements")}:</h4>
+              {/* <h4>{t("jobDetail.requirements")}:</h4> */}
               <div
                 dangerouslySetInnerHTML={{ __html: job.requirements }}
                 style={{ whiteSpace: "pre-wrap" }}
@@ -385,7 +385,7 @@ const JobDetail = () => {
 
                 <br />
 
-                <strong>{job.location}</strong>
+                <strong>{employer.address}</strong>
               </p>
             </div>
           </div>

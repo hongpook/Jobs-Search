@@ -43,6 +43,7 @@ const LoginForm = () => {
 
             notifySuccess(t('login.success'));
             navigate('/');
+            window.location.reload();
         } catch (error) {
             notifyError(t('login.error'));
         }
@@ -117,14 +118,14 @@ const LoginForm = () => {
                             </form>
                             <hr className="mt-5 mb-4 border-secondary-subtle" />
                             <div className="d-flex justify-content-between">
-                                <a href="#!" className="link-secondary text-decoration-none">
+                                <a href="/sign-up" className="link-secondary text-decoration-none">
                                     {t('loginCandidate.createAccount')}
                                 </a>
                                 <a href="#!" className="link-secondary text-decoration-none">
                                     {t('loginCandidate.forgotPassword')}
                                 </a>
                             </div>
-                            <p className="mt-5">{t('loginCandidate.orSignInWith')}</p>
+                            {/* <p className="mt-5">{t('loginCandidate.orSignInWith')}</p>
                             <div className="d-flex gap-3">
                                 <button className="btn btn-outline-primary">
                                     <span>{t('loginCandidate.google')}</span>
@@ -132,7 +133,7 @@ const LoginForm = () => {
                                 <button className="btn btn-outline-primary">
                                     <span>{t('loginCandidate.facebook')}</span>
                                 </button>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </div>

@@ -115,7 +115,7 @@ const JobListPage = () => {
                     />
                   </div>
 
-                  <div className="mb-3">
+                  {/* <div className="mb-3">
                     <h4>{t("jobList.salaryRange")}</h4>
                     <select
                       className="form-select"
@@ -128,7 +128,7 @@ const JobListPage = () => {
                       <option value="10000-15000">10000 - 15000</option>
                       <option value="15000-20000">15000 - 20000</option>
                     </select>
-                  </div>
+                  </div> */}
 
                   <div className="mb-3">
                     <h4>{t("jobList.jobType")}</h4>
@@ -155,8 +155,8 @@ const JobListPage = () => {
                       onChange={(e) => handleFilterChange(e, "location")}
                     >
                       <option value="">{t("jobList.chooseLocation")}</option>
-                      <option value="Hà Nội">Hà Nội</option>
-                      <option value="Hồ Chí Minh">TP. Hồ Chí Minh</option>
+                      <option value={"Hà Nội"}>Hà Nội</option>
+                      <option value={"HCM"}>TP. Hồ Chí Minh</option>
                       <option value="Đà Nẵng">Đà Nẵng</option>
                       <option value="Hải Phòng">Hải Phòng</option>
                       <option value="Cần Thơ">Cần Thơ</option>

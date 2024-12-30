@@ -7,7 +7,7 @@ const CompanyList = () => {
   const { t } = useTranslation(); // Hook to use translations
   const [candidates, setCandidates] = useState([]);
   const [page, setPage] = useState(1);
-  const itemsPerPage = 6; // Số lượng ứng viên hiển thị mỗi trang
+  const itemsPerPage = 4; // Số lượng ứng viên hiển thị mỗi trang
   const totalPages = Math.ceil(candidates.length / itemsPerPage);
 
   useEffect(() => {

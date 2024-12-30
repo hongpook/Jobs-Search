@@ -56,6 +56,7 @@ const CreateBlog = () => {
         formData
       );
       notifySuccess(t("createBlogCompany.successMessage"));
+      navigate("/");
       console.log(response.data);
       // Reset form after successful submission
       setTitle("");

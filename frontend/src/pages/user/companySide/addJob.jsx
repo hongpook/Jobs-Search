@@ -86,7 +86,7 @@ function AddNewJob() {
       });
       // console.log('Job created successfully:', response.data);
       notifySuccess(t('createJobCompany.jobCreatedSuccess'));
-      navigate('/companySide');
+      navigate('/');
     } catch (error) {
       // console.error('Error creating job:', error);
       notifyError(t('createJobCompany.jobCreatedError'));

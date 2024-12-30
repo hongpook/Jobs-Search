@@ -42,6 +42,7 @@ export const search={
   internship: "Thực tập",
   freelancer: "Freelancer",
   keywordPlaceholder: "Vị trí tuyển dụng, tên công ty...",
+  noJobsFound: "Không tìm thấy công việc nào!"
 }
 
 export const loginCandidate={

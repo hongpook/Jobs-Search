@@ -114,7 +114,7 @@ const RegisterCompany = () => {
                             {t('registerCompany.register')}
                         </button>
 
-                        <div className="text-center my-3">
+                        {/* <div className="text-center my-3">
                             <span className="text-muted">{t('registerCompany.or')}</span>
                         </div>
 
@@ -131,7 +131,7 @@ const RegisterCompany = () => {
                             >
                                 <FaFacebook size={20} />&nbsp; {t('registerCompany.signUpWithFacebook')}
                             </a>
-                        </div>
+                        </div> */}
                     </form>
                 </div>
             </div>
